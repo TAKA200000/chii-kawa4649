@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>ちいかわ一気読み</title>
+<script>try{var m=localStorage.getItem('chiikawa-ikkiyomi-v1-theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-mode',m)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
@@ -19,9 +20,34 @@
   --sky:#aee0f8;
   --lemon:#ffe37d;
   --mint:#c3ecd0;
+  --heart:#ff5f8d;
+  --heart-bg:#ffe3ea;
+  --field:#fffdf7;
+  --stripe:#ffd3de;
+  --dot1:rgba(255,185,203,.38);
+  --dot2:rgba(174,224,248,.42);
+  --fade:rgba(255,248,236,0);
+  --shade:rgba(91,69,52,.4);
   --display:"Mochiy Pop One","Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
   --body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
   color-scheme:light;
+}
+/* くらいモード: 設定で「くらい」、または「じどう」で端末がダークのとき */
+:root[data-mode="dark"]{
+  --milk:#251f2b;--paper:#352c3b;--ink:#f6eadf;--ink-soft:#b9a9a0;
+  --pink:#a84f6c;--sky:#36607a;--lemon:#7d6a2c;--mint:#3b6a52;
+  --heart:#ff7aa2;--heart-bg:#5b2c40;--field:#2b2431;--stripe:#7d3c55;
+  --dot1:rgba(255,150,180,.14);--dot2:rgba(120,190,230,.14);--fade:rgba(37,31,43,0);--shade:rgba(0,0,0,.55);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-mode="light"]){
+  --milk:#251f2b;--paper:#352c3b;--ink:#f6eadf;--ink-soft:#b9a9a0;
+  --pink:#a84f6c;--sky:#36607a;--lemon:#7d6a2c;--mint:#3b6a52;
+  --heart:#ff7aa2;--heart-bg:#5b2c40;--field:#2b2431;--stripe:#7d3c55;
+  --dot1:rgba(255,150,180,.14);--dot2:rgba(120,190,230,.14);--fade:rgba(37,31,43,0);--shade:rgba(0,0,0,.55);
+  color-scheme:dark;
+  }
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -29,8 +55,8 @@ body{
   font-family:var(--body);font-weight:500;color:var(--ink);line-height:1.7;
   background-color:var(--milk);
   background-image:
-    radial-gradient(circle at 12px 12px,rgba(255,185,203,.38) 4px,transparent 5px),
-    radial-gradient(circle at 42px 42px,rgba(174,224,248,.42) 4px,transparent 5px);
+    radial-gradient(circle at 12px 12px,var(--dot1) 4px,transparent 5px),
+    radial-gradient(circle at 42px 42px,var(--dot2) 4px,transparent 5px);
   background-size:60px 60px;
   min-height:100vh;padding-bottom:110px;
 }
@@ -73,7 +99,7 @@ nav{display:flex;gap:8px;justify-content:center;margin:14px 0 18px;flex-wrap:wra
 .datepill{font-family:var(--display);background:var(--mint);border:3px solid var(--ink);border-radius:999px;padding:4px 16px;font-size:15px}
 .count{font-variant-numeric:tabular-nums;font-weight:700;font-size:14px}
 .progress{height:14px;border:3px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden;margin-bottom:14px}
-.progress i{display:block;height:100%;background:repeating-linear-gradient(-45deg,var(--pink) 0 10px,#ffd3de 10px 20px);border-right:3px solid var(--ink);width:0;transition:width .25s}
+.progress i{display:block;height:100%;background:repeating-linear-gradient(-45deg,var(--pink) 0 10px,var(--stripe) 10px 20px);border-right:3px solid var(--ink);width:0;transition:width .25s}
 select{border:3px solid var(--ink);border-radius:14px;background:var(--paper);padding:6px 10px;font-weight:700;max-width:100%}
 .stage{position:relative;min-height:200px}
 .slide{position:absolute;inset:0 0 auto 0;height:0;overflow:hidden;visibility:hidden}
@@ -102,8 +128,8 @@ select{border:3px solid var(--ink);border-radius:14px;background:var(--paper);pa
 .tile-date{display:block;padding:6px 10px 0;font-size:12.5px;font-weight:700}
 .tile .meta{padding:2px 10px 8px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;gap:6px;align-items:center}
 .tile .cnt{display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums}
-.tile .cnt svg{width:16px;height:16px;fill:#ff5f8d;stroke:var(--ink);stroke-width:2.4;stroke-linejoin:round}
-.tile .mine{position:absolute;top:8px;right:8px;background:#ff5f8d;color:#fff;border:2px solid var(--ink);border-radius:999px;font-size:11px;font-weight:700;padding:0 8px}
+.tile .cnt svg{width:16px;height:16px;fill:var(--heart);stroke:var(--ink);stroke-width:2.4;stroke-linejoin:round}
+.tile .mine{position:absolute;top:8px;right:8px;background:var(--heart-bg);color:var(--ink);border:2px solid var(--ink);border-radius:999px;font-size:11px;font-weight:700;padding:0 8px}
 .lk-empty{text-align:center;padding:30px 10px;font-size:14px}
 @media (max-width:420px){.grid{grid-template-columns:repeat(2,1fr);gap:10px}}
 .hbar{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
@@ -112,12 +138,12 @@ select{border:3px solid var(--ink);border-radius:14px;background:var(--paper);pa
   user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;transition:transform .08s,box-shadow .08s}
 .heart:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
 .heart svg{width:22px;height:22px;fill:var(--paper);stroke:var(--ink);stroke-width:2.4;stroke-linejoin:round;pointer-events:none}
-.heart.on{background:#ffe3ea}
-.heart.on svg{fill:#ff5f8d}
+.heart.on{background:var(--heart-bg)}
+.heart.on svg{fill:var(--heart)}
 .heart.pop svg{animation:hpop .35s ease-out}
 @keyframes hpop{0%{transform:scale(1)}45%{transform:scale(1.45)}100%{transform:scale(1)}}
 dialog{border:3px solid var(--ink);border-radius:24px;padding:20px;width:100%;max-width:min(92vw,360px);color:var(--ink);background:var(--paper);box-shadow:6px 6px 0 var(--pink)}
-dialog::backdrop{background:rgba(91,69,52,.4)}
+dialog::backdrop{background:var(--shade)}
 dialog h2{font-family:var(--display);font-size:18px;margin:0 0 8px;font-weight:400;text-wrap:balance}
 dialog p{margin:0 0 12px;font-size:14px}
 .who{list-style:none;padding:0;margin:0 0 14px;display:flex;flex-wrap:wrap;gap:6px}
@@ -127,7 +153,7 @@ dialog p{margin:0 0 12px;font-size:14px}
 .miss{text-align:center;padding:40px 10px;font-size:14px}
 
 .pager{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
-  background:linear-gradient(to top,var(--milk) 65%,rgba(255,248,236,0));z-index:5}
+  background:linear-gradient(to top,var(--milk) 65%,var(--fade));z-index:5}
 .pager .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:1fr 1.6fr;gap:12px}
 .pager .btn{padding:14px 10px;font-size:17px;border-radius:20px;font-family:var(--display);font-weight:400}
 
@@ -140,14 +166,79 @@ dialog p{margin:0 0 12px;font-size:14px}
   font-weight:700;font-size:13px;line-height:1.25;text-decoration:none;display:block}
 .m small{display:block;font-size:11px;font-variant-numeric:tabular-nums}
 .m.has{background:var(--lemon)}
+.m.done{background:var(--mint)}
 .m.now{background:var(--pink)}
 .m.none{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;margin-top:12px}
 .legend i{display:inline-block;width:14px;height:14px;border:3px solid var(--ink);border-radius:5px;vertical-align:-2px;margin-right:4px}
 
+/* ヘッダーのテーマ切りかえ */
+header{position:relative}
+.themebtn{position:absolute;top:18px;right:0;width:42px;height:42px;border:3px solid var(--ink);border-radius:50%;background:var(--paper);
+  box-shadow:0 3px 0 var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+.themebtn svg{width:22px;height:22px;fill:var(--lemon);stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.themebtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+@media (max-width:420px){header{padding-right:46px;padding-left:46px}}
+
+/* スワイプのアニメーション */
+.slide.on.in-next{animation:inNext .22s ease-out}
+.slide.on.in-prev{animation:inPrev .22s ease-out}
+@keyframes inNext{from{transform:translateX(40px);opacity:.3}to{transform:none;opacity:1}}
+@keyframes inPrev{from{transform:translateX(-40px);opacity:.3}to{transform:none;opacity:1}}
+.swipe-hint{display:none;text-align:center;margin:8px 0 0}
+@media (pointer:coarse){.swipe-hint{display:block}}
+
+/* 既読マーク */
+.rd{font-size:11.5px;font-weight:700;border:2px solid var(--ink);border-radius:999px;padding:0 8px;background:var(--mint);color:var(--ink)}
+.rd[hidden]{display:none}
+.readbar .rd{font-size:12.5px;padding:1px 10px}
+
+/* コメント */
+.hwrap{margin-top:14px}
+.hwrap .hbar{margin-top:0}
+.cbtn{border:3px solid var(--ink);border-radius:999px;background:var(--paper);padding:6px 14px;font-weight:700;cursor:pointer;
+  box-shadow:0 4px 0 var(--ink);display:inline-flex;gap:6px;align-items:center;font-variant-numeric:tabular-nums}
+.cbtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.cbtn[aria-expanded="true"]{background:var(--sky)}
+.cbtn svg{width:20px;height:20px;fill:var(--paper);stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round}
+.cmts{margin:14px auto 0;max-width:520px;border:3px dashed var(--sky);border-radius:18px;padding:10px 12px}
+.clist{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px}
+.clist li{display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:baseline;font-size:14px}
+.cname{font-weight:700;overflow-wrap:anywhere;max-width:9em}
+.ctext{overflow-wrap:anywhere;grid-column:1/-1}
+.cside{display:flex;gap:8px;align-items:baseline;justify-self:end}
+.ctime{font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.cdel{font-size:12.5px}
+.cdel.armed{color:var(--heart)}
+.clist .pending{opacity:.55}
+.cempty{font-size:13px;color:var(--ink-soft);margin:0 0 8px}
+.cform{display:flex;gap:8px}
+.cform input{flex:1;min-width:0;width:auto}
+.cform .btn{padding:6px 14px}
+.cmsg{margin:6px 0 0;min-height:1.2em}
+
+/* 侵食度 */
+.shin-top{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+@media (max-width:420px){.shin-top{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.ring{--p:0;width:150px;aspect-ratio:1;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;
+  background:conic-gradient(var(--heart) calc(var(--p)*1%),var(--field) 0)}
+.ring b{width:74%;aspect-ratio:1;border-radius:50%;background:var(--paper);border:3px solid var(--ink);display:grid;place-items:center;
+  font-family:var(--display);font-weight:400;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums;text-align:center}
+.ring b small{display:block;font-family:var(--body);font-size:11px;font-weight:700}
+.tier{font-family:var(--display);font-size:20px;margin:0 0 4px;text-wrap:balance}
+.rank{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.rank li{display:grid;grid-template-columns:2em 1fr auto;gap:2px 10px;align-items:center;font-size:14px}
+.rank .no{font-family:var(--display);text-align:center}
+.rank .nm{font-weight:700;overflow-wrap:anywhere}
+.rank .nm small{font-weight:500;color:var(--ink-soft);margin-left:6px}
+.rank .pc{font-weight:700;font-variant-numeric:tabular-nums}
+.rank .bar{grid-column:2/4;height:12px;border:3px solid var(--ink);border-radius:999px;background:var(--field);overflow:hidden}
+.rank .bar i{display:block;height:100%;background:repeating-linear-gradient(-45deg,var(--pink) 0 8px,var(--stripe) 8px 16px)}
+.rank li.me .nm::after{content:"じぶん";font-size:11px;border:2px solid var(--ink);border-radius:999px;padding:0 6px;margin-left:6px;background:var(--lemon)}
+
 /* ついか */
-textarea{width:100%;min-height:150px;border:3px solid var(--ink);border-radius:16px;padding:10px;background:#fffdf7;resize:vertical;font-size:14px}
-input[type=text]{border:3px solid var(--ink);border-radius:14px;padding:6px 10px;background:#fffdf7;width:170px}
+textarea{width:100%;min-height:150px;border:3px solid var(--ink);border-radius:16px;padding:10px;background:var(--field);resize:vertical;font-size:14px}
+input[type=text],input[type=password]{border:3px solid var(--ink);border-radius:14px;padding:6px 10px;background:var(--field);width:170px}
 .msg{font-weight:700;font-size:14px;min-height:1.7em;margin:8px 0 0}
 ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
 [hidden]{display:none !important}
@@ -160,12 +251,14 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
   <header>
     <h1 class="logo" aria-label="ちいかわ一気読み"><span>ち</span><span>い</span><span>か</span><span>わ</span><span>一</span><span>気</span><span>読</span><span>み</span></h1>
     <p class="sub" id="sub"></p>
+    <button class="themebtn" id="themeBtn" type="button" aria-label="あかるさを切りかえる"></button>
   </header>
 
   <nav aria-label="メニュー">
     <button class="tab" data-go="read">よむ</button>
     <button class="tab" data-go="months">つきでさがす</button>
     <button class="tab" data-go="likes">すきな話</button>
+    <button class="tab" data-go="shin">侵食度</button>
     <button class="tab" data-go="add">ついか・せってい</button>
   </nav>
 
@@ -179,6 +272,7 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
     <div id="reader" hidden>
       <div class="readbar">
         <span class="datepill" id="datepill"></span>
+        <span class="rd" id="rdpill" hidden>よんだ</span>
         <span class="count" id="count"></span>
       </div>
       <div class="progress" aria-hidden="true"><i id="bar"></i></div>
@@ -190,6 +284,7 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
         <div class="stage" id="stage"></div>
         <div id="scroll" hidden></div>
       </div>
+      <p class="note swipe-hint" id="swipeHint">1話ずつ表示のときは、左右にスワイプしてもめくれるよ</p>
     </div>
   </main>
 
@@ -200,7 +295,8 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
       <p>月をタップするとその月の1話目から読めるよ。点線の月は未登録で、タップするとXでその月の画像つきポストの検索がひらくよ。</p>
       <div id="cal"></div>
       <div class="legend">
-        <span><i style="background:var(--lemon)"></i>登録あり</span>
+        <span><i style="background:var(--lemon)"></i>登録あり（よんだ数／話数）</span>
+        <span><i style="background:var(--mint)"></i>ぜんぶよんだ</span>
         <span><i style="background:var(--pink)"></i>いま読んでる月</span>
         <span><i style="border-style:dashed;background:var(--paper)"></i>未登録（Xでさがす）</span>
       </div>
@@ -228,6 +324,31 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
     </div>
   </main>
 
+  <!-- 侵食度 -->
+  <main id="v-shin" hidden>
+    <div class="card">
+      <h2>ちいかわ侵食度</h2>
+      <div class="shin-top">
+        <div class="ring" id="shinRing"><b id="shinPct"></b></div>
+        <div>
+          <p class="tier" id="shinTier"></p>
+          <p id="shinCount"></p>
+          <p class="note">1話を数秒ひらくと「よんだ」になるよ。月ごとにまとめて表示しているときは、画面のまんなかを通りすぎた話が「よんだ」になるよ。</p>
+        </div>
+      </div>
+      <div class="row" style="margin-top:6px">
+        <button class="btn plain" id="catchBtn" style="padding:6px 12px">しおりより前を「よんだ」にする</button>
+        <button class="btn plain" id="catchNo" style="padding:6px 12px" hidden>やっぱりやめる</button>
+      </div>
+      <p class="msg" id="shinMsg" role="status"></p>
+    </div>
+    <div class="card">
+      <h2>みんなの侵食度</h2>
+      <ol class="rank" id="shinRank"></ol>
+      <p class="note" id="shinNote"></p>
+    </div>
+  </main>
+
   <!-- ついか -->
   <main id="v-add" hidden>
     <div class="card">
@@ -247,7 +368,7 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
 
     <div class="card">
       <h2>リストのひっこし（PC ⇄ スマホ）</h2>
-      <p>1591話ははじめから入っているから、どの端末でもそのまま読めるよ。じぶんでついかした分と読んだ位置はこのブラウザの中だけに保存されるので、うつすときはコピーしてむこうの「ついか」の箱にはりつけてね。</p>
+      <p><span id="baseCount">1591</span>話ははじめから入っているから、どの端末でもそのまま読めるよ。じぶんでついかした分と読んだ位置はこのブラウザの中だけに保存されるので、うつすときはコピーしてむこうの「ついか」の箱にはりつけてね。</p>
       <div class="row">
         <button class="btn mint" id="copyBtn">リストをぜんぶコピー</button>
         <button class="btn plain" id="showBtn">箱に表示する</button>
@@ -264,6 +385,31 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
       </div>
       <p class="msg" id="myNameMsg" role="status"></p>
       <p class="note" id="shareNote"></p>
+    </div>
+
+    <div class="card">
+      <h2>みため</h2>
+      <div class="row" style="gap:6px">
+        <button class="chip" data-theme-set="auto">じどう</button>
+        <button class="chip" data-theme-set="light">あかるい</button>
+        <button class="chip" data-theme-set="dark">くらい</button>
+      </div>
+      <p class="note" style="margin-top:8px">「じどう」はスマホやPCの設定にあわせるよ。</p>
+    </div>
+
+    <div class="card" id="adminCard">
+      <h2>かんりしゃ</h2>
+      <p>管理パスワードを知っている人は、だれのコメントでも消せるようになるよ。</p>
+      <div class="row" id="adminOff">
+        <label for="adminPw">パスワード</label>
+        <input type="password" id="adminPw" autocomplete="off">
+        <button class="btn plain" id="adminBtn" style="padding:6px 12px">かんりモードにする</button>
+      </div>
+      <div class="row" id="adminOn" hidden>
+        <span class="rd" style="background:var(--lemon)">かんりモード中</span>
+        <button class="btn plain" id="adminOffBtn" style="padding:6px 12px">やめる</button>
+      </div>
+      <p class="msg" id="adminMsg" role="status"></p>
     </div>
 
     <div class="card">
@@ -305,6 +451,7 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
   </div>
 </div>
 
+<script src="config.js"></script>
 <script>
 /* ---------- X の公式埋め込み（画像は保存せず、毎回Xから表示） ---------- */
 window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};
@@ -329,6 +476,9 @@ S.ids=[...new Set([...BUILTIN,...S.ids])];
 /* 各話の画像アドレス（pbs.twimg.com）。画像そのものは入れず、表示のたびにXから読む */
 const IMG=new Map('1212285107249135616:ENLm4GeUcAEW8oY.jpg;1213355875798175744:ENa0vFSU4AAlO_D.jpg;1218762360187281409:EOnp58IU0AA8iQ5.jpg;1219168559097577472:EOtbV-UXkAASX1t.jpg;1219541971363979264:EOyu9SqVAAApusM.jpg;1220250277439082496:EO8zKE9UcAAhK1P.jpg;1220663187776761861:EPCqsrUUcAALLh9.jpg;1220958203392847872:EPG3AjYU8AElVHm.jpg;1221466224111935488:EPOFDdXU8AES0lD.jpg;1221617681654108160:EPQOziGUcAI9pgg.jpg;1221832141786378241:EPTR2yWU8AA2HGl.jpg;1222057495901786112:EPWe0DiUEAA9eHs.jpg;1222193511941828608:EPYahQdU4AAxqo7.jpg;1222492392286085120:EPcqWVBUUAAn8LA.jpg;1222801880880840704:EPhD1ADU4AAVHDG.jpg;1223123105758924800:EPln-xrUEAEa51d.jpg;1223931215998140417:EPxG8_GUEAEnruQ.jpg;1224093523995054080:EPzakjgU0AA3fkR.jpg;1224277641701707776:EP2CBf6UcAIlF_w.jpg;1224822502666506242:EP9xkxiX0AEqjK_.jpg;1225233644689559552:EQDngK7UUAEUmUl.jpg;1225540776173670401:EQH-1oYXkAQ3682.jpg;1225932325600579586:EQNi88fXsAY0JVz.jpg;1226479072529678339:EQVUNteVAAIELq_.jpg;1226709372513832960:EQYlrBAVUAI0QjG.jpg;1227510955929563136:EQj-tQDUcAEvuXA.jpg;1228928017532997632:EQ4HhAlUEAEf4Ab.jpg;1230080999205158912:ERIgJTNUUAU5r4J.jpg;1232613177612894208:ERsfJnVU8AA3LUJ.jpg;1234605617420988416:ESIzQxEW4AA2MKv.jpg;1237394872690069508:ESwcEw6UwAED2fj.jpg;1241404945468809217:ETpbNugUwAAFxx_.jpg;1242760289696616448:ET8r5OQU4AEy0wO.jpg;1244266182166773760:EUSFfV4U4AAN5hK.jpg;1244922893936414721:EUbaxY7U8AUwkb2.jpg;1247515716351193096:EVAQ7MSUUAE4YRY.jpg;1250424878714351618:EVpmy-pUYAYAtNb.jpg;1252210821951717376:EWC_GhzUwAEL0Cb.jpg;1256212319949844480:EW72cQ7XsAAxuFB.jpg;1256592902983045120:EXBQlKwUcAE2Obf.jpg;1256934119499378688:EXGG6jLUEAEDa8k.jpg;1258353037661270016:EXaRaZOVAAAkHTJ.jpg;1259130664357474304:EXlUqb-U0AEz-J_.jpg;1259755102035828736:EXuMle0VcAAsDrp.jpg;1260219199340687360:EX0yrjFVcAALHfU.jpg;1260954297958711298:EX_PPuxUwAAZPfy.jpg;1263457541037555715:EYiz7TuVAAAZddI.jpg;1267117517530525705:EZW0qUqUcAM6pR4.jpg;1268592227523022854:EZrx5loU0AAMTF9.jpg;1268956330552786944:EZw9DbfU4AAvpAc.jpg;1269320179814563840:EZ2H-WBU0AAf9MW.jpg;1270024735544406016:EaAIwxDUcAAsVx5.jpg;1270659313745276929:EaJJ6CqVcAAdJC2.jpg;1271022705437863937:EaOUaSdUEAANlF0.jpg;1272537957543538688:Eaj2hcKVcAIOTJL.jpg;1274749184353038339:EbDRoBFU4AELBgG.jpg;1275453676564312065:EbNSWwFVcAEfJKJ.jpg;1276179453144469505:EbXmcdTU8AA39Xq.jpg;1276896523498876928:EbhynWgUwAEpBNy.jpg;1277239522980315138:EbmqkrtU8AAqH0i.jpg;1277592851774238721:Ebrr7KJUEAUFSpU.jpg;1278728805192851465:Eb71EQqU4AAwpQn.jpg;1279411900007108609:EcFiVgRU0AEE-6p.jpg;1281964449193005056:Ecpz3k8U4AECcIw.jpg;1282707975853883392:Ec0YGgnU4AAHOrC.jpg;1283434790272688129:Ec-tIzzUEAE3G7l.jpg;1283846758313811968:EdEj0gjVcAEnVug.jpg;1284243572460408832:EdKMtkcVcAAddDW.jpg;1285952105467965441:EdienRPU0AIAO6s.jpg;1286746844014370817:EdtxbnaUEAAwvc-.jpg;1288038867832934400:EeAIhRPVAAIGu4A.jpg;1288601934325145600:EeIInxbUEAAOXPS.jpg;1288970331424567296:EeNXrsMUEAADmze.jpg;1289700808020250624:EeXwC5VVAAIZet2.jpg;1290259809145479170:Eefsc8VU0AEtxq7.jpg;1290779189646245894:EenE09iU4AEEPhS.jpg;1291132291851235328:EesF-OnU4AA7S9k.jpg;1291491225447485441:EexMa8_U4AAyjQR.jpg;1291676165413810179:Eez0n3vUEAEMMvf.jpg;1293020863827083265:EfG7lrjUcAEy57n.jpg;1293164725996380160:EfI-doKU4AAsI74.jpg;1293385712771899392:EfMHcoaUwAE900a.jpg;1293564022726377473:EfOpnjqVoAEZ1fd.jpg;1293768078472306688:EfRjNQGVoAAIMjl.jpg;1294573792862203904:EfdAAF-U4AEpefb.jpg;1295750384145666050:EftuGikU8AAmQ4n.jpg;1296077135837147138:EfyXSDRUEAEkurk.jpg;1296832618319683584:Ef9GYnNUMAImicP.jpg;1297203599815016448:EgCXzCYUEAAI0l-.jpg;1297563964927176704:EgHfiwCVoAETYaj.jpg;1298675141581266945:EgXSKAmVAAA2_Ba.jpg;1299008797373956097:EgcBnE7VoAEH0WV.jpg;1299394083547312128:EghgB6DUYAIa79f.jpg;1299649680079372289:EglIfi8U0AAvkQv.jpg;1300418091973713925:EgwDWGZU8AYUt8m.jpg;1301174831753211904:Eg6znIGVgAE4XAV.jpg;1301570949095911424:EhAb35KVgAEcudt.jpg;1301834956772003840:EhEL_X_UwAEeMEX.jpg;1302210937236013059:EhJh7y-VgAA2ENB.jpg;1302963721396867072:EhUOmFlVoAAmkaP.jpg;1303341127454453760:EhZl17aU4AAX7Y2.jpg;1304044546594992129:EhjlmYaWkAMqWBa.jpg;1304804537593507842:EhuYz2kUcAET15y.jpg;1305515623183654914:Eh4fib0VoAEzqxJ.jpg;1306257198255763456:EiDB_lsU8AAMLRv.jpg;1307029965402062848:EiOA0rYU0AAT_jL.jpg;1308471235295105024:EiifpqWU0AEaZ-1.jpg;1308777306362646531:Eim2AsXVkAAX-nV.jpg;1309179315859283973:EisjpafU8AA4hnp.jpg;1309569733327421441:EiyGuxAUMAA8pWp.jpg;1309791069949714434:Ei1QCLXVgAAxoK-.jpg;1310607134288089090:EjA2PQEUcAE_aRq.jpg;1311141913085452288:EjIckQKU4AIfT8X.jpg|EjIckQLVkAYMUOW.jpg;1311337456206147584:EjLOdvaUYAIgMEZ.jpg;1311656824098103302:EjPw6oaVcAAaRZg.jpg;1312319124261937153:EjZLSDsVoAAT2Xz.jpg;1313126407564783620:EjkpgXzUYAE1UQk.jpg;1313313153543888896:EjnTWfrVgAEsIvj.jpg|EjnTWfoU0AEqRcq.jpg;1313453091686019074:EjpSn1uU8AEcSeb.jpg;1314513769670696960:Ej4XTgoU4AAxm0a.jpg;1314937356802121729:Ej-YjdkU8AAKH4q.jpg;1315660390626279425:EkIqJqHVgAE_RhK.jpg;1316213700408176640:EkQhYcBU4AEo3mk.jpg;1316788384115818497:EkYsDh7VgAAKT3Z.jpg;1317057451426861056:EkcgxRkVcAEFxIQ.jpg;1317368608327045121:Ekg7xBaU8AAlFos.jpg;1318115062855266306:EkriqT3VgAM3oHR.jpg;1318583264605425666:EkyMfUXVMAAgoIe.jpg;1319038227479625728:Ek4qRrZVMAAKfrV.jpg;1319214777491599360:Ek7K17CVkAASE59.jpg;1319251030580752384:Ek7r0PLUUAg8d6p.jpg;1319601801218306049:ElAq16ZUwAA6Q8Y.jpg;1320320428481507333:ElK4bjoU0AEIvZ2.jpg;1320746124655751168:ElQ7mWrVgAAP4o8.jpg;1321103203409145856:ElWAW7MUUAEZeo1.jpg;1321461741415403520:ElbGcoRUcAAQvYW.jpg;1321887916851781632:ElhKDX8U0AA-G6_.jpg;1322212944906653703:Ellxqf9UYAEEq0A.jpg|Ellxqf_UYAEZOP9.jpg|Ellxqf9U8AETsYV.jpg;1322886937380749320:ElvWqBxU0AAvI5F.jpg;1323287005460004864:El1ChFdU0AEJ47X.jpg;1323961772294893568:El-oNh1U4AAHpKM.jpg;1324742186496188417:EmJt_tHVkAExW_h.jpg;1325464853289472002:EmT_QcaU8AMnftY.jpg;1326160248030199808:Emd3tx8U0AIH0qI.jpg;1326803698891157504:EmnA7jiVMAAYswX.jpg;1327105045888860160:EmrTAL7UYAEZaRQ.jpg;1327526305374498816:EmxSIx1VkAEuU1a.jpg;1328298269835808768:Em8QO_kUYAEec4N.jpg;1328641302129303553:EnBIOFgUYAIASRo.jpg;1329427204619472896:EnMS_skUcAEFjup.jpg;1329621826859790339:EnPD_oxUwAcE6Wd.jpg|EnPD_otVEAQOC7o.jpg|EnPD_ouVEAIT6Gv.jpg;1330063698908639239:EnVV4V5XcAQdc4y.jpg;1330885021834440704:EnhA3tPVoAAXuCi.jpg;1331569793808285696:EnqvqcKVcAAaeeb.jpg;1332013157603151873:EnxC54NUwAA2UO8.jpg;1332574620499681282:En5BjaiVEAYEPFC.jpg;1333338273125597185:EoD4FvLVEAIknC0.jpg;1333788645237506054:EoKRs8ZUYAU1TZZ.jpg;1334061703470874626:EoOKDAAVEAEu2cb.jpg|EoOKC__VcAA8Xib.jpg;1334487866378866688:EoUNo-lUYAYghpX.jpg;1335159536756256769:EodwhOhU0AEiU4L.jpg;1335922286046507013:EoomOwbUYAESway.jpg;1336315853994770432:EouMLzoUYAESmuQ.jpg;1336603115244511233:EoyRcaMU0AEkHzh.jpg;1336653073628811267:Eoy-4imVQAkWiCK.jpg;1337009275911118849:Eo4C2NJUwAAfQCI.jpg;1337749422877261824:EpCkAYrUUAA_e5i.jpg;1338371114775396353:EpLZbySUYAAdDKC.jpg|EpLZbySVQAEkPqM.jpg;1338411272723783685:EpL99LXU0AU4W8M.jpg;1338688249355587586:EpP53dZVoAI-gqj.jpg|EpP53dYUUAEdfud.jpg;1338947113892245504:EpTlTUlU8AE5N8g.jpg;1339753106809077760:EpfCWQSXEAEUQDm.jpg;1339919710767382528:EphZ35ZUwAAnY_z.jpg;1340347228355891201:EpnesrlU8AEZBe4.jpg;1340674624720257025:EpsIdtYU8AAYS-H.jpg;1341068280832819201:EpxufgwUYAcv-Tq.jpg;1341222029886832642:Epz6U36UcAEiugm.jpg;1341308691291623424:Ep1JI_nVEAEjQAg.jpg;1341769207088775168:Ep7r-0SVgAMf9eG.jpg;1342056673142136832:Ep_xbgeVQAA_XG1.jpg;1342408869675376640:EqExwDaUcAA5ZUC.jpg;1342668121170010117:EqIdiULVgAIvWI5.jpg|EqIdiUNUcAEpqXU.jpg|EqIdiUMUwAAJgBW.jpg;1342757133830393857:EqJufs0VgAEOTi_.jpg;1343577158208245760:EqVYTIkUUAEfM0c.jpg;1343897086605946880:EqZ7RboU0AAVXjf.jpg;1344207024553222144:EqeVKXnVgAIl353.jpg;1344611812533096454:EqkFUHoUwAU1ByJ.jpg;1344833345394331648:EqnOzKRUYAExoDy.jpg;1345063528579776512:EqqgJhaUwAELTqO.jpg;1345252512073334784:EqtMBxHUYAAdC2D.jpg;1345757412309884929:Eq0XO6rVEAUkEbC.jpg;1346089852798812161:Eq5FlegUUAIqPl9.jpg;1346383016927535104:Eq9QNtMUYAMwVSx.jpg;1346814002458886150:ErDYMcSU0AAp70Q.jpg;1347202755186737152:ErI5w6QUcAAKJrz.jpg;1347538192426094592:ErNq16lVkAEpQjs.jpg;1347555887712399361:ErN673dVEAI4i-V.jpg;1347900449861455874:ErS0UA_VQAsRXLy.jpg;1348063360965742594:ErVIerrU0AAo3aQ.jpg;1348584621135564801:Ercij_aVgAIZava.jpg;1348979359911055361:EriJk5TVgAEXMqC.jpg;1349416946492604416:EroXj1UVQAAH_Na.jpg;1349774296810364929:ErtckVEUwAEIMN5.jpg;1350085314581131266:Erx3b-IU0AAKDNt.jpg;1350345496481603588:Er1kEdVVgAIx6ye.jpg;1351027516807536642:Er_QXTzXEAAz4nA.jpg;1351066405010083840:Er_zuzWXcAIBHPb.jpg;1351108024887291910:EsAZlXJWMAMx6u8.jpg;1351485214338387972:EsFwo4EUcAADeKi.jpg;1351886281760862208:EsLdaDjU0AMiETG.jpg;1352231627435360257:EsQXfwzVEAgFF2q.jpg;1352249713664249858:EsQn8irVcAMWZ-8.jpg;1352561175561551875:EsVDOEUUUAMYeQi.jpg;1352624567282397185:EsV836DUUAAqOTX.jpg;1352932707366440961:EsaVH51VoAAnME8.jpg;1353217085522944000:EseXw8-VkAAB70t.jpg;1353339713533300736:EsgHS4RVcAAMsEz.jpg;1353664931489452037:EskvFFeUcAAZWxL.jpg;1353922940903952384:EsoZvLIU0AAv_jE.jpg;1354111052758171648:EsrE0zmU4AERqqH.jpg;1354419035446763526:Esvc7V7UcAA5eBT.jpg;1354709368692850689:Eszk_VGU0Ag5h2f.jpg;1354806388564709393:Es09Oc_U4AsAWmK.jpg;1355406957998342146:Es9fcI_UcAEJM4h.jpg;1355854224630886402:EtD2OujUwAA7IsM.jpg;1356173776463908864:EtIY3GAVEAEDZAw.jpg;1356201987788873733:EtIyhJcUYAAqPSY.jpg;1356541148907462657:EtNm-w6U4AAYapT.jpg;1357275085862670337:EtYCfMeVEAMSD2_.jpg;1357740181810421761:Etepfy9VcAE_JKI.jpg;1358050262271754241:EtjDgwAVEAArM8n.jpg;1358395958413955076:Etn97A_VcAU7OBQ.jpg;1358760316063027200:EttJTgAVkAAXdQB.jpg;1359101558932140034:Etx_qMMVgAsYM4t.jpg|Etx_qMLU0AIhpms.jpg;1359213179683753984:EtzlLdlUUAcItye.jpg;1359337356180873216:Et1WHiIVEAE8G9m.jpg;1359473753214709765:Et3SJkdVcAIlZqb.jpg;1359525160517210113:Et4A5aQVoAQbZSN.jpg;1359759497346965510:Et7WDfbVEAUzFkM.jpg;1359779032221450243:Et7n0kgUUAEVz_p.jpg;1359913608608583685:Et9iN8LVkAIi1uk.jpg;1360202257199894530:EuBovRVVgAI7_h1.jpg;1360563388930093061:EuGxMHCVgAEHJVx.jpg;1360942954177695744:EuMKZnlVkAAobJO.jpg;1361312821191995393:EuRayyGUYAQXbVu.jpg;1361800696127918080:EuYWgxVUcAAputY.jpg;1361988255365828612:EubBGS1UUAAGtLg.jpg;1362524595866148865:Euio5X-VkAAwAcO.jpg;1363091936035315714:Euqs41lVkAMWhHk.jpg;1363424740673687553:EuvbkdEVEAE6lpf.jpg;1363869145482235907:Eu1vwQVU4AUipIs.jpg;1364119721335873540:Eu5Tp2YVgAc2Po7.jpg;1364438862643093506:Eu916HkVEAM2Q8Z.jpg;1364664200904146948:EvBC2kYWYAA9Owb.jpg;1364871317774737410:EvD_OZrVcAgq6hW.jpg;1364914142893629441:EvEmLT9VIAAPUfI.jpg;1365295940425326592:EvKBa3hVEAUHFHa.jpg;1365609598841856000:EvOerYGVEAI2p3w.jpg;1366009593365553152:EvUKeuaUYAI59q-.jpg;1366393604655124486:EvZnvCUUcAEToa0.jpg;1366759543288463369:Eve0jrVVcAUrV9f.jpg;1367182506068307977:Evk1PiMVIAIOhtR.jpg;1367312927749935105:Evmr2qwUUAsw_ek.jpg|Evmr2qyVgAYieRp.jpg|Evmr2qvU8AEY5wr.jpg;1367445261245542403:EvokNurVEAAyFi4.jpg;1367497991104438286:EvpUK-oXUAMoe6j.jpg;1367671249648951296:EvrxwNNWYAM1hT0.jpg|EvrxwPQWgAAyhFi.jpg|EvrxwOYXEAA4gin.jpg;1368093256744017920:EvxxkAtVkA4cvKK.jpg;1368568075151282185:Ev4haM9VcAQCTC7.jpg;1368947510228647939:Ev96f8gVEAEpoxS.jpg;1369410542687895573:EwEfnkCXYAYK_A1.jpg;1369695294959484932:EwIinBMVkAE6uwG.jpg;1369953094834950144:EwMNErsU8AMbJtW.jpg;1370437969488740352:EwTGERGVkAYDQJw.jpg;1370632732456329218:EwV3M85VIAYicsP.jpg;1371396854257098752:EwguKuXVIAYZMm4.jpg;1371754158785654785:EwlzIl6UUAQ7OFG.jpg;1372165886921039873:EwrpmSlVgAQS6Km.jpg;1372593194249064448:EwxuO3uUUAESMrS.jpg;1372952295164375043:Ew201O2UYAMyJO7.jpg;1373203116389109760:Ew6Y8-SVoAYZPel.jpg;1373669010181554180:ExBArnbVIAI9HMa.jpg;1374087394165551104:ExG9Mv-VoAI6mQl.jpg;1374706916039872515:ExPwplAWYAcFz3t.jpg;1375079426128371717:ExVDcduUUAUraUi.jpg;1375746972146049024:Exeik1TUcAAa4YW.jpg;1376477881329545217:Exo7VYDU4AQbjIP.jpg;1376937544345026564:ExvdZWCVoAkfkpe.jpg;1377677432463892482:Ex5-UhUVcAAxs4t.jpg;1377931605272977413:Ex9lfU4UUAguO4X.jpg;1378473829698166784:EyFSo0uU4AEBPAm.jpg;1379126965312004101:EyOkqc6VEAI6gOT.jpg;1379741831211065352:EyXT4VsVoAMH0u4.jpg;1380445801424429063:EyhUIxsUYAIpGaQ.jpg;1380709357780803584:EylD1pZU4AACoHn.jpg|EylD1paVoAQ2FyC.jpg|EylD1pZVIAEEp8C.jpg|EylD1pbVEAABYnm.jpg;1380832950640648199:Eym0P6eVIAEhpdL.jpg;1381145238580785153:EyrQRbnVcAAAT8h.jpg;1381535579867807745:EywzSWJU4AEVGy9.jpg;1381570947644223491:EyxTczvUYAMvkgd.jpg;1381959546415980552:Ey204SEVEAIY9X1.jpg;1382167319518924802:Ey5x2cdVEAEHzf7.jpg|Ey5x2cdVcAIc2Pm.jpg;1382692980927135744:EzBP7suWgAM_9-L.jpg;1383002916823339008:EzFp0lYVUAExKZ0.jpg;1383032706611613700:EzGE6g-VEAAwtPK.jpg|EzGE6g-UcAADb3O.jpg;1383383866841329670:EzLESuBVkAMx6QJ.jpg;1383749103046119432:EzQQdh2VgAg45rV.jpg;1384089795610103812:EzVGUyFUYAQiDaK.jpg;1384551713055539200:EzbqcQkVkAQ5pYE.jpg;1384829156098068491:EzfmxmgVkAQO1ue.jpg;1385190390425214981:EzkvUTPUcAQb1DX.jpg;1385204608599871492:Ezk8PzmVgAAppGK.jpg;1385659896809488385:EzraVGFUYAIWUaa.jpg;1385930321837785095:EzvQRidUYAAIhgQ.jpg;1386213647484026883:EzzR9nLUcAEssta.jpg;1386641901781020679:Ez5XdV2UcAIVqua.jpg;1387387501422145538:E0D9kwnVcAEnh-q.jpg;1387872406610485250:E0K2mG3VoAA6zdm.jpg;1388333292877795330:E0RZxMgVEAYJHF4.jpg;1388338668809588738:E0ReqISUYAEcxLU.jpg;1388801445139386372:E0YDhG-VIAI_QEO.jpg;1388936747296382981:E0Z-m2FVcAEcaPp.jpg;1389414507211075591:E0gxIaoX0AEwLMO.jpg;1389693361062219776:E0kuvrSVgAEELK8.jpg;1389935302228119554:E0oKyZkVIAIn61H.jpg;1390390328809512964:E0uooajWQAIoqjy.jpg;1390630823771000845:E0yDXGnVEAQZvOE.jpg;1391722332272533511:E1BkFVBVcAQOfe7.jpg;1391845302429052928:E1DT7DHVcAAXrgO.jpg;1392313610743975938:E1J92ZAXMAI4lmZ.jpg|E1J92afWUAAzjvo.jpg;1392449184700133377:E1L5JoHVUAA90pU.jpg;1392814148568813569:E1RFFSEVcAI1E0S.jpg;1393576895170576387:E1b6x-3VIAsIiZI.jpg;1394025532367413261:E1iS1M0VgAAFqav.jpg;1394304510659424256:E1mQj52VcAIlsZd.jpg;1394603915392348161:E1qg3NpVkAQUg6i.jpg;1394641689847812104:E1rDOQ1VcAIgPdW.jpg;1394961687468511237:E1vmQkzVcAIWEZO.jpg|E1vmQkyVcAgNS53.jpg;1395313161805258753:E10l7K6VIAgF0Ia.jpg;1395347095666642944:E11EyRNVcAEDoIf.jpg;1395771653427138571:E17G60lVkAAf_8c.jpg;1395999815469715459:E1-Wbk_VkAEXMZh.jpg;1396485887823732743:E2FQgk3VcAk8aur.jpg;1396807738450071554:E2J1OhPVIAI7InL.jpg;1397247614706454535:E2QFS_TUcAAoD96.jpg;1397582013905870857:E2U1bqTUUAIMWHf.jpg;1398258354372308996:E2ecjwiVUAA2BE4.jpg|E2ecjwfUcAAZQgv.jpg|E2ecjwhUYAQcMvP.jpg|E2ecjwvUYAMY_Df.jpg;1398335522162962438:E2fivpzUUAAQ3sa.jpg;1398615902317289473:E2jhv4DVgAE7dlV.jpg;1399134536244494337:E2q5cVkUUAEyBg7.jpg;1399410334578876416:E2u0RrvVcAMBpde.jpg;1399837284413837319:E204loWUcAAZois.jpg;1400379370154315778:E28lnNtUcAMaEmL.jpg|E28lnNsVgAEMYy2.jpg;1400744954570297345:E3ByHFeVIAIPm3q.jpg|E3ByHFbVEAIGW3F.jpg|E3ByHFcVkAASkSJ.jpg|E3ByHFcVkAEgxP6.jpg;1400888810930507782:E3D08ggUYAUPrw8.jpg;1401146023121088514:E3He4O6UUAEj94f.jpg;1402190592902197251:E3WU6MoVkAwuSfz.jpg;1402600703705567232:E3cJ5jkVIAcF48O.jpg;1403113413924974592:E3jcNiGVcAAYHca.jpg;1403628909388713986:E3qxC_PUcAUZwSl.jpg;1403975771668946946:E3vshYgUYAYwRZf.jpg;1404365490357620736:E31O9-4VgAESsx0.jpg;1404629588936859650:E34_KloVIAMMlPZ.jpg;1404728675774259204:E36ZSHRWYAIIjU-.jpg;1405452905302269954:E4Er90yVoAUUguf.jpg;1406047955145003008:E4NJKU8VoAEIZEw.jpg;1406948083527680001:E4Z70riUYAEBX-D.jpg;1407303057688334336:E4e-q9iVoAEsp1H.jpg;1407650615505784832:E4j6xYaVEAE1NaR.jpg;1407890367165321218:E4nU0uWVUAI01G5.jpg;1408098310070497282:E4qR8ojVIAQpdlQ.jpg;1408430831975092227:E4vAX4gUcAI0Ilo.jpg;1408820968340873217:E40jM4NVkA0rOgT.jpg;1409185360165310466:E45unYhVcAMsDOt.jpg;1409477557435568132:E494XU6UcAULTg1.jpg;1409709132865630208:E5BK-n2UUAMk6Pq.jpg|E5BK-n2VUAcZ6BK.jpg;1409823321999372288:E5Cy1n4VcAAveoW.jpg;1409895693955649537:E5D0qMXUcAU4YYR.jpg;1410247611454398466:E5I0ub-VcAMAzNe.jpg;1410631540627841024:E5OR6ApUYAEqDx5.jpg;1410894748928253960:E5SBStpVoAAoe6-.jpg;1411681395492102147:E5dMvrwVEAAFLZS.jpg;1412037566019166213:E5iQrg5UcAALGoW.jpg;1412273399452213250:E5lnK19VIAMKTdR.jpg;1412442746502008834:E5oBME3UYAM8j7E.jpg;1412786564464189450:E5s55DsVkAAELRU.jpg;1413065548154343425:E5w3oCPVkAYzNzn.jpg;1413559667360337922:E535BhBVEAUXk7P.jpg;1413801518982057985:E57U_I_VEAAZb4f.jpg;1414587722098909187:E6GgCDfVEAYpjXH.jpg;1414971979237531649:E6L9g1TVgAQdfbs.jpg;1415339464365264896:E6RLvPuVUAIyUO-.jpg;1415739094965972993:E6W3M50VIAEYyDh.jpg;1416391183329206275:E6gIRdlUYAEIggx.jpg;1416772203345977351:E6lizq_VoAEcZVc.jpg;1417126852540342278:E6qlXAGVcAI-cOO.jpg;1417524981341163523:E6wPdGQUUAgDjvZ.jpg;1417866888491671555:E61Gat1UYAQ3VBs.jpg;1418536955646599174:E6-n1ulUcAICTXp.jpg;1418786618698178565:E7CK5ftUcAEcw6C.jpg|E7CK5fuVoAgkBYx.jpg|E7CK5fuUcAUrCXp.jpg;1418909314039918599:E7D6fjCXoAgMcx7.jpg;1419583694994501634:E7Nf2HzUUAgGH2J.jpg|E7Nf2H0UcAU4pJb.jpg;1419611193312878592:E7N42pyUUAY2r7F.jpg;1419959847173255171:E7S18UrVgAMQjum.jpg;1420357983804874758:E7YgDcQVoAACsAN.jpg;1420584886436388864:E7bubHpVUAIGo2c.jpg;1420744049221246989:E7d_LmbUYAgE0le.jpg;1420944713251647488:E7g1rweVUAY-Whd.jpg;1421144240332054529:E7jrJv-UcAUtoSe.jpg;1421511750520762371:E7o5Zr7VkAMELwT.jpg;1421857710283268099:E7t0DRfUcAAI9FP.jpg;1422241015142838274:E7zQqaxVIAszzrN.jpg;1422445198689382400:E72KXbEVIAEf3Pw.jpg|E72KXbCVIAAAXhd.jpg;1422510908161421314:E73GIWyVoAYZO06.jpg;1422622235701878793:E74rYX8VkAI7VAf.jpg;1422885040908771329:E78aZwhVIAcml8n.jpg;1423291540101681159:E8CMG-bUcAksyUw.jpg;1423677636069367813:E8HrQyJVEAUtgGq.jpg;1423926833750237185:E8LN50xUUAQ2-g0.jpg;1424384273486811136:E8Rt8cHVIAMb-Hi.jpg;1424784570545696779:E8XaA8_VUAMTmWn.jpg;1425135149549715468:E8cY3N2UcAQxaz5.jpg;1425301652374835205:E8ewTCMVkAArP1g.jpg|E8ewTCNUUAITvwR.jpg|E8ewTCfVUAAWKwc.jpg;1425463035536150532:E8hDErpVkAkX79E.jpg;1425837097005457409:E8mXRwhVEAct9p0.jpg;1426431620026826759:E8uz_oBVcAYUqTs.jpg;1426932636618936325:E817qslVoAUMvOf.jpg;1427301872163954691:E87Le_CVoAMyDgJ.jpg;1428033616831913991:E9FlAClVoAsdF7M.jpg;1428316781312045057:E9JmimWUYAQiFqa.jpg;1428655494701346818:E9OamMRVcAYqq96.jpg|E9OamMVVoAIK8o4.jpg;1429427069537058828:E9ZYVyRUUAUoM1e.jpg;1429647121955704838:E9cgel9VoAQt9ZY.jpg;1429862846934896649:E9fkrbcVEAA6UtG.jpg;1430211679128678403:E9kh8KaVkAMm27W.jpg;1430641152084955138:E9qoi2QVoAUBJ9r.jpg;1430926333165531138:E9ur6b8VgAMchfj.jpg;1431285119499718657:E9zyOnrUYAEuX5Z.jpg;1431631537062039554:E94tSu2VEAMrFg3.jpg;1431920274966933505:E98z5mIVcAIAkSd.jpg|E98z5mFUcAMbbPL.jpg|E98z5mEVEAAoIBA.jpg|E98z5mFUcAQDomh.jpg;1432019039102984199:E9-Nt7-VEAECuF6.jpg;1432367744620449793:E-DK3lPVUAQAciw.jpg;1432742650772287490:E-If2HMVUAMUYbw.jpg;1433143462791049222:E-OMYZyVIAI-FL4.jpg;1433386813855395846:E-RptVHUUAMYUrY.jpg;1433851119151697924:E-YP_aOVEAAH7ul.jpg;1434230101080608769:E-dorG9VIAAbysw.jpg;1434590915755085827:E-iw1MiUUAEeNQi.jpg;1434928774567526401:E-nkHLrVIAMaZpz.jpg;1435570488030367745:E-wrvxlVQAIePtv.jpg;1435911546891161600:E-1h7-IVgAIh1nh.jpg;1436789374151131137:E_CAUVHVEAIDo8a.jpg;1437078940175065088:E_GHrVXVQAMMt6s.jpg;1437487421646458880:E_L7MG5VUAQJkqp.jpg;1437635961521782786:E_OCSGnVQAAGHVh.jpg;1437861625076195328:E_RPhmaVEAAcsVP.jpg;1438546253252468751:E_a-MMHUUAUxmV9.jpg;1438960584431570946:E_g3BjxVQAA_9Sq.jpg;1439183389412638734:E_kBqV2UUAcBb9b.jpg;1439428269145612301:E_ngYQ9VIAQAQn4.jpg|E_ngYQ-UcAUCvxA.jpg|E_ngYTmVEAA_0kz.jpg;1439716733871218688:E_rmvM0UcAEgEno.jpg;1440080937480491009:E_wx-eVVcAEu8y5.jpg;1440256349938409472:E_zRg-3UYAEQxVL.jpg;1440617825643614212:E_4aRi8VcAEipAZ.jpg;1441083933760782344:E__CMmtVkAAyrIQ.jpg;1441390536426881026:FADZDSuVgAM_3Xr.jpg;1441844135648919554:FAJ1mHdVgAUDCiU.jpg;1442495306898100236:FATF1RAVgAgwlKV.jpg;1442867508243959813:FAYYWZ-VQAcqcmQ.jpg;1443226248033886213:FAdenszVkAIyYLo.jpg;1443858521536139265:FAmdq5IVgAMpKS-.jpg;1444207695863500801:FArbPcqVgAE8mbI.jpg;1444401271000080386:FAuLTKiUUAMr48e.jpg;1444544139694002178:FAwNPOUVUAES6IC.jpg;1444696304060284931:FAyXoStUcAIQUU5.jpg;1445095691668262925:FA4C3tjVgAgU7PA.jpg;1445676327252545538:FBAS9H-VUAgyWjh.jpg;1446177524883460101:FBHaypQUUAAItnR.jpg;1446530811566587907:FBMcGonVQAE-eW3.jpg;1446931421822472194:FBSIdOuUUAI0X5K.jpg;1447607814143152128:FBbvohGVIAA6Nub.jpg;1447899426303864837:FBf42NzUYAM2AFm.jpg;1448366977207001090:FBmiFe1UUAA5kQx.jpg;1448786210088833026:FBsfYHkUcC4iriS.jpg;1448926106313117701:FBuenNsVgAQGnue.jpg|FBuenNtUcAAHsW6.jpg;1449063623163199493:FBwbrqFVQAAsNsN.jpg;1449780538743549953:FB6ntb-UcAQ0WMT.jpg;1450133528046231558:FB_owdAVIAQPBpF.jpg;1450393536759689222:FCDVOy7UcAQKNVL.jpg;1450763921040842774:FCImGL3WYAMkBYH.jpg;1451141413580726273:FCN9bJfXEAMdkNB.jpg;1451488718263668737:FCS5S7PWYAEyvjK.jpg;1451851037401358336:FCYC0r8XMAErjc5.jpg;1452213339086630916:FCdMVYSWQAcYROg.jpg;1452645677792567297:FCjVirLVkAMTLyP.jpg;1453113043047485442:FCp-nAoVcAcjQhW.jpg;1453557167345315841:FCwSil9XsAEGGe7.jpg;1453662945871863810:FCxyvudXEAgbnu0.jpg;1453745521164570625:FCy9124VUAMhCy2.jpg;1454128784567799810:FC4aa5BaUAAjgAf.jpg;1454648979690377218:FC_ziRbaUAA0x-I.jpg;1455109916276887553:FDGWwS7akAAFt7v.jpg;1455474537315794944:FDLiV6HaQAAHmQM.jpg;1456221887013416965:FDWKFV4aIAAxu26.jpg;1456823230732242949:FDetATSakAAG9Ck.jpg;1457543415378415619:FDo8AqLXIAEytXb.jpg;1457778488400695298:FDsRzuOVgBAph1M.jpg;1458107510821306368:FDw9DJAagAAmyXF.jpg;1458793281580527616:FD6swJsaIAEa862.jpg;1459174403149688840:FEAHYb6agAAFoPO.jpg;1459550880525537283:FEFdyOiaUAIYO7v.jpg;1460536617312014336:FETeT0qaUAAUzcn.jpg;1461025123931066369:FEaamoKaAAAtcGo.jpg;1461278611651002378:FEeBJm2aAAMj01c.jpg;1461589708358619142:FEicF73acAAVGlP.jpg;1462083017623564292:FEpcwGTXoAsXxrE.jpg;1462479174686294024:FEvFDZZaQAERaol.jpg;1462785217735774213:FEzbZq-aMAIoptO.jpg;1463204887089475586:FE5ZFnAagAEXOC-.jpg;1463836557870133248:FFCXlrAacAArH3I.jpg;1464288108539617287:FFIyRaXagAAQgUy.jpg;1464974209457614851:FFSiRusaQAMBdtR.jpg;1465676803767373828:FFchSF0aMAAVoyO.jpg;1466342716078374918:FFl-7JbVgAEBvHJ.jpg;1466603697883213824:FFpsSYiVEAAj1RP.jpg|FFpsSYhVQAUKiFg.jpg|FFpsSYiUUAEOhem.jpg;1466737824754180097:FFrmRfWUcAAGiq3.jpg;1467013391705591810:FFvg5z8VgAAXxcK.jpg;1467140386175217672:FFxUZ2KVUAA6-gd.jpg;1467556823750578176:FF3PJqXVIAAkF-U.jpg;1467883568701788161:FF74UwNVQAET5LT.jpg;1468625717743480834:FGGbTV7VQAQsnYL.jpg;1468956178659315712:FGLH2uSVEAkb2rq.jpg;1469304985515335680:FGQFGCiUUAUoz6u.jpg;1469631268581441538:FGUt2KGVEAI_Dk1.jpg;1470074451488546819:FGbA629VEAYjnEj.jpg;1470471919283875840:FGgqal8VIAEECUv.jpg;1471207651098779649:FGrHjwRVIAAQKP0.jpg;1471578930822127617:FGwZPMAVIAAhWh4.jpg;1471898549902536706:FG077XXagAACpqG.jpg;1472521176803311621:FG9yNGfakAAleoX.jpg;1472545303161376769:FG-IJS4akAQ1M_I.jpg;1473059186854731776:FHFbhRzaUAA2m_Q.jpg;1473126090126381063:FHGYXzwWQAEYL5_.jpg|FHGYX1JXIAE2TrJ.jpg;1473277368211247104:FHIh9OBaMAMo0fz.jpg;1473597454243463169:FHNFEhLakAcneZl.jpg;1473955818232250380:FHSK9-QaUAAp_2_.jpg|FHSK9-QaUAEqvae.jpg|FHSK9-QakAIbbnB.jpg;1474424422903980032:FHY1MNJaAAE0MyS.jpg;1475140834983288832:FHjAxJ9aMAImY0D.jpg;1475532249840111616:FHokwjoacAEwMjy.jpg;1475832774779375618:FHs2FblaUAEqUqZ.jpg;1476399373550755843:FH05ZyLaAAImoOL.jpg;1477473251819466753:FIEKFtCaUAAJpgX.jpg;1477943155446403076:FIK1dnAaQAELN-2.jpg;1478108993105145856:FINMS87WUAs1DmA.jpg;1478177758849400833:FIOK1gsaIAUuUKP.jpg;1478306255135719424:FIP_s24aAAEvJfl.jpg;1478690035151306755:FIVcvf2acAkE620.jpg;1479079801927663619:FIa_POyagAQIeVO.jpg|FIa_POuacAEF2UH.jpg;1479424663642345478:FIf44oLaUAItYDG.jpg;1479761962016079874:FIkrqQFaIAM5gsp.jpg;1480125721414893570:FIp2fuSagAIYM1J.jpg;1480465414199345157:FIurcW4aIAQ0nEl.jpg;1481195304318046209:FI5DRlcaAAMouRT.jpg;1481735491833966593:FJAukr8aAAYVlUi.jpg;1481825163230715908:FJCAISOakAAmJzE.jpg;1481936655665831938:FJDliPTX0AIHdeR.jpg;1481941954187661314:FJDqWegaIAAgQYe.jpg;1482510463510679554:FJLvZ8LaUAAncDO.jpg;1483128089031110657:FJUhIpGaAAAn7D1.jpg;1483465132017864704:FJZTrH8aAAAgaSp.jpg;1483891611461636097:FJfXjeCaMAEpW6y.jpg;1484104137625464837:FJiY2HwaUAUmdeT.jpg;1484580449200783360:FJpKDF2aMAAHjMY.jpg;1485014629755793408:FJvU7wyakAEXNr-.jpg;1485247926989631489:FJypHVkaMAUyyon.jpg;1486050742431797248:FJ-DRGSaMAADr6v.jpg;1486423830050775040:FKDWl4xaQAAfKnJ.jpg;1486820889438138376:FKI_tvAVgAIK8ts.jpg;1487542178511417345:FKTPuXrVcAIGAmi.jpg;1487912216993009665:FKYgRjAVUAId9JQ.jpg;1488504638424817674:FKg7E_2VQAQqaGK.jpg;1488923905163030529:FKm4ZdfVkAEI_c4.jpg;1489633330408476672:FKw9nhOUUAAk-Mf.jpg;1490088862378459138:FK3b65uUcAQQf03.jpg;1490391490194853890:FK7vKN6UUAA_PQ4.jpg;1490620573751201794:FK-_gq3UcAID1HZ.jpg;1490884945249591297:FLCv9HzVgAAlzTk.jpg|FLCv9H7VkAAWX3R.jpg;1491031505195646977:FLE1QARUYActBPf.jpg;1491436429238767616:FLKlhXbVcAYbwJi.jpg;1491827147891040280:FLQI4g0UYB4uFrF.jpg;1492197188478328832:FLVWbz6WQAQcugA.jpg;1493232008197468160:FLkGmI7VEAEZyXe.jpg;1493516128752058368:FLoJAHYVUAEZ8Gd.jpg;1493906197153402880:FLtrw-wUYAA-T1m.jpg;1494646631718785027:FL4NL5zUUAMDQWI.jpg;1494996790734557185:FL9Lp9fUUAMKydD.jpg;1495548122008752131:FMFBFt0UcAIGOtd.jpg;1496523339229278407:FMS4Cu2VcAAXHDZ.jpg;1497208945982652420:FMcnmX1VgAADfnG.jpg;1497642068444782593:FMixhWjUYAIVkIp.jpg;1498358046443327488:FMs8sytVgAUwkfg.jpg;1499044018247782406:FM2slkjVUAM4wVw.jpg;1499784652168384515:FNBOMIIVkAMBrqG.jpg|FNBOMIHUcAMMx1s.jpg;1500029235531968513:FNEsouhVIAUGqOs.jpg;1501399506239115265:FNYK5FjUYAE_IkH.jpg;1501976765442379776:FNgX595VUAArt-F.jpg;1502563860674277376:FNot3VDVUAEikLn.jpg;1503897155546738689:FN7qfV_VUAE_N4_.jpg;1504432171833954306:FODRFZsVUAIRw_x.jpg;1504918482327986179:FOKLYO7VcAIpVAW.jpg;1505372676809904128:FOQod9kUcAINYRD.jpg;1506216619067944965:FOcoB7oVIAYGjrd.jpg;1506629549265592320:FOiflhlVcAQ4Rqu.jpg;1507417660849414152:FOtsXy7VkAAJSsc.jpg;1508063644747141121:FO235A2VkAcuz9K.jpg;1508788044664434688:FPBKuf1VcAMDHac.jpg|FPBKufzVcAkkVug.jpg;1509561096759242752:FPMJ0LEVQAMUx2D.jpg;1509938779309568005:FPRhUQZVUAMJsUr.jpg;1510937371398729731:FPfth6SVQAkcS4D.jpg;1511291567834746883:FPkvqf5VEAMxKP9.jpg;1511686507379118092:FPqW3Q0VsAAVCZm.jpg;1512012815099342852:FPu_o5HUYAoBd2c.jpg;1512136477320249346:FPwwG-FVUAw1T3e.jpg;1512396248187228163:FP0cXttVQAEjDEO.jpg;1512781475409670148:FP56uutaQAAcnhd.jpg;1513199484980764672:FP_26ILaAAYjJx4.jpg;1513892959322013696:FQJtneOVEAIbGP8.jpg;1514881283905646593:FQXwfHDVsAgYLp1.jpg;1515724662994481153:FQjvi-7UcAIctzZ.jpg;1516250247890092036:FQrNkD1WUAIE6Xt.jpg;1516742144106516481:FQyM8N1VUAAoMXw.jpg;1516878228601794560:FQ0ItV9UcAAKqkN.jpg;1516905005944500224:FQ0hD6VUYAEiOQ7.jpg;1517703720561102848:FQ_3fMdVkAIOreN.jpg;1518283220189474816:FRIGih9UUAAN2I7.jpg;1518807688586489858:FRPjiqrVsAAx4wG.jpg;1519295972378959872:FRWfoiAVEAEbchh.jpg;1519889102337810432:FRe7FOZUUAAPpGQ.jpg;1520280899283079168:FRkfaxqVUAAoChC.jpg;1520568333707358208:FRok1u_VkAAsX9R.jpg;1521163448473645057:FRxCF8IVgAAUSx6.jpg;1521694539773190148:FR4lHfxVUAAd3A1.jpg;1521869802616197121:FR7Eg7wVIAE_iJ9.jpg;1522460897167364097:FSDeHTFVkAEaPTk.jpg;1523002506711764995:FSLKtObVkAAgpMd.jpg;1523313495818731522:FSPljJpVIAIPZkn.jpg;1524031718411616256:FSZyxMUaAAIvAfE.jpg;1524613558809415680:FSiD8skVEAArAuz.jpg;1525119661439733760:FSpQPr2UUAEO_1R.jpg;1526194790102016000:FS4iElfVsAI4As9.jpg;1526648134624894976:FS--YnAVEAYT5X_.jpg;1526956600807698438:FTDW70HVUAEPMgm.jpg;1527411906700382209:FTJ1B-0UcAAKuc-.jpg;1528020637519732736:FTSeqyhUUAE-Ba1.jpg;1528725295569588225:FTcfjXrVIAA_y6t.jpg;1529136561891069954:FTiVmODUsAAKx5q.jpg|FTiVmOMUEAAO9BM.jpg;1529824217272725507:FTsHBDMUsAMd8CZ.jpg;1530560862225715202:FT2k_aVUEAAAu4L.jpg;1531313017807286272:FUBREpjUYAAI4rD.jpg;1532062078579527680:FUL6Vp8VEAAI2JG.jpg;1532137711548522498:FUM_IH7UsAAR2nh.jpg;1532442033834426368:FURT5-yUEAAEg1g.jpg;1532878910878232576:FUXhPelUYAE1pns.jpg;1533293504209727488:FUdaUG6UAAAsdfP.jpg;1533971395733901312:FUnC2jzVIAE79lL.jpg;1534386037232902144:FUs79wiXwAEakt0.jpg;1534756903544188928:FUyNREzUYAA3L7g.jpg;1535034703069077504:FU2J7PZVIAAODPc.jpg;1535932809071583233:FVC6v4JUsAAGNCl.jpg;1536592271310671872:FVMShi-VsAAphtV.jpg;1537145877466214400:FVUKBwUVEAAcL5-.jpg;1537402735057702913:FVXzouDUYAAIgqy.jpg;1537572997862608896:FVaOfXrUYAc5gt9.jpg;1537631471405371393:FVbDrEPVEAAZxxy.jpg|FVbDrEMVIAAy_51.jpg|FVbDrEMVUAIXYRt.jpg;1538284717115465728:FVkVy8EUUAAQO6M.jpg;1538831819902447616:FVsHYglVIAAVsy3.jpg;1539109965348184066:FVwEWm9WUAElf67.jpg;1539519695497228288:FV15AJLVIAAf1ja.jpg;1539887508976050176:FV7HhqPUUAAeSC8.jpg;1540108289056186368:FV-QUu0UsAAsuay.jpg;1540362726337150979:FWB3vCuVsAE64oo.jpg;1541259690989932545:FWOnhOnVsAA8pd_.jpg;1541620623457193984:FWTvyPmUAAILqw6.jpg;1541665161550786560:FWUYSxOUEAApkYP.jpg|FWUYSxSUEAAPuOn.jpg;1542127984798158850:FWa9OlhVEAE3EUQ.jpg;1542478253268512768:FWf7ywOVsAA8PZb.jpg;1542775065673998336:FWkJveOUsAErr7Y.jpg;1543410092728430598:FWtLTDAUYAAK6aI.jpg;1543902128866861056:FW0KzTUVQAANVqa.jpg;1544308311067021312:FW58OIcVsAARGZM.jpg;1544928976212090882:FXCwtqhVUAETt5X.jpg;1545246869986545666:FXHR1nxUcAI42-g.jpg;1545544152485548032:FXLgNjZUYAIl1zV.jpg;1546024194177044482:FXSUz1VUUAAvPzB.jpg;1546689676269957120:FXbyD_OUUAA7nmB.jpg;1547108459920777238:FXhu8SHVQAIYUYn.jpg;1547529149316620289:FXntjuCUsAAcsI4.jpg;1547719283857182726:FXqae9nUsAoya6W.jpg;1548261457732587520:FXyHlqDUsAA2DQK.jpg;1548603831423971329:FX2--c6UIAAdfAJ.jpg;1549299690054619138:FYA32xmVsAAXyIZ.jpg;1549327292148568064:FYBQ9XeUsAAHlpK.jpg;1549958298287214593:FYKO2uVUUAAzrl8.jpg;1550256203736854528:FYOdzLGVUAAYlwT.jpg;1550728453850206209:FYVLTtNVEAEemty.jpg;1551538161213272064:FYgru7cUcAAf6Na.jpg;1552000319751483392:FYnQD9-UsAAn8Fi.jpg;1552352858699206658:FYsQsataAAAYmUh.jpg;1552665459559845888:FYwtASyUcAEzzd5.jpg;1552808267159445504:FYyu44LVQAAyjgr.jpg;1552916307116376064:FY0RJlXVUAA1Drc.jpg;1553325251911512064:FY6FFScUEAA8KXv.jpg;1554071006737707008:FZErV8IUsAArZJo.jpg;1554802626415316992:FZPEvuaUsAAONQt.jpg;1555221259604045824:FZVBfXnaMAAwCiR.jpg;1555329029258895360:FZWjgf1UIAAh3fG.jpg;1555967599623544832:FZfoSEgUcAE8Cqh.jpg;1556619064776085504:FZo4ydyUcAAbJt6.jpg;1556978089904680960:FZt_UXGUcAA0x1I.jpg;1557372787315986435:FZzmS23VsAM_vla.jpg;1557865274480570368:FZ6mNaIUEAAR9TD.jpg;1557997328090296320:FZ8eTz-VQAEXNWm.jpg;1558488102309543936:FaDcqviUUAEy7ko.jpg;1558797258790801408:FaH11_mVQAEUhRm.jpg;1559616739222073344:FaTfJ9bVUAAV5AR.jpg;1559968369540902912:FaYe9nVUUAIXT8y.jpg;1560402498296242176:FaepzQtVEAA0RL2.jpg;1560610893733322755:FahnVcAVUAQ5wme.jpg;1561063401673179138:FaoC406VQAEaq_L.jpg;1561646839954190336:FawVhdjUcAAJ3_Q.jpg;1562105159445913601:Fa22XJMUIAA5cA2.jpg;1562483596891279360:Fa8Oi_dUUAkSSQq.jpg;1562942095316332544:FbCvjNhUcAE8_sX.jpg;1563095223156109312:FbE60Y-UUAYeJuA.jpg;1563429044548382720:FbJqbXRUIAAauSy.jpg;1563867087369412609:FbP402jUIAApWq2.jpg;1564218164572917760:FbU4IPpUIAAKgNG.jpg;1564654904894824448:FbbFV1KUUAAvoVx.jpg;1565040209519005697:FbgjxdmUsAA6N0Z.jpg;1565427443363508224:FbmD9f6UYAcxm0P.jpg;1565504332673429504:FbnJ4zBaMAUvALT.jpg;1565504970132054016:FbnKeCiXgAMtpFM.jpg;1566457049528971265:Fb0sYf6UIAQFzC3.jpg;1566832231569850368:Fb6Bm-0VsAI8wVt.jpg;1567332662075076608:FcBIvsuakAAXAgM.jpg;1567799691802472453:FcHxgmQaQAsroqw.jpg|FcHxgmTaUAI8nzG.jpg;1567999640829841409:FcKnXJLaIAAHjnu.jpg;1568777325906624513:FcVqqJvacAEmsy4.jpg;1569294987610963976:FcdBeOMagAAehGU.jpg;1569607289983881218:FchdgohaIAAYIaP.jpg;1569993414997078016:Fcm8r-UagAcSwId.jpg;1570548518254968835:Fcu1jTXagAALTCI.jpg;1570610883650519042:FcvuRYZagAAVy7U.jpg;1571378681771364352:Fc6olK4aIAAhjBq.jpg;1571696103388741632:Fc_JRgwaIAA6yhK.jpg;1572139515367792641:FdFcjdYaIAAWJ9K.jpg;1572607587178393600:FdMGQ4daUAAVVYM.jpg;1573086240081154048:FdS5mFCVIAAUj7W.jpg;1573325861167800323:FdWTh7fUcAY2MOW.jpg;1573936152637120513:Fde-lj6VQAA3KqW.jpg;1574557717611438081:Fdnz5eoVQAEJb2e.jpg;1575045581596110848:Fduvm3cUAAAKkyH.jpg;1575621932786950144:Fd27yO_UUAEZjJf.jpg;1575802862898012161:Fd5gWagVsAELj6L.jpg;1576229875492405248:Fd_kt0dVUAAXnW9.jpg|Fd_kt0cVsAEx0Uw.jpg;1576581298834927616:FeEkVW-UoAME9kX.jpg;1577274852209094656:FeObHflUYAAbfsM.jpg;1577669647049990145:FeUCLknVQAIpcjx.jpg;1578159270268309504:Fea_fapUoAA0_uL.jpg;1578333267131932672:FeddvXPUoAIXxt_.jpg;1578781256736571393:Fej1L2GUAAARTty.jpg;1579397755256328193:Fesl4x9VIAAxZAZ.jpg;1579499487315492865:FeuCaR8VQAAih_v.jpg;1579852436444835840:FezDamGUYAAe42z.jpg;1580182108877705216:Fe3vQGEVsAAFT-m.jpg;1580525358423891971:Fe8nbu6UAAAR_ks.jpg;1580917950495662080:FfCMfrQUUAEH_Fb.jpg;1581644320775413760:FfMhIC5UoAAkV1J.jpg;1582108013480927233:FfTG2kWVEAE0Xaa.jpg;1582378961073369089:FfW9RuAVEAAilee.jpg;1582639035696021504:Ffapz76VsAIG1qd.jpg;1583388185660256256:FflTKViUcAEWOrU.jpg;1583879047162957824:FfsRmO5UcAA9XM5.jpg;1584687663982202880:Ff3xB9pUAAAgsfi.jpg;1585048523607003136:Ff85OoeVUAEmYEF.jpg;1585680853963010048:FgF4VIHUcAAVkRS.jpg;1586451597961285632:FgQ1UaBUoAAoZCH.jpg;1587053339610488832:FgZYmXHUAAARcvs.jpg;1587583458791997442:Fgg6vXwVQAARc1N.jpg;1588254457585840130:FgqdAnuUcAEcNOm.jpg;1588305526915420160:FgrLdUvVIAE9_O-.jpg;1588671059414638592:FgwX6B0UoAIwLDF.jpg;1589430304137424897:Fg7Kb9fUoAA1_5N.jpg;1590516622862999552:FhKmcBZUUAACZ4r.jpg;1590843370603413506:FhPPnORUYAILq-L.jpg;1591243601069363201:FhU7ntOVEAE3Rzk.jpg;1592287095678468101:FhjwrFFVIAAES13.jpg;1592729088363753473:FhqCqevUAAA8oGJ.jpg;1593606880235966464:Fh2hAmfVUAE1zrR.jpg;1594290303871352832:FiAOlJaVUAA1AqB.jpg;1595280227638263809:FiOS6UuUUAAjuqe.jpg;1595926888295591936:FiXfC7fVIAAUWpX.jpg;1596032314332844034:FiY-7fgVEAIU1l2.jpg;1596733091573207040:Fii8SF-UcAIW6A9.jpg;1597135021361373186:Fiop1ZoVsAArJBp.jpg;1597568623857438720:Fiu0MW-VUAIY56O.jpg;1598264387303002112:Fi4s_L_UoAAwUmY.jpg;1598452293594415104:Fi7X421UoAAMdr7.jpg;1598722958285246464:Fi_ODldUYAA-ooj.jpg;1599366784347668480:FjIXnLZVsAAazr0.jpg;1600295490696151041:FjVkRCRVQAAbiuz.jpg;1600429087646167040:FjXdxc6VsAAzURi.jpg;1600854149205491713:FjdgXLmaUAAu93b.jpg;1601031796186939393:FjgB7rJUUAIuw23.jpg;1601593444723412992:FjoAv3-UAAEQym2.jpg;1602210555309137921:FjwyAfdVIAA_V9Z.jpg;1602552814403715072:Fj1pSgeVEAId3EV.jpg;1603071605340397568:Fj9BIFvVQAAvz1b.jpg;1603525817408950272:FkDeO0IUEAAif2B.jpg;1604256262509641729:FkN2kTFUcAEwLiQ.jpg;1604966278367653889:FkX8UqrVEAAFmKQ.jpg;1605612376484483092:FkhH8czUEAQqFtP.jpg;1605998855924772864:FkmnclaUUAAlDsO.jpg;1606106874448793600:FkoJr0cUUAEFGqg.jpg;1606339890785882113:FkrdncaUEAAoQL6.jpg;1606704401426845696:FkwpItvaEAEhCE_.jpg;1607077525834067974:Fk18fcnaAAABCVj.jpg;1607745214852235266:Fk_bwFtagAMIujz.jpg;1608396224759238657:FlIr1oTaAAUYJ2D.jpg|FlIr1oYakAEceF5.jpg|FlIr1oWagAIY32G.jpg;1609226396982988801:FlUe4FLakAAvuou.jpg;1609516043747364864:FlYmTo4aMAA9xxQ.jpg;1610237912507125761:Fli22CYaYAMQCp3.jpg;1610993356561354753:Fltl6miaEAAHxjk.jpg;1611161655299440642:Flv--96akAAq09K.jpg;1611345632425578497:FlymTrdakAEBNNG.jpg;1611835205408673792:Fl5jkt-aAAICSqP.jpg;1612561503126949889:FmD4Iu5akAAWRdi.jpg;1612714139394387969:FmGC9X1aEAYtDlR.jpg;1613208258671702016:FmNEW4jaEAA0hQd.jpg;1613706407286800386:FmUJa_4akAAC9TE.jpg;1614271397429383171:FmcLRxfaUAY9HU0.jpg;1614666559376756736:FmhyrNpaMAIT7fJ.jpg;1615059753054633984:FmnYSD_aYAA3j7G.jpg;1615399227076792321:FmsNB-4agAAOBmM.jpg;1615770709619539969:Fmxe5MPagAEutqQ.jpg;1616153483597713408:Fm27Bh-aUAADdfs.jpg;1616260243792760832:Fm4cH-HakAEzQ5n.jpg;1617023293135163393:FnDSHHYaAAECkWz.jpg;1617551194020511745:FnKyO9MagAE-q9N.jpg;1617907297656909824:FnP2G-zaYAITYNC.jpg;1618528285784444928:FnYq5WgaAAAqSjl.jpg;1618983421346451456:FnfI1g6aAAES265.jpg;1619779808904495105:FnqdJeKaIAEEqo4.jpg;1619911754150195202:FnsVJx-aQAAjDBt.jpg;1620093373054058497:Fnu6VR8aIAAXmC-.jpg;1620504194821292032:Fn0v-QGakAAKPgM.jpg;1620815846296924161:Fn5LazVaMAAjKBD.jpg;1621341521449713664:FoAphIqagAAHVWx.jpg;1621498969775017985:FoC4tzEakAA5AGK.jpg;1621633287046455296:FoEy4QDaEAAnSqv.jpg;1622252170677714950:FoNlv0xaAAIuRd3.jpg;1622479164518563840:FoQ0MoDaAAUTWuV.jpg;1623309540166098944:Focna0gaEAAi7-e.jpg;1623832293650599936:FokC3GdaMAEXb7f.jpg;1623908719364034562:FolIXrwaIAAZ0vx.jpg;1624411185285328898:FosRXCzacAALOXY.jpg;1625110200238891008:Fo2NHKoaQAAQU5T.jpg;1625498420223021056:Fo7uMYoagAM6I_k.jpg;1625893555825934339:FpBVkZtakAASzx3.jpg;1626287719004667905:FpG8Dl_aIAEbrg3.jpg;1626457620726026240:FpJWlQeaUAAiJJ4.jpg;1627028306481782786:FpRdniEaMAA_QJK.jpg;1627301710338338816:FpVWRvLacAEzi4b.jpg;1627723429758783489:FpbV1GzaQAY3cLB.jpg;1628459622062510081:FplzZIQaAAAq2CI.jpg;1629058400742166529:FpuT-ocagAEKvEO.jpg;1629092719711891461:FpuzMOwaIAAkD1G.jpg;1629535257874817026:Fp1FrXVacAAde_b.jpg;1629937810173227009:Fp6zy5FaIAAJfGe.jpg;1630241893895540737:Fp_IW_TaEAIqyky.jpg;1630499471825203200:FqCyn5CaEAEAd0a.jpg;1631005524526518272:FqJ-4JyakAEwtRu.jpg;1631204801840316416:FqM0HpdaIAE-tPb.jpg;1631429490617511936:FqQAeMhaQAEWYIQ.jpg;1631442605228855296:FqQMZj4aAAIMjdo.jpg;1632079661592358914:FqZPzHGaQAIq3mL.jpg;1632362953856122880:FqdRc7WacAAyN1I.jpg;1632870504532152321:FqkfEOPaQAAQ-EQ.jpg;1633086593249738752:FqnjmQ8acAI_sjf.jpg;1633231669531385857:FqpniwZaUAAZtrn.jpg;1633433678402703361:FqsfRYjaQAASozY.jpg;1633763251086577665:FqxLA6EaQAANsbD.jpg;1633838849502908419:FqyPxa-aIAAPd4s.jpg;1633966852950085632:Fq0EMLzaQAEx1D0.jpg;1633975263494311938:Fq0L1x1acAE86c0.jpg;1634201745000738818:Fq3Z0q0aYAEBSl_.jpg|Fq3Z0q0acAUCRSg.jpg;1634768440874635266:Fq_dOwLaIAEvwR7.jpg;1635039283953405952:FrDTj_JaAAAquE3.jpg;1635550147924099072:FrKkIo5akAEjD6p.jpg;1635963443823136770:FrQcFChaYAYF7Wu.jpg;1636371300032876546:FrWPBeqaIAEIVOX.jpg;1636507527478386690:FrYK6_eaUAEyov-.jpg;1636917292037701634:Frd_mZRaAAEFyW4.jpg;1637110505453289474:FrgvUwpacAAHlH-.jpg;1637769103346905088:FrqGULHaEAAXTKg.jpg;1638185781079736321:FrwBSELaEAAWlez.jpg;1638399378431021057:FrzDjOSaIAMoHkx.jpg;1638827980901457921:Fr5JXJmaAAERRkW.jpg;1639081181714190336:Fr8vpbraIAAgdbQ.jpg;1639917606982524928:FsIoXygaMAAbAaU.jpg;1640359631481606155:FsO6Y4TaQAA3l9W.jpg;1641056058830651394:FsYzySmaQAEb62I.jpg;1642161785255137280:FsohcCVakAE2JCB.jpg;1642466788008169473:Fss21lbaAAAGgZF.jpg;1643369000590794752:Fs5rZXqaEAIlR37.jpg;1643620740514684933:Fs9QWR3WAAUd4Z7.jpg;1643990327722905602:FtCgfTcaUAUvYwy.jpg;1644366669819817986:FtH2xSgaEAI5_wG.jpg;1644659241775697920:FtMA3MmaMAAY8QQ.jpg;1645025423162744832:FtRN5taaMAEaDX-.jpg;1649707586743316480:FuTwTkKaEAAS5b4.jpg;1650266656118280193:FubsxuAaYAEurne.jpg;1651595419091365889:FuulR6vacAAPiRd.jpg;1652309702854991872:Fu4u6mFaMAABefA.jpg;1652689855321882624:Fu-IqSuaUAMmSVT.jpg;1656478740141215744:Fvz-omtacAARZDB.jpg;1658269491263045632:FwNbT_WaYAEGQ0p.jpg;1659157193894277120:FwaCrBjaQAEixmf.jpg;1659396856500334592:FwdcpVlaIAA6ePZ.jpg;1660611235854049280:FwutHdzaIAcHv93.jpg;1661558928558428160:Fw8LCdcaIAE5A-u.jpg;1661927838742900736:FxBaj3_aUAEGb5L.jpg;1663215396999303179:FxTtlqnaIAMUDmE.jpg;1663531237368270849:FxYM17maQAAUEFD.jpg;1664249974295760897:FxiahsJaAAAhrEU.jpg;1665887869351899136:Fx5sL9aaMAAFEc_.jpg;1667116026172145664:FyLJMJAaAAI3mNW.jpg;1667932181224906752:FyWvek1aQAA2nOo.jpg;1668852737755480066:Fyj0uDmaYAIv4T8.jpg;1669254652154765315:FypiQi_aEAIgWSs.jpg;1669551209605373952:Fytv-W3aEAApira.jpg;1670432763332415488:Fy6Rvi0aIAEOqQ7.jpg;1671431437650911232:FzIeB8oaIAEuXH9.jpg;1671764842309632000:FzNNQwLacAE7lD5.jpg;1672101720795783170:FzR_puxakAIRb3B.jpg;1672444460284928001:FzW3X0yakAA3cW7.jpg;1672786442291146753:FzbuZyiakAEShGL.jpg;1673208885438709763:FzhunJRacAAeApM.jpg;1673921487408070656:Fzr2uEbaEAA7uLh.jpg;1674617228610928640:Fz1vfi8aUAAx5nG.jpg;1675460949162217473:F0Bu2lnaAAA4BsS.jpg;1675877341908832258:F0HpjzCaAAARQBe.jpg;1676064356004663297:F0KTpdCaUAAq_S2.jpg;1676443034156937218:F0PsDVJaUAEAJ7z.jpg;1676970325739978756:F0XLns5aQAAseiM.jpg;1677263338303275008:F0bWHVeaMAMAmzB.jpg;1677649694011576320:F0g1gNiagAAP6jw.jpg;1679020799632748544:F00UhH2acAExRHm.jpg;1679885988817174528:F1AnZxJaMAI9PAJ.jpg;1680078859914596358:F1DW0RHaUAAs99E.jpg;1680413750325805064:F1IHZggaYAAdZ_R.jpg;1680729460675600385:F1MmiVZacAACmSx.jpg;1681126186628575233:F1SPWzGaAAA7wJZ.jpg;1681512251352817664:F1XuetjagAIa3Tm.jpg;1681984872439762944:F1ecU25acAEcSoy.jpg;1682685188671946752:F1oZQnpaQAAMRsW.jpg;1683301786101379074:F1xKDVJaQAAZoZz.jpg;1683793868100345856:F14JmOEaUAIoo0Y.jpg;1684412090206031873:F2A73jkaAAAi9C9.jpg;1684771872284766209:F2GDFeZa4AAuGro.jpg;1685498122414493696:F2QXm6KboAE9U5l.jpg;1685937068340559872:F2Wm08HaQAE_Juo.jpg;1686707519442587648:F2hjjAkbEAAg0QK.jpg;1687015377128353793:F2l7iqCakAAh-p3.jpg;1687286902955868160:F2pyfp4asAAEI9l.jpg;1687685068834361344:F2vcn4UbcAE-_xC.jpg;1688468546953842688:F26lMR6bwAEiZw2.jpg;1688845014716284928:F2_7ltUbMAIeU5H.jpg;1689271133604839424:F3F_IykXoAEN97a.jpg;1689538546259156992:F3JyWgzbAAAxxOB.jpg;1689807810803208193:F3NnPcMaMAAknc6.jpg;1690573800176549888:F3Yf6P8aEAEPF6W.jpg;1690927438614978561:F3dhit9aoAAa87_.jpg;1690952453465022464:F3d4Sx4b0AAlINE.jpg;1691289549300002816:F3iq4UyasAAc2Q2.jpg;1691637108048634163:F3nm-3fbwAAMTHx.jpg;1692101735010181158:F3uNjvNaIAAbT3c.jpg;1692736067684745710:F33Oeu-bsAAQGfE.jpg;1693253148201435283:F3-kwvkawAAoXtj.jpg;1693625825608794519:F4D3tKjXQAApyXh.jpg;1693906910393799099:F4H3Ws2aYAAFQCM.jpg;1694398224113836276:F4O2M_9aoAA9haD.jpg;1694697485464395881:F4TGYPDb0AAc62j.jpg;1695466837973307615:F4eCGFabkAAHT3x.jpg;1696130827078558141:F4nd_xbbQAAlamj.jpg;1697237826772050152:F43MzbIa8AAhD5z.jpg;1698267432056733870:F5F1OhebUAAlBSs.jpg;1698272026467909987:F5F5Z-BbQAAa2j4.jpg;1698616077897605210:F5KyUYlbwAA5x2Q.jpg;1699012863443284231:F5QbMXsbEAAl7fJ.jpg;1699745217711390941:F5a1RCIaMAAFjUX.jpg;1700125830675140725:F5gPbmWakAA5QPZ.jpg;1700559622707572801:F5mZ9mHbsAAS9vJ.jpg;1700882518206247143:F5q_oddaUAAnzDc.jpg;1701166009653342564:F5vBeAGbgAAU5sD.jpg;1701781008490827997:F53wzhya0AAaOOf.jpg;1702265789636849816:F5-ptlCb0AAxWtc.jpg;1703045755832074693:F6JvFhrasAAWnaL.jpg;1703426966651834458:F6PJy6HaEAAhlDl.jpg;1704527819806810170:F6ezBEgaYAAQ18d.jpg;1704827109192106078:F6jDOAZaoAAhzTi.jpg;1705434725043835294:F6rr10JaQAAxT-s.jpg;1706640157536104743:F680LQcaQAAcn3A.jpg;1707016233063969034:F7CKNnGbwAAb7s8.jpg;1707731870325346330:F7MVFRubIAE685D.jpg;1708126187233669517:F7R7ttEaUAAzApk.jpg;1709598117098819932:F7m2bLSacAAbW2u.jpg;1709977515522199740:F7sPfDLbEAE8zRz.jpg;1710299685129269346:F7w0frWWsAARN35.jpg;1711041245383127112:F77W8UlbYAAInTK.jpg;1712082961724747950:F8KKYILaYAAu8MM.jpg;1712811517232795969:F8Ug_tDakAAl7EC.jpg;1714574924315328712:F8tkzfwakAAPmAm.jpg;1715000381812699326:F8znwYVboAENRis.jpg;1716460196271476986:F9IXclubgAAUwh_.jpg;1716825944999231937:F9NkGJ6aQAAvCya.jpg;1717188707256848495:F9SuBk5aQAA-oMW.jpg;1717899043760959824:F9c0EsLbcAAdxz3.jpg;1718254561432055966:F9h3ajqbgAAdEAW.jpg;1719343780451741885:F9xWDV4bAAA5C7z.jpg;1720092131279434096:F97-rL1akAAfuQR.jpg;1720788318869487824:F-F32njawAAG4Cn.jpg;1721145916034633760:F-K9Fg0bcAAtQA3.jpg;1721488062268764181:F-P0RCjagAAQDlW.jpg;1721826501958803801:F-UoE4CawAAD5-B.jpg;1722178958249296381:F-Zooe8bIAA2iDk.jpg;1722555800877711426:F-e_XhlbcAAeZ_F.jpg;1723006448156684555:F-lZOuKaMAAGPqz.jpg;1724041190851666034:F-0GUibakAAODA9.jpg;1724404104477483363:F-5QZD7bsAAw_cm.jpg;1724797224000029127:F--17oOaYAA6d4G.jpg;1725138606493429999:F_DsasXaUAAyelx.jpg;1725528336703860930:F_JO33tbgAAbxFU.jpg;1725889310136885281:F_OXLbQaQAAhclc.jpg;1726910674507575366:F_c4GrQaAAAh8HF.jpg;1727305493016953195:F_ifMGAaYAA-LAf.jpg;1727697465166754210:F_oDr4la8AATzUq.jpg;1728002507396481484:F_sZHnCb0AABBdX.jpg;1728361273585541547:F_xfaqzbEAAp3C-.jpg;1728747213545681367:F_2-bR8aMAA9k7E.jpg|F_2-bR2a8AAGLbF.jpg;1728760694206763147:F_3KsAkbUAA7odS.jpg;1731656847311204471:GAgUuR_bgAAScg_.jpg;1731964911540949189:GAks50hboAE4Sip.jpg;1732341121114890555:GAqDELfaAAAE-yz.jpg;1732737517760467418:GAvrlkzaIAAPtie.jpg;1733671921672503362:GA89bCrbwAAjzGG.jpg;1734140032506835425:GBDnKooaIAAEaGS.jpg;1734974106217623596:GBPdwDPaoAA03J3.jpg;1735339024343285813:GBUppO5awAEgAJh.jpg;1735608776949219732:GBYe-0SbEAAoSne.jpg;1736722794011037928:GBoULBlaQAAWvuq.jpg;1737047348583534848:GBs7WwwaIAAeURM.jpg;1737788954097902069:GB3d1xsbcAAR-3T.jpg;1738557142528061551:GCCYKdRaUAAEcWN.jpg;1738559020515184769:GCCaNhwbgAEotu1.jpg;1738917932170944569:GCHgpCjaoAA9GHr.jpg;1739507439144497404:GCP4y70aMAA9QIK.jpg;1740933317443383318:GCkJn8abAAAePzk.jpg|GCkJn8abUAAlvRd.jpg|GCkJn8bb0AAn46f.jpg;1741440424030666961:GCrW1XpasAAlU_l.jpg;1742093834321109089:GC0pG4ea8AAzARa.jpg;1744000554731499932:GDPvQkUagAAbPQU.jpg;1744289861019083008:GDT2YZ3bIAAgMwK.jpg;1744656336485597497:GDZDsAZbYAA76vJ.jpg;1745067181749219415:GDe5Wb3awAAVwEV.jpg;1745373590395252878:GDjQByLaAAAfDbv.jpg;1746445691617161313:GDyfGU2bgAAeUAy.jpg;1747221491232759997:GD9gryobYAAk6LT.jpg;1747594019964964999:GECzflBakAA-lV5.jpg;1749370395285946792:GEcDGegaEAATgNk.jpg;1753042890325217398:GFQPNl-bYAEWkct.jpg;1753350232874897658:GFUmvZhb0AA-c87.jpg;1753764255281910096:GFafSyTaYAAVtDM.jpg;1754463817369784478:GFkbiYAa8AAV6nY.jpg;1755188252079009938:GFuuaPAakAArxCv.jpg;1755560155226538322:GF0Ap5JbkAEjwVD.jpg;1756016869503557847:GF6gCSOaEAAeG59.jpg;1756224022185115702:GF9ccFjbAAAl-KC.jpg;1756236809837920642:GF9oEbZbgAAvn33.jpg;1757358808769417232:GGNkhQEasAA_jRg.jpg;1757695698370428979:GGSW62VaUAESokx.jpg;1758503263291466065:GGd1ZSybMAA-B0Y.jpg;1758791870938018120:GGh74dUa0AAjdh3.jpg;1759551613331702149:GGsu3RdbAAAjYBG.jpg;1760243831872844190:GG2kbyVbYAAyo2z.jpg;1760622746697101548:GG79DhzaoAAuUH2.jpg;1762144454956421422:GHRlCnRa0AAKtV-.jpg;1762490410600214916:GHWfr1JbsAAEW-3.jpg;1763191506574385409:GHgdVCNboAAbD0h.jpg;1763509728054034563:GHk-vuKaQAAlD58.jpg;1763873363590775204:GHqJeRua4AA72ER.jpg;1764215704298151940:GHvA1E_acAADJB1.jpg;1764967993707262286:GH5tCMkbUAAvS58.jpg;1765317655823839639:GH-rDNKaYAAGQri.jpg;1765690941934084320:GID-jTZbAAAfjC1.jpg;1766044378433523763:GII__9ragAAnubU.jpg;1766045922839106036:GIJBZ8PbYAE8T8l.jpg;1767525203222143077:GIeCzdqaQAA-_6l.jpg;1769704150852375031:GI9AiyVaIAAbqkC.jpg;1770047380538482722:GJB4tUJaQAABcpg.jpg;1770794807587221861:GJMgfM_XkAAKE56.jpg;1771856374672064654:GJbl-tTakAAfMuI.jpg;1772291456234828149:GJhxrowawAAgcL-.jpg;1772566974557540814:GJlsRKYboAApqio.jpg;1772609625411494018:GJmTDnubsAA9dHJ.jpg;1772934336389509470:GJq6YT4agAAw49u.jpg;1773690473883770967:GJ1qFPJbkAABNX2.jpg;1774097297619788067:GJ7cFlMbcAAVc8A.jpg;1774767378964127754:GKE9hcwbIAAcJuN.jpg;1777667490740408437:GKuLKD6a4AA32Pa.jpg;1778051033513730559:GKzn_S7aUAAmIOk.jpg;1780213284769337813:GLSWi4PaQAAWIm3.jpg;1780590904665063458:GLXt_FdaoAAl0KT.jpg;1780984809290142173:GLdUPjzbQAAGb3-.jpg;1781328326357033125:GLiMq10b0AAfXrt.jpg;1781693604660195620:GLnY45rbUAAlEYv.jpg;1782716872229835210:GL17i5cakAAYIUu.jpg;1783083210211217544:GL7IumSb0AAYK9v.jpg;1783508957518348331:GMBL8TwaIAA0DkE.jpg;1784150451182846207:GMKTYNdaUAAYaNs.jpg;1784605004978082008:GMQwysibIAAJ9kR.jpg;1784934887323214264:GMVc0VIbMAAEjlQ.jpg;1785291761121906834:GMahZGsa4AArmB-.jpg;1785612187769393435:GMfE0cwaEAA0UFQ.jpg;1788208905660838372:GND-hTtbYAAaWOt.jpg;1788532560366301540:GNIk4dya8AA06Sf.jpg;1789632960498630776:GNYNsRoacAErcTL.jpg;1791047197418774964:GNsT7rfa0AAq0Rf.jpg;1791382575224918090:GNxE9MQa8AAKbP2.jpg;1791451223335551378:GNyDY9WaUAAXqE8.jpg;1791663540459405427:GN1EfZBbkAAN9_V.jpg;1792047818057879657:GN6h_h4a8AEVzFG.jpg;1792409035351998486:GN_qhHHbMAAjhit.jpg;1792947761056227526:GOHUfE2boAAABBu.jpg;1794293076883894320:GOacCoLboAAWmuP.jpg;1794305980496544239:GOanx1Oa0AAEc5H.jpg;1794383714329465317:GObueedb0AAzlWm.jpg;1795102317722693664:GOl8CnJaIAA6Tb6.jpg;1795447633420362044:GOq2GjAWoAUOXrk.jpg;1795756378386280610:GOvO6DraIAAtBbU.jpg;1796189187810496859:GO1YiptWgAAtTiN.jpg;1797561219882328498:GPI4ZuwbIAA5QG1.jpg|GPI4ZuzasAAlhrj.jpg;1798709313428713591:GPZMleVbcAELETY.jpg;1799070246982291694:GPeU2jfbIAIAfCV.jpg;1799396173440327952:GPi9SAlbQAATn-S.jpg;1799778169173766473:GPoYtCuaYAEcjmL.jpg;1800125834449264805:GPtU528awAEyzEG.jpg;1800490431509418066:GPyggJEbIAAhEaV.jpg;1800883489430200372:GP4F_HhbAAAYLh9.jpg;1801197238838026369:GP8jV2MagAAw-S6.jpg;1801560189440823682:GQBtcOGbEAIew3G.jpg;1801916139230171184:GQGxLKObAAASare.jpg;1802693270314824020:GQRz-O3bQAAOuXc.jpg;1803012145367650757:GQWV_ObaIAEuHSO.jpg;1803371326108782948:GQbcqPyaIAI_0aR.jpg;1803751160379293991:GQg2HjObUAAsyRC.jpg;1804123245668634844:GQmIh1JaEAA-bF7.jpg;1805231058251825167:GQ14FBIboAABNx-.jpg;1805548807926726849:GQ6ZEfuaEAAHqlT.jpg;1805591016487141406:GQ6_dKQbwAMvHzJ.jpg;1805977669055754517:GRAfHc6aIAA_kHl.jpg;1806326600067403917:GRFcd68aYAAiW2E.jpg;1806725305262059992:GRLHFi0bcAAEB1C.jpg;1807077503384871293:GRQHaQlawAA4dBK.jpg;1807605696818807211:GRXnzLRbEAAYY3q.jpg;1807780585487876134:GRaG2-6boAAVQuo.jpg;1808155715414155588:GRfcCdzb0AMwvZj.jpg;1808540064533860651:GRk5moIbMAIXaCY.jpg;1808876755832426803:GRpr0ZjbMAEczID.jpg;1809646919641362866:GR0oR-eacAAgDeV.jpg;1810265204476842404:GR9amuobIAAUxV5.jpg;1811040840732791294:GSIcC3abAAAP6tk.jpg;1811406364155294043:GSNofIkaUAA-b5V.jpg;1811409603730801015:GSNrbqMaIAEMOh1.jpg;1812077903234142249:GSXLPr2XgAA4WNV.jpg;1813234199958286616:GSnm5JNbIAIPp5s.jpg;1813970632637628728:GSyErIvbwAAJSgX.jpg;1814379610907521124:GS34o0vaIAANh3s.jpg;1814662136330936643:GS75mARbIAYudbI.jpg;1816411543497789574:GTUwq7ebYAAZP00.jpg;1816436557395763561:GTVHa3zbIAA_0mo.jpg;1817047257247777146:GTdy2PybEAAypsY.jpg;1817936402145005603:GTqbhW5a4AAZvI7.jpg;1818284207371964428:GTvX2ORagAAh_un.jpg;1819049939848265992:GT6QRsOawAAjQ81.jpg;1819354841577410592:GT-llVcb0AMZMB5.jpg;1819645028626846134:GUCtgdUb0AAyIUp.jpg;1821190152959770694:GUYqyayXQAAjJND.jpg;1821980771328139531:GUj52jragAAqzwJ.jpg;1822962651661836474:GUx23ktbAAA0k5q.jpg;1825498170174194136:GVV46L8bcAAhbEK.jpg;1825805683717189874:GVaQlu6boAAMAol.jpg;1826582128811016670:GVlSwt1WQAAfE7E.jpg;1826968628614565994:GVqySBHasAEAOyk.jpg;1827359013992067324:GVwVVa9WcAAYkE1.jpg;1827622748874789237:GV0FM3la8AMpThr.jpg;1831248642243792922:GWnm7vJbMAA2hGF.jpg;1831626793897644062:GWs-24KWwAEjcp3.jpg;1833131753445392430:GXCXnLmaoAAilLz.jpg;1834532269316272593:GXWRX5wXEAAVkRF.jpg;1835230995609796696:GXgM3KNbcAA7m8T.jpg;1836018881154240613:GXrZcMWbsAAjWe9.jpg;1836672720500617635:GX0sGqKakAA-Eiy.jpg;1837098373222125789:GX6vOY5aUAEqDId.jpg;1838620269356945821:GYQXY4KacAAd9-u.jpg;1838970733848068114:GYVWIVWa0AAt05W.jpg;1839327957065847179:GYabBqbbgAASdqF.jpg;1840665617533399420:GYtbnzpaIAACvpi.jpg;1841140694116651065:GY0Ls6KbQAEuu7l.jpg;1841533238671749600:GY5wt9rbAAE1o8P.jpg;1842207443440574949:GZDV530a0AAVNij.jpg;1843252048994979847:GZSL967awAAJT_f.jpg;1843686807910916153:GZYXYOFaoAAAwsV.jpg;1844062695655604517:GZdtPxSaAAUfC5_.jpg;1846181578982281508:GZ70W71b0AAnCuH.jpg;1847893846103118048:GaUJqA_bUAEGXlh.jpg;1848287039831331026:GaZvQ_3bUAAr6pY.jpg;1848657162903625832:Gae_5AebIAAk0ku.jpg;1849060480939376873:GakutIfaEAAto17.jpg;1849781365962846647:Gau-WPsbwAAzknK.jpg;1851453325247725733:GbGu_FBaEAAul_b.jpg;1856658235539030169:GcQs0tTaUAADpze.jpg;1857060786868232239:GcWa8F5XsAA0_ok.jpg;1857458698874142726:GccE12naAAAWtr_.jpg;1858121572328079407:GclfuEKaQAEN_Vm.jpg;1858519329534574982:GcrJeiYbEAAt1tc.jpg;1858896640448622640:Gcwgo8QbYAAvtqM.jpg;1859575436071592372:Gc6KAB8acAAP6g9.jpg;1860334200395825582:GdE8GFCagAMqooe.jpg;1860708295176229138:GdKQVNVbgAAlpWa.jpg;1860977793779245566:GdOFcEjaUAACvQQ.jpg;1861413636826374597:GdUR1hNaIAAclkk.jpg;1862118894506557649:GdeTQyXWkAAXWqd.jpg;1863869268884119902:Gd3LOF_akAAXkfz.jpg;1863951597958730112:Gd4WGS8aQAADQEn.jpg;1864317749545325026:Gd9jHGlaQAA29Sm.jpg;1866156252629451045:GeXrOETaEAA7ffK.jpg;1866887617826156666:GeiEZJkb0AAdFbt.jpg;1868666988966654187:Ge7WuLPbIAAu1sq.jpg;1869022249686388969:GfAZ1DIb0AIgd9P.jpg;1869386382176825656:GfFlAYeagAAFc2m.jpg;1869689352542093686:GfJ4jitbIAAZD7y.jpg;1870831277580153091:GfaHIXebQAASMG6.jpg;1871497822409027998:GfjlWXfbQAAG692.jpg;1871691999096852979:GfmV8_Ga0AANr1q.jpg;1872208154676879403:GftrZLdaUAA94XS.jpg|GftrZLebwAEMUdV.jpg;1873572122813174154:GgBD6bVbQAAraJ2.jpg;1874193434661314680:GgJ4_pzaoAAgZFq.jpg;1875214108729200919:GgYZSsab0AAr15x.jpg;1876621934185898249:GgsZs6haoAAPjt3.jpg;1877315764383834295:Gg2QvIha0AAPNmv.jpg;1878434541867868308:GhGKQhSaoAAmVEZ.jpg;1879141848440262977:GhQNjTTboAAyRz6.jpg;1879467348899565596:GhU1lvtaAAA0VYp.jpg;1881008834388574417:GhqvkFcawAAP3Ik.jpg;1881284771927720221:GhuqhyQbgAA-OkB.jpg;1881992698170855912:Gh4uXgfa0AAmTv7.jpg;1882778931759387074:GiD5dW3awAAvn1A.jpg;1884171400434573663:GiXr5sAbQAAR8cv.jpg;1885298931644645860:GintYsNbYAAOLsW.jpg;1886071198834184539:Giyrwf7aUAAEruA.jpg;1886419701414429165:Gi3ot_3aQAAHwku.jpg;1886696235912060968:Gi7kOiza4AAoy3a.jpg;1886716976690847758:Gi73FySa4AIyo8i.jpg;1886748240613384633:Gi8Thfha4AUG9Ec.jpg;1887099665952444453:GjBTJMIakAA-Di0.jpg;1887545570807693378:GjHosTQbIAQ8iqk.jpg;1887791942681129083:GjLIxCubwAAZYPx.jpg;1887855020760236536:GjMCIlOaIAAOPlN.jpg;1888143823609708663:GjQIzNlbQAAxmhR.jpg;1888921249067176043:GjbL3U5bUAA-Qod.jpg;1890017364105953584:GjqwxhqbsAACvUk.jpg;1890320469452312938:GjvEcrRbIAAhk-p.jpg;1890408301432557813:GjwUVFbacAIO-cm.jpg;1891464129988219316:Gj_UmVybQAA2h6H.jpg;1891890089543758024:GkFYAaiXYAAjAjJ.jpg;1894007457250193879:Gkjdva6WgAIxJwz.jpg;1894399640730308821:GkpCbhZbkAEB_aO.jpg;1894400762589122954:GkpDcycbkAAIJvy.jpg;1895123660459130927:GkzU6-PWwAA2U5F.jpg;1895496633154146521:Gk4oI3qXoAAPMpL.jpg;1896504477227848188:GlG8xI6XwAANxLn.jpg;1896923028023660735:GlM5cAcWEAAyAAO.jpg;1897323862469312596:GlSl_qAaoAAnhqo.jpg;1897634012476391525:GlXAEu8aMAAPLWc.jpg;1898343472844750963:GlhFQdObUAAxuAP.jpg;1898731772529021099:Glmmeseb0AAOpGp.jpg;1899109314121404826:Glr92tWaIAAzKpr.jpg;1899489674726662302:GlxXyemaAAAEinM.jpg;1900093769862832310:Gl59Nk6bQAAfbrS.jpg;1900173180851151013:Gl7FbyNbYAMNXNp.jpg;1901846202481819717:GmS3CiDaYAEb5rN.jpg;1902386003907899457:Gmah_KAaAAAgh41.jpg;1902695285865738493:Gme7RonaYAAKwFv.jpg;1903033492553994569:Gmju39WaEAAsKnO.jpg;1904569813667827876:Gm5kJihboAARwo5.jpg;1904905926848782457:Gm-V14BawAAAyfR.jpg;1905239734064144580:GnDFcCmaQAAV0ED.jpg;1905558613504262197:GnHndJ2bEAAC6jC.jpg;1907087574851838292:GndWCjUbkAAW5XU.jpg;1907688985746616387:Gnl5BSMaMAAY3lV.jpg;1907759937960423727:Gnm5jOxaMAIeZNt.jpg;1908092448259313716:Gnrn925bYAALDgy.jpg;1909243003518308569:Gn7-Y_ea4AAKPQd.jpg;1909953168596971884:GoGESB0bwAEpiyS.jpg;1910334443895812413:GoLfDIhbUAAiSKE.jpg;1910699141539521005:GoQqvSmagAAwWY0.jpg;1911728383769321647:GofS1B6XMAAmX5x.jpg;1912085319907782756:GokXdUIXkAEP3KZ.jpg;1913945772493803687:Go-ziF-aUAAbvHF.jpg;1915396042222387407:GpTai_PakAET_v9.jpg;1915789427458343239:GpZAU9uakAAP6Q5.jpg;1916837610036822129:Gpn5pKiaEAAWRan.jpg;1917226912273076582:Gptbtm9bwAAAXUb.jpg;1917574408983699840:GpyXwkGaYAQid9N.jpg;1917868195010248933:Gp2i9JGbQAEnah_.jpg;1918964094045999114:GqGHq5uaAAAof5E.jpg;1920052731278180760:GqVlx9MbUAAF0_g.jpg;1920422698414731459:Gqa2QlBXIAAl0v-.jpg;1921215959454359725:GqmHusIWkAA4nv0.jpg;1923032603935854754:Gq_79KAbMAAL7t7.jpg;1923399481854205994:GrFJohSawAAUG0S.jpg;1924042635255451929:GrOSkzFW0AA_1Li.jpg;1924404370218836252:GrTbkhjXwAAchsq.jpg;1924796854606430529:GrZAiSNbQAAF15P.jpg;1925554213788295501:GrjxWQjaEAA0tkN.jpg;1925914686182015220:Gro5MWwWoAE8J_L.jpg;1926938991548399819:Gr3cy8HWoAASJs4.jpg;1927289704254222809:Gr8bxKsW0AET14D.jpg;1929466637998047358:GsbXrS9awAACWF-.jpg;1929888816237773087:GshXpbeasAEqoRp.jpg;1930282497939779764:Gsm9ssCasAkdqOd.jpg;1930554646571123183:Gsq1NywbsAAZDRD.jpg;1933107252711633320:GtPGzILbkAAGWUb.jpg;1934607055849173266:Gtka3HkbAAA3guo.jpg;1934987369910026254:Gtp0wV4bkAEA7m9.jpg;1935313662904082507:GtudgxzaQAIYUzY.jpg;1935712223936307658:Gt0IAP6XoAArXON.jpg;1936029747605389419:Gt4oymeWcAAHXMx.jpg;1936398106997956843:Gt93z2vWkAAge5p.jpg;1936752458535174555:GuC6F2TWEAE4IHm.jpg;1937496550164595116:GuNe11aagAYhuCW.jpg;1937848494754328782:GuSe7jCbEAA_KDt.jpg;1938253897875001520:GuYPpTcbEAQh46P.jpg;1939688644438372480:Gusoig1a0AAGDN_.jpg;1940003922426687605:GuxHR4tX0AA2tkc.jpg;1940364612979105991:Gu2PU7OXEAEBVIu.jpg;1940716347337633974:Gu7POl9bkAAzKeD.jpg;1941083191403778194:GvAc3qHXEAA-N2j.jpg;1941525051045785694:GvGuva7XEAA1kMi.jpg;1941898993476464863:GvMC1ttakAAU8Cn.jpg;1942146956207497276:GvPkXE-XIAA1SgS.jpg;1942574616297267307:GvVpUF1X0AAhHCF.jpg;1942949053706510346:Gva9guSXgAAQBvI.jpg|Gva9guLXwAADFy7.jpg|Gva9gtragAA5eXV.jpg;1945435434831818864:Gv-TNm3bsAEA7k4.jpg;1945449767515095372:Gv-gP9RWEAA5jQ_.jpg;1951934947440120055:GxaqfLda4AAaZwK.jpg;1952716715537678816:GxlxgFbacAAZsKk.jpg;1953401981604860262:GxvgvyQb0AAAExL.jpg;1953819111827681480:Gx1cFLeaMAA-Hi2.jpg;1957748712752705583:GytSEuMawAE-Cg1.jpg;1959240805346148747:GzCfID3bQAAp7hE.jpg;1962880950905479188:Gz2N0T0XQAAa95m.jpg;1963195144577888699:Gz6rk7haQAAN8TJ.jpg;1963571302289244609:G0ABsHwbUAACumO.jpg;1963946858348441673:G0FXQYBbkAEkoAD.jpg;1965005455660589278:G0UaC7VaUAAQzp9.jpg;1965433889901744295:G0afs_1bgAQeXlW.jpg;1965802681500672410:G0fvHk6aUAAL_5P.jpg;1966127687208153566:G0kWtW1aMAg6zmM.jpg;1966524924669169702:G0p__mebgAAwDiT.jpg;1967847385490657470:G08yxEAaEAAoG0s.jpg;1967949665233666537:G0-PybuaEAgHdK_.jpg;1968310296415764921:G1DXx5DbgAA3qVw.jpg;1968696691118289073:G1I3L5Ja8AAcFtP.jpg;1969026399886361056:G1NjEWHaEAAbYP9.jpg;1970451348916428822:G1hzDfOaoAE7skX.jpg;1970864641615282213:G1nq8bBbUAEivZU.jpg;1971404008477913309:G1vVfo0aAAMxXVX.jpg;1971784898026656224:G10v6Ypb0AMcZTv.jpg;1972226489900040476:G17BiYAbkAA9lux.jpg;1973379061843108082:G2LZy4XbAAAi6gM.jpg;1973745629441691922:G2QnL8PaQAEridq.jpg;1974082702044446887:G2VZwN_b0AAjX9L.jpg;1975148037057229056:G2kiqy7bsAAzZPB.jpg;1975573005775544718:G2qlLAvbIAMNt0H.jpg;1975908915557843232:G2vWrxJbUAAVRyJ.jpg;1976249347059876047:G20MTedacAAOCvv.jpg;1976715538346000389:G260TdjbwAAQSs7.jpg;1977021822509236639:G2_K3gubIAApa1Y.jpg;1977425948963446953:G3E6a3GbIAEFqKA.jpg;1977788197955588335:G3KD4eZbQAEPZXk.jpg;1978129906270658992:G3O6qRkW4AEq3wA.jpg;1978848676421292084:G3ZIYNJX0AEZvby.jpg;1979117160380383632:G3c8kDDW8AAKQbu.jpg;1979475905262293341:G3iC1wuWwAAe_e3.jpg;1979896052464627987:G3oA9jTWMAAxQIP.jpg;1980243440882598302:G3s86FCXoAA0osw.jpg;1980471371785465881:G3wMNrKXIAAGC2b.jpg;1980591905856733630:G3x51f2XUAAyfDx.jpg;1980984360036978945:G33exWIWYAA_xDB.jpg;1981304030073934131:G38BgqgXIAExS9D.jpg;1981668267602362668:G4BMx9PWAAAe2WW.jpg;1982495533995532503:G4M9LSjXMAAoR7w.jpg;1982735093354623368:G4QXDWZWoAAZkb_.jpg;1983105928187785240:G4VoVHoasAEiRLN.jpg;1983937799406678431:G4hc6WdaMAAIYjY.jpg;1983938185395941419:G4hdQ3QasAAqswt.jpg;1984254607342870731:G4l9C6absAEs6um.jpg;1985771766808187336:G47g5VLbQAQzATt.jpg;1986052112695140552:G4_f3rQbgAAlJbk.jpg;1986759527535165737:G5JjQjSbUAAGAtK.jpg;1987238752117547155:G5QXHCYbIAI3JCw.jpg;1987547216450629996:G5UvqCaaIAAcEJM.jpg;1988015112385679477:G5bZNM4bgAA0s01.jpg;1988228684126556266:G5ebcmsbcAMWQS1.jpg;1989535726879535562:G5xAMkybkAMH6dG.jpg;1989536118568628350:G5xAjVCbkAEVgM4.jpg;1991805535708959139:G6RQV-0bwAAkaBL.jpg;1992723584696177111:G6eTI4YaoAA7NlW.jpg;1992797823931474027:G6e5BjMbsAEb65_.jpg;1992903522447474731:G6RX1VXaAAEn1Uc.jpg;1994340771609333762:G61SWt7aoAAUErH.jpg;1994951854388908329:G69-It1bkAQTe1y.jpg;1995802497236238564:G7JvOLabIAAGUY-.jpg;1996174458663694733:G7PWFWsakAABXwR.jpg;1996545527044051047:G7UnkphasAAxLyV.jpg;1996547718450438232:G7UpkJma8AANnZl.jpg;1997976698630098945:G7oeY9vaMAA_o17.jpg;1999481113052610751:G7-Vd5WakAAuJwq.jpg;2001321901554376895:G8YfqKtbkAAmjD3.jpg;2002027036806930570:G8ig-cxbAAEVBgI.jpg;2003815008837464159:G877ILIaIAAY9RK.jpg;2004154495098671180:G9Av4-wa0AAI_Fh.jpg;2004471709357982006:G9FQZOxakAAZf88.jpg|G9FQZOsaEAAwrVr.jpg|G9FQZOvacAAUO_E.jpg;2006581249457139821:G9jPAgRaMAM9enq.jpg;2007107132307726572:G9qtS-1aMAATF0_.jpg;2007755230918975741:G9z6vR7aQAAlYeb.jpg;2008553381623968220:G9_QpzOasAAOWQV.jpg;2008869633122812015:G-DwSEkaoAAJcqo.jpg;2009247659601604862:G-JIGAVa0AQN0r1.jpg;2009630396150059125:G-OkMCiaIAAQx35.jpg;2011750400513491023:G-ssUx8bQAsl3aq.jpg;2012141851260989676:G-yQWMIaYAAPfBS.jpg;2012895562283270157:G-8910YWgAAJhr0.jpg;2013195116064952485:G_BOR1xWEAExdEj.jpg;2013608868987969891:G_HGlqIWQAA4fqb.jpg;2013949427241594902:G_L8U4jacAAjIEq.jpg;2014270487325766097:G_QgVIlaAAA_Jwg.jpg;2015754157219844284:G_llt7vbQAAYCkl.jpg;2016120538310312159:G_qy8IZaUAAqdZG.jpg;2016133464475763176:G_q-snlbAAEXJHs.jpg;2016875545213227298:G_1hncXbUAcFTYf.jpg;2017223606997270891:G_6eLV8bcAALN8g.jpg;2017927957466276182:HAEex7-aYAAyduY.jpg;2022588809872015582:HBGtzUmbYAA-6Hw.jpg;2022666043316146392:HBH0CzZasAASE2z.jpg;2022683672399483105:HBIEE_8bQAAhqgA.jpg;2023780259368505753:HBXpauEbcAU8hsf.jpg;2024131925250560456:HBcpQTdb0AAzG9Y.jpg;2024489668482683264:HBhunklbUAMQCIR.jpg;2024852560763666609:HBm4qtla8AAlwdX.jpg;2026213560129671429:HB6OfkhbcAE6K_t.jpg;2026294080075157730:HB7XuRFbUAA0mnt.jpg;2026670580465021267:HCAuJbGa4AA2mIH.jpg;2027221059993555171:HCIizxBbcAAjsjS.jpg;2027318931204284855:HCJ70nhaoAAFRwO.jpg;2029920657367237099:HCu6FACaAAA7dXp.jpg;2033546913405133057:HDicI2PboAAUyeY.jpg;2034581689360674933:HDxJQwuagAAmR2l.jpg;2034976930823647446:HD2wu1oboAIm7dF.jpg;2038601804766999029:HEqRiRZbkAIxPp3.jpg;2039357498034118886:HE1A1TeaAAAbQ2A.jpg;2041141509702217759:HFOXYfxasAEIlbV.jpg;2045136449444745321:HGHIwoqboAAo51Z.jpg;2045520408188006713:HGMl-C5bUAI0UwV.jpg;2045847429128630728:HGRPZEpbwAAnaCA.jpg;2046271004847362205:HGXQoajasAAz9_W.jpg;2046793883263303937:HGesL8pbgAAXK6M.jpg;2047297767794745637:HGl2d6rbYAA0R5P.jpg;2047873871748235733:HGuCbRMbQAAwTir.jpg;2048726354032767061:HG4fPnrbYAATWuk.jpg;2050152389471302131:HHOautGakAAkQvL.jpg;2052379366341148940:HHuEJ2ibQAADNDi.jpg;2052718345158525292:HHy4dEnakAAGHVw.jpg;2061420162826559745:HJuitf4aUAAl4r1.jpg;2061434259089535352:HJuviCEbMAAGs2o.jpg;2062445183040696550:HJ9G9bxboAAhNAq.jpg;2072252775233409333:HMIe6kXa4AA1J5_.jpg;2072274613795745906:HMIyxwYacAAJucg.jpg;2072888350206464004:HMRg9-uaIAA2HoE.jpg;2072920625287712895:HMR-UmkbUAA3_nh.jpg;2073010064387109357:HMTPqoda0AAHqu9.jpg;2073233256884092989:HMWaqDtaIAAAgHS.jpg;2073767564338249933:HMeAm4dbUAAv76Z.jpg;2074075359323296061:HMiYi7PaAAAfiAQ.jpg;2074475903841956205:HMoE1sCbYAAoqX4.jpg;2074903301020377235:HMuJjhHa0AA_8VE.jpg;2075149231883800779:HMxpOjHa8AASNJz.jpg;2075587313384800406:HM33qQOboAAsAwm.jpg;2075941667748954549:HM858SMbMAAjJeR.jpg;2076349967539859952:HNCtSe3bIAE3dHe.jpg;2076692019922321589:HNHkYrDbMAAzB15.jpg;2077341686288781448:HNQzQN9aQAA3ux6.jpg;2077704742067904960:HNV9cyqbYAAlT0d.jpg;2078082323841679687:HNbU3ApakAEj8Ue.jpg;2078460862512427518:HNgtI1rasAAFw42.jpg;2078796814942421057:HNlerxGbkAIw_Al.jpg;2078845951389954405:HNmLX3ObYAAubBi.jpg;2079170990748426489:HNqy_vTaIAAkdA4.jpg;2079520376649064592:HNvwwqdb0AElUtz.jpg;2079912889746596054:HN1Vv6TbcAAfXQM.jpg;2079949223802638448:HN12yzbbYAANXtj.jpg;2080225048061964695:HN5xp5UboAAs_b-.jpg;2080405401024266598:HN8Vr4pbEAAfCzM.jpg;2081692332962058581:HOOoJKWbIAABabV.jpg;2081943225502478648:HOSMVEgbUAE-qCB.jpg;2082454232008102362:HOZdFcybwAAk4ac.jpg;2082831628813082901:HOe0UgnaUAAcbjI.jpg;2083184655428366657:HOj1ZrLawAAKpRj.jpg;2084283035298758705:HOzcX0-bIAABpQP.jpg;2084659637857698102:HO4y4_nbkAAYg8T.jpg;2085713852260630785:HPHxsW0bIAIwMlF.jpg;2085722986490052885:HPH6AF4aIAA1Vj5.jpg;2087137512171118862:HPcAgQ7bYAAe7oq.jpg;2087522201310531612:HPheYB4a8AABz30.jpg;2087943240091853297:HPndT0BboAA8NVU.jpg;2088279900088307773:HPsPgAVbEAADUMU.jpg;2088634763280339195:HPxSPPsb0AA4Q5v.jpg;2089223068246057142:HP5pTndbwAAX6z0.jpg;2089656496967827884:HP_zgfPb0AAFNYA.jpg;2093329251982516573:HQz_25FbgAEuko2.jpg;2093689424550985850:HQ5Hbu3bcAAYNmE.jpg;2094432415733502106:HRDrLmkaoAAvRCD.jpg;2094792221132517542:HRIya91bkAAhgNI.jpg;2095141296067465629:HRNv5rYb0AA_hK2.jpg;2095510007496511641:HRS_PhWbYAAr1d5.jpg;2096046833936261362:HRanfHCbQAAGma3.jpg;2096619094867062813:HRiv9ElaAAEV4N1.jpg;2096969470220927146:HRnunf0a0AABFz9.jpg;2097361577469256139:HRtTPMbboAURPJj.jpg;2097736850798686663:HRyoi5zaEAA5kxU.jpg;2099496014810108085:HSLofuZaUAACSVa.jpg;2099880112082817268:HSRF1NFbcAAJDaK.jpg;2100214458249597310:HSV16ntaYAATDtl.jpg;2100977588411990149:HSgr-w9boAAmt4k.jpg;2101321674885083445:HSlk7HXbcAAFcmL.jpg;2102236239995031704:HSykt84bYAArmE8.jpg;2102705903581765731:HS5P34EaEAEy18Y.jpg;2102951684960059395:HS8vaVObAAAwBKP.jpg;2103083017195684094:HS-m20-akAA-6nW.jpg;2103318641559453794:HTB9J98bcAAAMhA.jpg;2103515206291013833:HTEv7isaQAARPZt.jpg;2103852324708073592:HTJiiVga0AAWtFX.jpg;2104524895011078243:HTTGOs8akAAH7ts.jpg;2104921038530449658:HTYuhu8aUAA6bfa.jpg;2105220030258700364:HTc-dYIboAA08mz.jpg;2105665792213971357:HTjT4FNbwAADdMv.jpg;2106037460832838056:HTol5_EaMAAtm5R.jpg;2106382547727065529:HTtfwv8bcAAg7no.jpg;2107116756280229934:HT37hTqbkAAwg5d.jpg;2107413056133468600:HT8JAR7akAA42zk.jpg;2108857120460562750:HUQqX3tbwAAVcXz.jpg;2109246479005306984:HUWMfhYagAAzVWV.jpg;2109624808191471795:HUbklLragAEzmCa.jpg;2110009739740647860:HUhCq9eboAAvwDk.jpg;2110725484376150242:HUrNo4lbMAAfJW_.jpg;2111083717955555598:HUwTcx_aYAEFzgy.jpg;2112182585090798034:HU_63WMaIAAKzal.jpg;2112537943600722426:HVE-D-Na4AAVWNi.jpg;2112866792985280822:HVJpJgbasAAWGEi.jpg;2113656083860656383:HVU3AGlbEAAOwmp.jpg;2115051534606303272:HVosKM_b0AE1-jd.jpg;2115809215482921287:HVzdQ_dbQAA20Lg.jpg;2116214579390984343:HV5N8TDaUAAublV.jpg;2117267546357584383:HWILnC2bgAAPsLy.jpg;2117987373917393154:HWSaSbjaQAATTm0.jpg;2118716377708339642:HWcxT-tbkAAVN0k.jpg;2119068998621106674:HWhyBTxaoAAh4Qp.jpg;2119790294732517880:HWsCCWpbQAAWjUx.jpg;2120127454442619359:HWw0rnDaEAADv2r.jpg;2120160272337994120:HWxSht6aEAATdT3.jpg;2120548221714125073:HW2zXPFasAAm7kx.jpg;2120885260368097332:HW7l5ombkAAtXRS.jpg'.split(';').map(r=>{const[i,v]=r.split(':');return[i,v.split('|')]}));
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+/* あとから足した話（chiikawa_update.json）。index.html は書きかえずに、話だけふやせる */
+let EXTRA=[];
+const BASE=()=>[...new Set([...BUILTIN,...EXTRA])];
 
 const $=id=>document.getElementById(id);
 const EPOCH=1288834974657n;
@@ -371,7 +521,7 @@ function embed(id,box){
   const miss=why=>{
     box.innerHTML=`<div class="miss">${why}<br><a class="btn plain" style="margin-top:10px" href="${urlOf(id)}" target="_blank" rel="noopener">Xでひらく</a></div>`;
   };
-  whenTw.then(tw=>tw.widgets.createTweet(id,box,{lang:'ja',dnt:true,conversation:'none',align:'center'}))
+  whenTw.then(tw=>tw.widgets.createTweet(id,box,{lang:'ja',dnt:true,conversation:'none',align:'center',theme:isDark()?'dark':'light'}))
     .then(el=>{const l=box.querySelector('.loading');if(l)l.remove();if(!el)miss('このポストは表示できなかったよ（削除・非公開かも）');})
     .catch(()=>frameEmbed(id,box));
 }
@@ -380,7 +530,7 @@ function frameEmbed(id,box){
   box.innerHTML='';
   const f=document.createElement('iframe');
   f.className='tw-frame';f.title='Xのポスト';f.setAttribute('scrolling','no');
-  f.src=`https://platform.twitter.com/embed/Tweet.html?dnt=true&frame=false&hideCard=false&hideThread=true&id=${id}&lang=ja&theme=light&width=550px`;
+  f.src=`https://platform.twitter.com/embed/Tweet.html?dnt=true&frame=false&hideCard=false&hideThread=true&id=${id}&lang=ja&theme=${isDark()?'dark':'light'}&width=550px`;
   const u=document.createElement('div');u.className='under';
   u.innerHTML=`表示されないときは <a href="${urlOf(id)}" target="_blank" rel="noopener">Xでひらく</a>`;
   box.append(f,u);
@@ -409,6 +559,7 @@ function renderRead(){
   $('datepill').textContent=fmt(id);
   $('count').textContent=`${S.pos+1} / ${n} 話`;
   $('bar').style.width=((S.pos+1)/n*100)+'%';
+  $('rdpill').hidden=!READ.has(id);
   const mi=monthIndex(),cur=ymOf(id),sel=$('monthSel');
   sel.innerHTML=[...mi].map(([k,[,c]])=>{const[y,m]=k.split('-');return `<option value="${k}"${k===cur?' selected':''}>${y}年${+m}月（${c}話）</option>`}).join('');
   $('modeBtn').textContent=S.mode==='one'?'この月をまとめて表示':'1話ずつ表示';
@@ -417,6 +568,7 @@ function renderRead(){
   if(one){
     $('scroll').innerHTML='';
     showSlide();
+    armRead(id);
     $('prev').textContent='◀ まえ';$('next').textContent='つぎ ▶';
     $('prev').disabled=S.pos===0;$('next').disabled=S.pos===n-1;
   }else{
@@ -443,28 +595,33 @@ function showMonth(k,mi){
   if(box.dataset.ym===k&&box.children.length)return;
   box.dataset.ym=k;box.innerHTML='';
   if(io)io.disconnect();
+  watchReadReset();
   io=new IntersectionObserver(es=>es.forEach(e=>{
     if(!e.isIntersecting)return;io.unobserve(e.target);embed(e.target.dataset.id,e.target.querySelector('.body'));
   }),{rootMargin:'700px 0px'});
   const[start,c]=mi.get(k);
   for(let i=start;i<start+c;i++){
     const id=S.ids[i],p=document.createElement('div');p.className='post';p.dataset.id=id;
-    p.innerHTML=`<div class="postdate"><span>${fmt(id)}</span><button class="linkbtn" data-pos="${i}">ここにしおり</button></div><div class="body"></div>`;
-    p.append(heartBar(id));box.append(p);io.observe(p);
+    p.innerHTML=`<div class="postdate"><span>${fmt(id)} <span class="rd" data-rd="${id}"${READ.has(id)?'':' hidden'}>よんだ</span></span><button class="linkbtn" data-pos="${i}">ここにしおり</button></div><div class="body"></div>`;
+    p.append(heartBar(id));box.append(p);io.observe(p);watchRead(p);
   }
 }
-function step(d){
+function step(d,anim){
   if(S.mode==='one'){S.pos+=d;}
   else{const mi=monthIndex(),keys=[...mi.keys()],ki=keys.indexOf(ymOf(S.ids[S.pos]))+d;
     if(ki<0||ki>=keys.length)return;S.pos=mi.get(keys[ki])[0];}
   clampPos();save();renderRead();renderSub();
+  if(anim&&S.mode==='one'){
+    const on=$('stage').querySelector('.slide.on');
+    if(on){on.classList.remove('in-next','in-prev');void on.offsetWidth;on.classList.add(d>0?'in-next':'in-prev');}
+  }
   window.scrollTo({top:0,behavior:'instant' in window?'instant':'auto'});
 }
-$('prev').onclick=()=>step(-1);$('next').onclick=()=>step(1);
+$('prev').onclick=()=>step(-1,true);$('next').onclick=()=>step(1,true);
 document.addEventListener('keydown',e=>{
   if($('v-read').hidden||/^(TEXTAREA|INPUT|SELECT)$/.test(e.target.tagName))return;
-  if(e.key==='ArrowRight'&&!$('next').disabled)step(1);
-  if(e.key==='ArrowLeft'&&!$('prev').disabled)step(-1);
+  if(e.key==='ArrowRight'&&!$('next').disabled)step(1,true);
+  if(e.key==='ArrowLeft'&&!$('prev').disabled)step(-1,true);
 });
 $('monthSel').onchange=e=>{S.pos=monthIndex().get(e.target.value)[0];save();renderRead();renderSub()};
 $('modeBtn').onclick=()=>{S.mode=S.mode==='one'?'scroll':'one';save();$('scroll').dataset.ym='';renderRead()};
@@ -482,7 +639,10 @@ function renderMonths(){
     for(let m=1;m<=12;m++){
       if(y===now.getFullYear()&&m>now.getMonth()+1)break;
       const k=y+'-'+String(m).padStart(2,'0'),v=mi.get(k);
-      if(v)h+=`<button class="m has${k===cur?' now':''}" data-ym="${k}">${m}月<small>${v[1]}話</small></button>`;
+      if(v){
+        let r=0;for(let i=v[0];i<v[0]+v[1];i++)if(READ.has(S.ids[i]))r++;
+        h+=`<button class="m has${r===v[1]?' done':''}${k===cur?' now':''}" data-ym="${k}" aria-label="${y}年${m}月 ${v[1]}話中${r}話よんだ">${m}月<small>${r}/${v[1]}</small></button>`;
+      }
       else{
         const ny=m===12?y+1:y,nm=m===12?1:m+1;
         const q=`from:${S.handle} filter:images since:${k}-01 until:${ny}-${String(nm).padStart(2,'0')}-01`;
@@ -520,22 +680,26 @@ $('handleBtn').onclick=()=>{const v=$('handle').value.trim().replace(/^@/,'');
 let armed=false;
 $('clearBtn').onclick=()=>{
   if(!armed){armed=true;$('clearBtn').textContent='ほんとうにもどす';$('clearNo').hidden=false;
-    $('clearMsg').textContent=`じぶんでついかした ${S.ids.length-BUILTIN.length}話と、しおりの位置が消えるよ（はじめから入っている ${BUILTIN.length}話はのこるよ）。`;return;}
-  S.ids=[...BUILTIN];sortIds();S.pos=0;save();disarm();$('clearMsg').textContent='さいしょの状態にもどしたよ。';renderSub();
+    $('clearMsg').textContent=`じぶんでついかした ${Math.max(0,S.ids.length-BASE().length)}話と、しおりの位置が消えるよ（はじめから入っている ${BASE().length}話と、よんだ記録はのこるよ）。`;return;}
+  S.ids=BASE();sortIds();S.pos=0;save();disarm();$('clearMsg').textContent='さいしょの状態にもどしたよ。';renderSub();
 };
 function disarm(){armed=false;$('clearBtn').textContent='さいしょの状態にもどす';$('clearNo').hidden=true;}
 $('clearNo').onclick=()=>{disarm();$('clearMsg').textContent='';};
 
 /* ---------- ハート ---------- */
-/* ↓ Google Apps Script の「ウェブアプリのURL」を入れると、みんなのハートが共有される。空のままだとこの端末だけ。 */
-const API_URL='https://script.google.com/macros/s/AKfycbwfeTRmnkotJHuloofpojjCrKpDx-5PqYhb7U8f7b64oHdFdLqab-bGLqgRzCFrM8nE/exec';
+/* Google Apps Script の「ウェブアプリのURL」は config.js に書く。
+   index.html を新しくしてもURLを入れなおさなくてすむように、別ファイルにしてある。
+   config.js がない・URLが空のときは、ハートはこの端末だけ（コメントと侵食度ランキングはオフ）。 */
+const API_URL=String(((window.CHIIKAWA_CONFIG||{}).apiUrl)||'').trim();
 const U={uid:'',name:''};
 try{Object.assign(U,JSON.parse(localStorage.getItem(KEY+'-user')||'{}'))}catch(e){}
 if(!/^[A-Za-z0-9-]{8,40}$/.test(U.uid))
   U.uid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'u'+Date.now().toString(36)+Math.random().toString(36).slice(2,12);
 const saveU=()=>{try{localStorage.setItem(KEY+'-user',JSON.stringify(U))}catch(e){}};
 saveU();
-let HEARTS={},MINE=new Set();
+let HEARTS={},MINE=new Set(),COMMENTS={},PROG=[];
+let ADMIN_PW='';try{ADMIN_PW=sessionStorage.getItem(KEY+'-admin')||''}catch(e){}
+let CMT_OPEN=false;try{CMT_OPEN=localStorage.getItem(KEY+'-cmtopen')==='1'}catch(e){}
 if(!API_URL){try{MINE=new Set(JSON.parse(localStorage.getItem(KEY+'-hearts')||'[]'))}catch(e){}}
 const HEART_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5C5 15.5 2.5 12 2.5 8.6 2.5 5.9 4.6 4 7 4c1.9 0 3.6 1 5 3 1.4-2 3.1-3 5-3 2.4 0 4.500 1.900 4.500 4.600 0 3.400-2.500 6.900-9.500 11.900z"/></svg>';
 const namesOf=id=>API_URL?(HEARTS[id]||[]):(MINE.has(id)?[U.name||'じぶん']:[]);
@@ -547,23 +711,133 @@ async function api(body){
 }
 function applyServer(r){
   if(!r||!r.ok)return;
-  HEARTS=r.hearts||{};MINE=new Set(r.mine||[]);paintAll();
+  HEARTS=r.hearts||{};MINE=new Set(r.mine||[]);
+  if(r.comments){
+    // 送信中のコメントは、サーバーの返事に入るまで残しておく
+    const pend={};for(const id in COMMENTS)for(const c of COMMENTS[id])if(c.pending)(pend[id]=pend[id]||[]).push(c);
+    COMMENTS=r.comments;
+    for(const id in pend){const have=new Set((COMMENTS[id]||[]).filter(c=>c.mine).map(c=>c.text));
+      const keep=pend[id].filter(c=>!have.has(c.text)&&Date.now()-c.time<30000);
+      if(keep.length)COMMENTS[id]=[...(COMMENTS[id]||[]),...keep];}
+  }
+  if(r.progress)PROG=r.progress;
+  paintAll();
+  if(!$('v-shin').hidden)renderShin();
 }
 function loadHearts(){if(API_URL)api().then(applyServer).catch(()=>{});}
 
+const CMT_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 3.5V17.5H4A1.5 1.5 0 0 1 2.5 16V7A1.5 1.5 0 0 1 4 5.5z"/></svg>';
 function heartBar(id){
-  const d=document.createElement('div');d.className='hbar';d.dataset.hid=id;
-  d.innerHTML=`<button class="heart" type="button">${HEART_SVG}<span class="n"></span></button><button class="linkbtn who-btn" type="button">だれがすき？</button>`;
+  const d=document.createElement('div');d.className='hwrap';d.dataset.hid=id;
+  d.innerHTML=`<div class="hbar"><button class="heart" type="button">${HEART_SVG}<span class="n"></span></button>`+
+    `<button class="cbtn" type="button" aria-expanded="false"${API_URL?'':' hidden'}>${CMT_SVG}<span class="cn"></span></button>`+
+    `<button class="linkbtn who-btn" type="button">だれがすき？</button></div>`+
+    `<div class="cmts" hidden><ul class="clist"></ul><p class="cempty">まだコメントはないよ。</p>`+
+    `<form class="cform"><input type="text" class="cinput" id="cin-${id}" maxlength="100" placeholder="ひとことコメント（100文字まで）" aria-label="ひとことコメント" autocomplete="off">`+
+    `<button class="btn lemon" type="submit">おくる</button></form><p class="note cmsg" role="status"></p></div>`;
   paintHeart(d);return d;
 }
+const two=n=>String(n).padStart(2,'0');
+const ctime=t=>{if(!t)return'';const d=new Date(t);return `${d.getMonth()+1}/${d.getDate()} ${two(d.getHours())}:${two(d.getMinutes())}`;};
 function paintHeart(d){
   const id=d.dataset.hid,b=d.querySelector('.heart'),n=namesOf(id).length,on=MINE.has(id);
   b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);
   b.setAttribute('aria-label',`この話すき！（いま${n}人）長押しで押した人を見る`);
   b.querySelector('.n').textContent=n;
   d.querySelector('.who-btn').hidden=n===0;
+  if(!API_URL)return;
+  const cs=(COMMENTS[id]||[]).slice().sort((a,b)=>a.time-b.time);
+  const cb=d.querySelector('.cbtn');
+  cb.querySelector('.cn').textContent=cs.length;
+  cb.setAttribute('aria-label',`コメント ${cs.length}件（${CMT_OPEN?'とじる':'ひらく'}）`);
+  cb.setAttribute('aria-expanded',CMT_OPEN);
+  d.querySelector('.cmts').hidden=!CMT_OPEN;
+  if(!CMT_OPEN)return;
+  const ul=d.querySelector('.clist'),armed=ul.querySelector('.cdel.armed'),armedCid=armed&&armed.dataset.cid;
+  ul.innerHTML='';
+  d.querySelector('.cempty').hidden=cs.length>0;
+  for(const c of cs){
+    const li=document.createElement('li');if(c.pending)li.className='pending';
+    const nm=document.createElement('span');nm.className='cname';nm.textContent=c.name;
+    const tx=document.createElement('span');tx.className='ctext';tx.textContent=c.text;
+    const side=document.createElement('span');side.className='cside';
+    const tm=document.createElement('span');tm.className='ctime';tm.textContent=c.pending?'おくっています…':ctime(c.time);
+    side.append(tm);
+    if(!c.pending&&(c.mine||ADMIN_PW)){
+      const del=document.createElement('button');del.type='button';del.className='linkbtn cdel';del.dataset.cid=c.cid;
+      del.textContent='けす';
+      if(c.cid===armedCid){del.classList.add('armed');del.textContent='ほんとにけす？';}
+      side.append(del);
+    }
+    li.append(nm,side,tx);ul.append(li);
+  }
 }
-function paintAll(){document.querySelectorAll('.hbar').forEach(paintHeart);if(!$('v-likes').hidden)renderLikes();}
+function paintAll(){document.querySelectorAll('.hwrap').forEach(paintHeart);if(!$('v-likes').hidden)renderLikes();}
+
+/* ---------- ひとことコメント ---------- */
+const cleanText=v=>v.replace(/[\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').trim().slice(0,100);
+const CMT_ERR={'too fast':'つづけて送るときは、5秒くらいまってね。','empty':'なにか書いてから送ってね。','not yours':'じぶんのコメントだけ消せるよ。','bad password':'管理パスワードがちがうみたい。かんりモードをやめて入れなおしてね。'};
+function sendComment(id,form){
+  const inp=form.querySelector('.cinput'),msg=form.parentNode.querySelector('.cmsg');
+  const text=cleanText(inp.value);
+  if(!text){msg.textContent=CMT_ERR.empty;return;}
+  if(!U.name){askName(()=>sendComment(id,form));return;}
+  inp.value='';msg.textContent='';
+  const tmp={cid:'tmp'+Date.now(),name:U.name,text,time:Date.now(),mine:true,pending:true};
+  (COMMENTS[id]=COMMENTS[id]||[]).push(tmp);paintAll();
+  api({action:'comment',id,uid:U.uid,name:U.name,text}).then(r=>{
+    if(r&&r.ok){applyServer(r);return;}
+    COMMENTS[id]=(COMMENTS[id]||[]).filter(c=>c!==tmp);paintAll();
+    msg.textContent=CMT_ERR[r&&r.error]||'送れなかったよ。もういちど試してね。';
+    if(!inp.value)inp.value=text;
+  }).catch(()=>{
+    COMMENTS[id]=(COMMENTS[id]||[]).filter(c=>c!==tmp);paintAll();
+    msg.textContent='通信できなかったよ。電波のいいところでもういちど送ってね。';if(!inp.value)inp.value=text;
+  });
+}
+let armTimer=0;
+function deleteComment(btn){
+  if(!btn.classList.contains('armed')){
+    document.querySelectorAll('.cdel.armed').forEach(b=>{b.classList.remove('armed');b.textContent='けす';});
+    btn.classList.add('armed');btn.textContent='ほんとにけす？';
+    clearTimeout(armTimer);armTimer=setTimeout(()=>{btn.classList.remove('armed');btn.textContent='けす';},4000);
+    return;
+  }
+  clearTimeout(armTimer);
+  const cid=btn.dataset.cid,wrap=btn.closest('.hwrap'),msg=wrap&&wrap.querySelector('.cmsg');
+  btn.disabled=true;btn.textContent='けしています…';
+  const body={action:'delcomment',cid,uid:U.uid};
+  const mine=Object.values(COMMENTS).flat().some(c=>c.cid===cid&&c.mine);
+  if(!mine&&ADMIN_PW)body.admin=ADMIN_PW;
+  api(body).then(r=>{
+    if(r&&r.ok){applyServer(r);return;}
+    if(msg)msg.textContent=CMT_ERR[r&&r.error]||'消せなかったよ。';paintAll();
+  }).catch(()=>{if(msg)msg.textContent='通信できなかったよ。';paintAll();});
+}
+document.addEventListener('submit',e=>{
+  const f=e.target.closest('.cform');if(!f)return;
+  e.preventDefault();sendComment(f.closest('.hwrap').dataset.hid,f);
+});
+
+/* 管理モード */
+function paintAdmin(){
+  $('adminCard').hidden=!API_URL;
+  $('adminOff').hidden=!!ADMIN_PW;$('adminOn').hidden=!ADMIN_PW;
+}
+$('adminBtn').onclick=()=>{
+  const pw=$('adminPw').value;
+  if(!pw){$('adminMsg').textContent='パスワードを入れてね。';return;}
+  $('adminMsg').textContent='たしかめています…';$('adminBtn').disabled=true;
+  api({action:'admincheck',admin:pw}).then(r=>{
+    $('adminBtn').disabled=false;
+    if(r&&r.admin){ADMIN_PW=pw;try{sessionStorage.setItem(KEY+'-admin',pw)}catch(e){}
+      $('adminPw').value='';$('adminMsg').textContent='かんりモードにしたよ。このタブをとじると、もとにもどるよ。';paintAdmin();paintAll();}
+    else $('adminMsg').textContent='パスワードがちがうよ（または、まだ管理パスワードが設定されていないよ）。';
+  }).catch(()=>{$('adminBtn').disabled=false;$('adminMsg').textContent='通信できなかったよ。';});
+};
+$('adminOffBtn').onclick=()=>{ADMIN_PW='';try{sessionStorage.removeItem(KEY+'-admin')}catch(e){}
+  $('adminMsg').textContent='かんりモードをやめたよ。';paintAdmin();paintAll();};
+paintAdmin();
 
 function toggleHeart(id,btn){
   if(!U.name){askName(()=>toggleHeart(id,btn));return;}
@@ -611,25 +885,30 @@ let pressTimer=0,longFired=false;
 document.addEventListener('pointerdown',e=>{
   const b=e.target.closest('.heart');if(!b)return;
   longFired=false;clearTimeout(pressTimer);
-  const id=b.parentNode.dataset.hid;
+  const id=b.closest('[data-hid]').dataset.hid;
   pressTimer=setTimeout(()=>{longFired=true;showWho(id);},550);
 });
 ['pointerup','pointercancel','pointerleave'].forEach(t=>document.addEventListener(t,()=>clearTimeout(pressTimer),true));
 document.addEventListener('contextmenu',e=>{
   const b=e.target.closest('.heart');if(!b)return;
   e.preventDefault();clearTimeout(pressTimer);
-  if(!longFired){longFired=true;showWho(b.parentNode.dataset.hid);}
+  if(!longFired){longFired=true;showWho(b.closest('[data-hid]').dataset.hid);}
 });
 document.addEventListener('click',e=>{
   const w=e.target.closest('.who-btn');
-  if(w){showWho(w.parentNode.dataset.hid);return;}
+  if(w){showWho(w.closest('[data-hid]').dataset.hid);return;}
+  const cb=e.target.closest('.cbtn');
+  if(cb){CMT_OPEN=!CMT_OPEN;try{localStorage.setItem(KEY+'-cmtopen',CMT_OPEN?'1':'0')}catch(e){}
+    paintAll();if(CMT_OPEN){loadHearts();const inp=cb.closest('.hwrap').querySelector('.cinput');if(inp&&matchMedia('(pointer:fine)').matches)inp.focus();}return;}
+  const del=e.target.closest('.cdel');
+  if(del){deleteComment(del);return;}
   const b=e.target.closest('.heart');if(!b)return;
   if(longFired){longFired=false;return;}
-  toggleHeart(b.parentNode.dataset.hid,b);
+  toggleHeart(b.closest('[data-hid]').dataset.hid,b);
 });
 $('shareNote').textContent=API_URL
-  ?'ハートはみんなと共有されているよ。名前は自己申告なので、ニックネームがおすすめ。'
-  :'いまはハートの共有がオフで、この端末だけに保存されているよ。';
+  ?'ハート・コメント・侵食度はみんなと共有されているよ。名前は自己申告なので、ニックネームがおすすめ。'
+  :'いまは共有がオフで、ハートはこの端末だけに保存されているよ（コメントと、みんなの侵食度は共有をオンにすると使えるよ）。';
 $('myName').value=U.name;
 loadHearts();
 setInterval(()=>{if(!document.hidden)loadHearts();},60000);
@@ -698,21 +977,197 @@ $('v-likes').addEventListener('click',e=>{
   renderLikes();
 });
 
+/* ---------- よんだ記録・ちいかわ侵食度 ---------- */
+let READ=new Set();
+try{READ=new Set(JSON.parse(localStorage.getItem(KEY+'-read')||'[]'))}catch(e){}
+let readSaveT=0,pushT=0,lastPushed='';
+try{lastPushed=localStorage.getItem(KEY+'-pushed')||''}catch(e){}
+function readStats(){
+  const base=BASE();let r=0;for(const id of base)if(READ.has(id))r++;
+  return{read:r,total:base.length,pct:base.length?r/base.length*100:0};
+}
+const pctText=p=>p>=100?'100':p<=0?'0':p<1?(Math.floor(p*100)/100).toFixed(2):p<10?(Math.floor(p*10)/10).toFixed(1):String(Math.floor(p));
+function tierOf(p){
+  if(p>=100)return'完全侵食';
+  if(p>=90)return'あと少しで完全侵食';
+  if(p>=70)return'ほぼ住人';
+  if(p>=50)return'討伐ベテラン';
+  if(p>=30)return'討伐ビギナー';
+  if(p>=10)return'草むしり見習い';
+  if(p>0)return'ちょっと気になってる';
+  return'まだふつうの人';
+}
+function markRead(id){
+  if(READ.has(id))return;
+  READ.add(id);
+  clearTimeout(readSaveT);readSaveT=setTimeout(saveRead,800);
+  document.querySelectorAll(`[data-rd="${id}"]`).forEach(e=>e.hidden=false);
+  if(S.ids[S.pos]===id)$('rdpill').hidden=false;
+  renderSub();
+  if(!$('v-shin').hidden)renderShin();
+  schedulePush();
+}
+function saveRead(){try{localStorage.setItem(KEY+'-read',JSON.stringify([...READ]))}catch(e){}}
+let armT=0;
+function armRead(id){
+  clearTimeout(armT);
+  if(READ.has(id))return;
+  armT=setTimeout(()=>{if(!document.hidden&&!$('v-read').hidden&&S.mode==='one'&&S.ids[S.pos]===id)markRead(id);},2500);
+}
+let rio=null;const rtimers=new Map();
+function watchReadReset(){if(rio)rio.disconnect();rtimers.forEach(t=>clearTimeout(t));rtimers.clear();
+  rio=new IntersectionObserver(es=>es.forEach(e=>{
+    const id=e.target.dataset.id;
+    if(e.isIntersecting){if(!READ.has(id)&&!rtimers.has(id))rtimers.set(id,setTimeout(()=>{rtimers.delete(id);if(!document.hidden)markRead(id);},1500));}
+    else{clearTimeout(rtimers.get(id));rtimers.delete(id);}
+  }),{rootMargin:'-35% 0px -35% 0px'});
+}
+function watchRead(el){if(rio&&!READ.has(el.dataset.id))rio.observe(el);}
+function schedulePush(){if(!API_URL)return;clearTimeout(pushT);pushT=setTimeout(pushProgress,15000);}
+function pushProgress(keepalive){
+  clearTimeout(pushT);
+  if(!API_URL||!U.name)return;
+  const st=readStats(),sig=`${U.name}|${st.read}|${st.total}`;
+  if(sig===lastPushed)return;
+  const body=JSON.stringify({action:'progress',uid:U.uid,name:U.name,read:st.read,total:st.total});
+  const p=fetch(API_URL,{method:'POST',body,keepalive:!!keepalive});
+  lastPushed=sig;try{localStorage.setItem(KEY+'-pushed',sig)}catch(e){}
+  if(!keepalive)p.then(r=>r.json()).then(applyServer).catch(()=>{lastPushed='';});
+  else p.catch(()=>{});
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){saveRead();pushProgress(true);}});
+function renderShin(){
+  const st=readStats(),pc=pctText(st.pct);
+  $('shinRing').style.setProperty('--p',st.pct.toFixed(2));
+  $('shinPct').innerHTML=`${pc}%<small>侵食度</small>`;
+  $('shinRing').setAttribute('aria-label',`侵食度 ${pc}%`);
+  $('shinTier').textContent=tierOf(st.pct);
+  $('shinCount').textContent=`${st.total}話のうち ${st.read}話よんだよ。`;
+  const ol=$('shinRank');ol.innerHTML='';
+  if(!API_URL){$('shinNote').textContent='みんなの侵食度は、共有をオンにすると見られるよ。';return;}
+  let list=PROG.slice();
+  if(U.name&&!list.some(p=>p.me))list.push({name:U.name,read:st.read,total:st.total,me:true});
+  list=list.map(p=>p.me?{...p,read:st.read,total:st.total}:p);
+  list.sort((a,b)=>(b.total?b.read/b.total:0)-(a.total?a.read/a.total:0));
+  list.forEach((p,i)=>{
+    const pct=p.total?p.read/p.total*100:0;
+    const li=document.createElement('li');if(p.me)li.className='me';
+    const no=document.createElement('span');no.className='no';no.textContent=i+1;
+    const nm=document.createElement('span');nm.className='nm';nm.textContent=p.name;
+    const tier=document.createElement('small');tier.textContent=tierOf(pct);nm.append(tier);
+    const pcEl=document.createElement('span');pcEl.className='pc';pcEl.textContent=pctText(pct)+'%';
+    const bar=document.createElement('span');bar.className='bar';bar.innerHTML=`<i style="width:${pct.toFixed(2)}%"></i>`;
+    li.append(no,nm,pcEl,bar);ol.append(li);
+  });
+  $('shinNote').textContent=list.length?'読んだ記録は、数十秒ごとにまとめて送られるよ。':'まだだれの記録もないよ。';
+}
+let catchArmed=false;
+$('catchBtn').onclick=()=>{
+  const before=S.ids.slice(0,S.pos).filter(id=>!READ.has(id));
+  if(!before.length){$('shinMsg').textContent='しおりより前は、もうぜんぶ「よんだ」になっているよ。';return;}
+  if(!catchArmed){catchArmed=true;$('catchBtn').textContent=`${before.length}話を「よんだ」にする`;$('catchNo').hidden=false;
+    $('shinMsg').textContent=`しおり（${fmt(S.ids[S.pos])}）より前の ${before.length}話を、読んだことにするよ。`;return;}
+  before.forEach(id=>READ.add(id));saveRead();catchDisarm();
+  $('shinMsg').textContent=`${before.length}話を「よんだ」にしたよ。`;
+  renderShin();renderSub();schedulePush();
+};
+function catchDisarm(){catchArmed=false;$('catchBtn').textContent='しおりより前を「よんだ」にする';$('catchNo').hidden=true;}
+$('catchNo').onclick=()=>{catchDisarm();$('shinMsg').textContent='';};
+
+/* ---------- スワイプ（1話ずつ表示のとき） ---------- */
+(()=>{
+  const st=$('stage');let sx=0,sy=0,t0=0,multi=false;
+  st.addEventListener('touchstart',e=>{
+    if(e.touches.length>1){multi=true;return;}
+    multi=false;t0=0;
+    if(e.target.closest('input,textarea,select,button,a,.cmts'))return;
+    const t=e.touches[0];sx=t.clientX;sy=t.clientY;t0=Date.now();
+  },{passive:true});
+  st.addEventListener('touchmove',e=>{if(e.touches.length>1)multi=true;},{passive:true});
+  st.addEventListener('touchend',e=>{
+    if(multi||!t0||S.mode!=='one')return;
+    if(window.visualViewport&&visualViewport.scale>1.05)return;   // ピンチで拡大中はめくらない
+    const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+    if(Date.now()-t0>800||Math.abs(dx)<60||Math.abs(dx)<Math.abs(dy)*1.5)return;
+    if(dx<0&&!$('next').disabled)step(1,true);
+    else if(dx>0&&!$('prev').disabled)step(-1,true);
+  },{passive:true});
+})();
+
+/* ---------- みため（あかるい・くらい） ---------- */
+const SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" fill="none"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
+let THEME='auto';try{THEME=localStorage.getItem(KEY+'-theme')||'auto'}catch(e){}
+const darkMQ=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
+function isDark(){return THEME==='dark'||(THEME!=='light'&&!!darkMQ&&darkMQ.matches);}
+function applyTheme(){
+  const root=document.documentElement;
+  if(THEME==='auto')root.removeAttribute('data-mode');else root.setAttribute('data-mode',THEME);
+  const dark=isDark();
+  $('themeBtn').innerHTML=dark?MOON:SUN;
+  $('themeBtn').setAttribute('aria-label',dark?'いまはくらいモード。あかるくする':'いまはあかるいモード。くらくする');
+  document.querySelectorAll('[data-theme-set]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.themeSet===THEME));
+}
+function setTheme(t){
+  const wasDark=isDark();THEME=t;try{localStorage.setItem(KEY+'-theme',t)}catch(e){}
+  applyTheme();
+  if(wasDark!==isDark()){ // Xの埋め込みは色が固定なので、表示中のものだけ作りなおす
+    $('stage').innerHTML='';$('scroll').innerHTML='';$('scroll').dataset.ym='';
+    if(!$('v-read').hidden)renderRead();
+  }
+}
+$('themeBtn').onclick=()=>setTheme(isDark()?'light':'dark');
+document.addEventListener('click',e=>{const b=e.target.closest('[data-theme-set]');if(b)setTheme(b.dataset.themeSet);});
+if(darkMQ&&darkMQ.addEventListener)darkMQ.addEventListener('change',()=>{if(THEME==='auto')setTheme('auto');});
+applyTheme();
+
+/* ---------- あとから足した話を読みこむ（chiikawa_update.json） ---------- */
+function toKey(u){
+  const m=String(u).match(/^(?:https:\/\/pbs\.twimg\.com\/media\/)?([A-Za-z0-9_-]+)\.(jpg|jpeg|png|webp)$/);
+  return m?m[1]+'.'+m[2]:null;
+}
+function mergeUpdate(j){
+  const eps=j&&j.episodes;if(!eps||typeof eps!=='object')return;
+  const known=new Set(BUILTIN),add=[];
+  for(const id of Object.keys(eps)){
+    if(!/^\d{5,20}$/.test(id)||known.has(id))continue;
+    const keys=(Array.isArray(eps[id])?eps[id]:[]).map(toKey).filter(Boolean);
+    if(keys.length&&!IMG.has(id))IMG.set(id,keys);
+    add.push(id);
+  }
+  if(!add.length)return;
+  EXTRA=add;
+  const keep=S.ids.length?S.ids[Math.min(S.pos,S.ids.length-1)]:null,before=S.ids.length;
+  S.ids=[...new Set([...S.ids,...EXTRA])];sortIds();
+  if(keep)S.pos=S.ids.indexOf(keep);
+  save();
+  let seen=0;try{seen=+localStorage.getItem(KEY+'-extraSeen')||0}catch(e){}
+  const fresh=S.ids.length-before;
+  try{localStorage.setItem(KEY+'-extraSeen',String(EXTRA.length))}catch(e){}
+  $('baseCount').textContent=BASE().length;
+  route();
+  if(fresh>0&&EXTRA.length>seen)$('sub').textContent=`あたらしい話が ${fresh}話ふえたよ！`;
+}
+if(location.protocol.startsWith('http'))
+  fetch('chiikawa_update.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(mergeUpdate).catch(()=>{});
+
 /* ---------- ルーティング ---------- */
 function renderSub(){
   $('sub').textContent=S.ids.length
-    ?`${S.ids.length}話とうろく中・しおりは ${fmt(S.ids[Math.min(S.pos,S.ids.length-1)])}`
+    ?`${S.ids.length}話・侵食度 ${pctText(readStats().pct)}%・しおりは ${fmt(S.ids[Math.min(S.pos,S.ids.length-1)])}`
     :'Xのポストをそのまま表示して、古い順にまとめ読み';
 }
 function route(){
   let v=location.hash.slice(1);
-  if(!['read','months','likes','add'].includes(v))v=S.ids.length?'read':'add';
-  ['read','months','likes','add'].forEach(k=>$('v-'+k).hidden=k!==v);
+  if(!['read','months','likes','shin','add'].includes(v))v=S.ids.length?'read':'add';
+  ['read','months','likes','shin','add'].forEach(k=>$('v-'+k).hidden=k!==v);
   document.querySelectorAll('.tab').forEach(t=>t.dataset.go===v?t.setAttribute('aria-current','page'):t.removeAttribute('aria-current'));
   $('pager').hidden=true;
   if(v==='read')renderRead();
   if(v==='months')renderMonths();
   if(v==='likes'){renderLikes();loadHearts();}
+  if(v==='shin'){renderShin();loadHearts();pushProgress();}
+  if(v!=='read')clearTimeout(armT);
   if(v==='add'){$('handle').value=S.handle;}
   renderSub();
 }
@@ -720,6 +1175,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b
 window.addEventListener('hashchange',route);
 sortIds();route();
 if(!U.name)askName();
+setTimeout(()=>pushProgress(),3000);
 </script>
 </body>
 </html>
