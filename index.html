@@ -490,7 +490,7 @@ $('clearNo').onclick=()=>{disarm();$('clearMsg').textContent='';};
 
 /* ---------- ハート ---------- */
 /* ↓ Google Apps Script の「ウェブアプリのURL」を入れると、みんなのハートが共有される。空のままだとこの端末だけ。 */
-const API_URL='';
+const API_URL='https://script.google.com/macros/s/AKfycbwfeTRmnkotJHuloofpojjCrKpDx-5PqYhb7U8f7b64oHdFdLqab-bGLqgRzCFrM8nE/exec';
 const U={uid:'',name:''};
 try{Object.assign(U,JSON.parse(localStorage.getItem(KEY+'-user')||'{}'))}catch(e){}
 if(!/^[A-Za-z0-9-]{8,40}$/.test(U.uid))
