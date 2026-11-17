@@ -90,6 +90,22 @@ select{border:3px solid var(--ink);border-radius:14px;background:var(--paper);pa
 @keyframes pon{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .pages{display:grid;gap:10px;justify-items:center}
 .page{display:block;max-width:100%;height:auto;border:3px solid var(--ink);border-radius:14px;background:var(--milk);min-height:120px}
+.lk-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 14px}
+.chip{border:3px solid var(--ink);border-radius:999px;background:var(--paper);padding:3px 14px;font-weight:700;cursor:pointer;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--pink)}
+.lk-count{font-weight:700;font-size:14px;margin-left:auto;font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.tile{position:relative;border:3px solid var(--ink);border-radius:18px;background:var(--paper);overflow:hidden;box-shadow:4px 4px 0 var(--sky);display:flex;flex-direction:column}
+.tile-open{border:0;padding:0;margin:0;background:none;cursor:pointer;display:block;width:100%;text-align:left}
+.tile-open img,.tile-open .ph{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;display:block;background:var(--milk);border-bottom:3px solid var(--ink)}
+.tile-open .ph{display:grid;place-items:center;font-family:var(--display);font-size:15px;text-align:center;padding:10px;line-height:1.5}
+.tile-date{display:block;padding:6px 10px 0;font-size:12.5px;font-weight:700}
+.tile .meta{padding:2px 10px 8px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;gap:6px;align-items:center}
+.tile .cnt{display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums}
+.tile .cnt svg{width:16px;height:16px;fill:#ff5f8d;stroke:var(--ink);stroke-width:2.4;stroke-linejoin:round}
+.tile .mine{position:absolute;top:8px;right:8px;background:#ff5f8d;color:#fff;border:2px solid var(--ink);border-radius:999px;font-size:11px;font-weight:700;padding:0 8px}
+.lk-empty{text-align:center;padding:30px 10px;font-size:14px}
+@media (max-width:420px){.grid{grid-template-columns:repeat(2,1fr);gap:10px}}
 .hbar{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
 .heart{border:3px solid var(--ink);border-radius:999px;background:var(--paper);padding:6px 18px;font-weight:700;cursor:pointer;
   box-shadow:0 4px 0 var(--ink);display:inline-flex;gap:8px;align-items:center;font-variant-numeric:tabular-nums;
@@ -149,6 +165,7 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
   <nav aria-label="メニュー">
     <button class="tab" data-go="read">よむ</button>
     <button class="tab" data-go="months">つきでさがす</button>
+    <button class="tab" data-go="likes">すきな話</button>
     <button class="tab" data-go="add">ついか・せってい</button>
   </nav>
 
@@ -187,6 +204,27 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
         <span><i style="background:var(--pink)"></i>いま読んでる月</span>
         <span><i style="border-style:dashed;background:var(--paper)"></i>未登録（Xでさがす）</span>
       </div>
+    </div>
+  </main>
+
+  <!-- すきな話 -->
+  <main id="v-likes" hidden>
+    <div class="card">
+      <h2>すきな話</h2>
+      <p id="lkNote">だれかがハートをつけた話がならぶよ。タップするとその話から読めるよ。</p>
+      <div class="lk-tools">
+        <span class="row" id="lkWhoRow" style="gap:6px">
+          <button class="chip" data-lk-who="all">みんなの</button>
+          <button class="chip" data-lk-who="me">じぶんの</button>
+        </span>
+        <span class="row" style="gap:6px">
+          <button class="chip" data-lk-sort="many">ハートが多い順</button>
+          <button class="chip" data-lk-sort="old">古い順</button>
+          <button class="chip" data-lk-sort="new">新しい順</button>
+        </span>
+        <span class="lk-count" id="lkCount"></span>
+      </div>
+      <div class="grid" id="lkGrid"></div>
     </div>
   </main>
 
@@ -525,7 +563,7 @@ function paintHeart(d){
   b.querySelector('.n').textContent=n;
   d.querySelector('.who-btn').hidden=n===0;
 }
-function paintAll(){document.querySelectorAll('.hbar').forEach(paintHeart);}
+function paintAll(){document.querySelectorAll('.hbar').forEach(paintHeart);if(!$('v-likes').hidden)renderLikes();}
 
 function toggleHeart(id,btn){
   if(!U.name){askName(()=>toggleHeart(id,btn));return;}
@@ -597,6 +635,69 @@ loadHearts();
 setInterval(()=>{if(!document.hidden)loadHearts();},60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadHearts();});
 
+/* ---------- すきな話（サムネイル一覧） ---------- */
+const LK={who:'all',sort:'many'};
+try{Object.assign(LK,JSON.parse(localStorage.getItem(KEY+'-likes')||'{}'))}catch(e){}
+function renderLikes(){
+  const known=new Set(S.ids);
+  const shared=!!API_URL;
+  if(!shared)LK.who='me';
+  $('lkWhoRow').hidden=!shared;
+  $('lkNote').textContent=shared
+    ?'だれかがハートをつけた話がならぶよ。タップするとその話から読めるよ。'
+    :'いまはハートの共有がオフなので、じぶんがハートをつけた話だけならぶよ。タップするとその話から読めるよ。';
+  let list=(shared?Object.keys(HEARTS).filter(id=>(HEARTS[id]||[]).length):[...MINE]).filter(id=>known.has(id));
+  if(LK.who==='me')list=list.filter(id=>MINE.has(id));
+  const cmp=(a,b)=>{const x=BigInt(a),y=BigInt(b);return x<y?-1:x>y?1:0};
+  if(LK.sort==='old')list.sort(cmp);
+  else if(LK.sort==='new')list.sort((a,b)=>cmp(b,a));
+  else list.sort((a,b)=>(namesOf(b).length-namesOf(a).length)||cmp(a,b));
+  document.querySelectorAll('[data-lk-who]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lkWho===LK.who));
+  document.querySelectorAll('[data-lk-sort]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lkSort===LK.sort));
+  $('lkCount').textContent=`${list.length}話`;
+  const grid=$('lkGrid');grid.innerHTML='';
+  if(!list.length){
+    grid.innerHTML=`<div class="lk-empty" style="grid-column:1/-1">${LK.who==='me'?'まだハートをつけた話がないよ。読みながら気に入った話にハートを押してみてね。':'まだだれもハートをつけていないよ。'}</div>`;
+    return;
+  }
+  const frag=document.createDocumentFragment();
+  list.forEach(id=>{
+    const t=document.createElement('div');t.className='tile';
+    const open=document.createElement('button');open.className='tile-open';open.type='button';open.dataset.open=id;
+    const pics=IMG.get(id);
+    if(DIRECT_IMAGES&&pics&&pics.length){
+      const[key,ext]=pics[0].split('.');
+      const im=document.createElement('img');
+      im.loading='lazy';im.decoding='async';im.referrerPolicy='no-referrer';im.alt=`${fmt(id)} の話`;
+      im.src=`https://pbs.twimg.com/media/${key}?format=${ext}&name=small`;
+      im.onerror=()=>{const p=document.createElement('span');p.className='ph';p.textContent=fmt(id);im.replaceWith(p);};
+      open.append(im);
+    }else{
+      const p=document.createElement('span');p.className='ph';p.textContent=fmt(id);open.append(p);
+    }
+    const dt=document.createElement('span');dt.className='tile-date';
+    const d=dateOf(id);dt.textContent=`${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`;
+    open.append(dt);
+    const meta=document.createElement('div');meta.className='meta';meta.dataset.hid=id;
+    meta.innerHTML=`<span class="cnt">${HEART_SVG}${namesOf(id).length}</span><button class="linkbtn who-btn" type="button">だれ？</button>`;
+    t.append(open,meta);
+    if(shared&&MINE.has(id)){const m=document.createElement('span');m.className='mine';m.textContent='じぶんも';t.append(m);}
+    frag.append(t);
+  });
+  grid.append(frag);
+}
+$('v-likes').addEventListener('click',e=>{
+  const w=e.target.closest('[data-lk-who]'),o=e.target.closest('[data-lk-sort]'),t=e.target.closest('[data-open]');
+  if(w){LK.who=w.dataset.lkWho;}
+  else if(o){LK.sort=o.dataset.lkSort;}
+  else if(t){
+    const i=S.ids.indexOf(t.dataset.open);if(i<0)return;
+    S.pos=i;S.mode='one';save();location.hash='read';return;
+  }else return;
+  try{localStorage.setItem(KEY+'-likes',JSON.stringify(LK))}catch(e){}
+  renderLikes();
+});
+
 /* ---------- ルーティング ---------- */
 function renderSub(){
   $('sub').textContent=S.ids.length
@@ -605,12 +706,13 @@ function renderSub(){
 }
 function route(){
   let v=location.hash.slice(1);
-  if(!['read','months','add'].includes(v))v=S.ids.length?'read':'add';
-  ['read','months','add'].forEach(k=>$('v-'+k).hidden=k!==v);
+  if(!['read','months','likes','add'].includes(v))v=S.ids.length?'read':'add';
+  ['read','months','likes','add'].forEach(k=>$('v-'+k).hidden=k!==v);
   document.querySelectorAll('.tab').forEach(t=>t.dataset.go===v?t.setAttribute('aria-current','page'):t.removeAttribute('aria-current'));
   $('pager').hidden=true;
   if(v==='read')renderRead();
   if(v==='months')renderMonths();
+  if(v==='likes'){renderLikes();loadHearts();}
   if(v==='add'){$('handle').value=S.handle;}
   renderSub();
 }
