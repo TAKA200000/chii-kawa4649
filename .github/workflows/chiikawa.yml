@@ -1,0 +1,66 @@
+# ちいかわ一気読み：あたらしい話の自動チェックと、ページの公開
+#
+# ・3時間ごとに @ngnchiikawa をチェックして、あたらしい話があれば chiikawa_update.json に足してコミットする
+# ・そのあと、リポジトリの中身を GitHub Pages に公開する
+# ・自分で index.html などをアップロードしたときも、自動で公開しなおす
+# ・Actions タブの「Run workflow」で、いつでも手動でチェックできる
+#
+# 必要な設定（1回だけ）: Settings → Pages → Build and deployment の Source を「GitHub Actions」にする
+name: ちいかわ 新しい話チェック
+
+on:
+  schedule:
+    - cron: "23 */3 * * *"   # 3時間ごと（UTC。日本時間だと 0:23, 3:23, 6:23 …）
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: chiikawa
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: あたらしい話をさがす
+        run: python chiikawa_update_ci.py
+      - name: 見つかったらコミット
+        run: |
+          if [ -z "$(git status --porcelain -- chiikawa_update.json chiikawa_update_state.json)" ]; then
+            echo "変更なし"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add chiikawa_update.json chiikawa_update_state.json
+          git commit -m "あたらしい話を自動で追加"
+          git push
+
+  deploy:
+    needs: update
+    if: always() && needs.update.result != 'failure'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4

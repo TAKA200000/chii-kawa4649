@@ -615,7 +615,14 @@ function step(d,anim){
     const on=$('stage').querySelector('.slide.on');
     if(on){on.classList.remove('in-next','in-prev');void on.offsetWidth;on.classList.add(d>0?'in-next':'in-prev');}
   }
-  window.scrollTo({top:0,behavior:'instant' in window?'instant':'auto'});
+  alignTop();
+}
+/* ページを切りかえたら、マンガのいちばん上が画面のいちばん上にくるようにする */
+function alignTop(){
+  const el=S.mode==='one'?$('stage'):$('scroll');
+  if(!el||el.hidden)return;
+  const y=el.getBoundingClientRect().top+window.scrollY-8;
+  window.scrollTo({top:Math.max(0,y),left:0,behavior:'auto'});
 }
 $('prev').onclick=()=>step(-1,true);$('next').onclick=()=>step(1,true);
 document.addEventListener('keydown',e=>{
@@ -623,7 +630,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'&&!$('next').disabled)step(1,true);
   if(e.key==='ArrowLeft'&&!$('prev').disabled)step(-1,true);
 });
-$('monthSel').onchange=e=>{S.pos=monthIndex().get(e.target.value)[0];save();renderRead();renderSub()};
+$('monthSel').onchange=e=>{S.pos=monthIndex().get(e.target.value)[0];save();renderRead();renderSub();alignTop()};
 $('modeBtn').onclick=()=>{S.mode=S.mode==='one'?'scroll':'one';save();$('scroll').dataset.ym='';renderRead()};
 $('scroll').onclick=e=>{const b=e.target.closest('[data-pos]');if(!b)return;
   S.pos=+b.dataset.pos;save();renderSub();
