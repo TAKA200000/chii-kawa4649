@@ -163,7 +163,7 @@ def main():
     state = load_json(STATE, {"checked": {}})
     checked = state.setdefault("checked", {})
 
-    have = builtin | set(episodes)
+    have = builtin | set(episodes) | set(map(str, out.get("hide", [])))
     newest = max(have, key=int)
     since = (id_date(newest) - dt.timedelta(days=3)).date()
     floor_id = id_from_date(dt.datetime.combine(since, dt.time(), JST))

@@ -478,7 +478,8 @@ const IMG=new Map('1212285107249135616:ENLm4GeUcAEW8oY.jpg;1213355875798175744:E
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 /* あとから足した話（chiikawa_update.json）。index.html は書きかえずに、話だけふやせる */
 let EXTRA=[];
-const BASE=()=>[...new Set([...BUILTIN,...EXTRA])];
+let HIDE=new Set();   /* chiikawa_update.json の hide：同じ話の二重投稿など、表示しない投稿 */
+const BASE=()=>[...new Set([...BUILTIN,...EXTRA])].filter(id=>!HIDE.has(id));
 
 const $=id=>document.getElementById(id);
 const EPOCH=1288834974657n;
@@ -1134,7 +1135,9 @@ function toKey(u){
   return m?m[1]+'.'+m[2]:null;
 }
 function mergeUpdate(j){
-  const eps=j&&j.episodes;if(!eps||typeof eps!=='object')return;
+  if(!j||typeof j!=='object')return;
+  const eps=(j.episodes&&typeof j.episodes==='object')?j.episodes:{};
+  HIDE=new Set((Array.isArray(j.hide)?j.hide:[]).map(String).filter(id=>/^\d{5,20}$/.test(id)));
   const known=new Set(BUILTIN),add=[];
   for(const id of Object.keys(eps)){
     if(!/^\d{5,20}$/.test(id)||known.has(id))continue;
@@ -1142,11 +1145,13 @@ function mergeUpdate(j){
     if(keys.length&&!IMG.has(id))IMG.set(id,keys);
     add.push(id);
   }
-  if(!add.length)return;
+  if(!add.length&&!HIDE.size)return;
   EXTRA=add;
-  const keep=S.ids.length?S.ids[Math.min(S.pos,S.ids.length-1)]:null,before=S.ids.length;
-  S.ids=[...new Set([...S.ids,...EXTRA])];sortIds();
-  if(keep)S.pos=S.ids.indexOf(keep);
+  let keep=S.ids.length?S.ids[Math.min(S.pos,S.ids.length-1)]:null;
+  if(keep&&HIDE.has(keep)){const i=S.ids.indexOf(keep);keep=S.ids.slice(0,i).reverse().find(id=>!HIDE.has(id))||null;}
+  const before=S.ids.filter(id=>!HIDE.has(id)).length;
+  S.ids=[...new Set([...S.ids,...EXTRA])].filter(id=>!HIDE.has(id));sortIds();
+  S.pos=keep?Math.max(0,S.ids.indexOf(keep)):0;
   save();
   let seen=0;try{seen=+localStorage.getItem(KEY+'-extraSeen')||0}catch(e){}
   const fresh=S.ids.length-before;
