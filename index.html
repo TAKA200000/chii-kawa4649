@@ -131,6 +131,51 @@ select{border:3px solid var(--ink);border-radius:14px;background:var(--paper);pa
 .tile .cnt svg{width:16px;height:16px;fill:var(--heart);stroke:var(--ink);stroke-width:2.4;stroke-linejoin:round}
 .tile .mine{position:absolute;top:8px;right:8px;background:var(--heart-bg);color:var(--ink);border:2px solid var(--ink);border-radius:999px;font-size:11px;font-weight:700;padding:0 8px}
 .lk-empty{text-align:center;padding:30px 10px;font-size:14px}
+
+/* タグ（各話の下） */
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin-top:12px}
+.tags{display:contents}
+.tagw{display:inline-flex;align-items:stretch;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.tagw.mine{background:var(--lemon)}
+.tagchip{border:0;background:none;padding:2px 10px;font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;gap:4px;align-items:baseline;color:var(--ink)}
+.tagchip small{font-size:11px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.tagw.mine .tagchip small{color:var(--ink)}
+.tagdel{border:0;border-left:2px solid var(--ink);background:none;padding:0 8px;font-weight:700;cursor:pointer;color:var(--ink);font-size:13px}
+.tagdel.armed{background:var(--heart-bg)}
+.tadd{font-size:13px}
+.tform{display:flex;gap:8px;max-width:420px;margin:8px auto 0}
+.tform input{flex:1;min-width:0;width:auto}
+.tform .btn{padding:6px 14px}
+.tmsg{text-align:center;margin:4px 0 0;min-height:0}
+.tmsg:empty{display:none}
+
+/* タグさがし */
+.tsearch{display:flex;gap:8px;margin:4px 0 12px}
+.tsearch input{flex:1;min-width:0;width:auto}
+.tcloud{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;max-height:220px;overflow:auto;padding:2px}
+.tcloud .chip{font-size:13px}
+.tcloud .chip small{font-weight:500;margin-left:3px;font-variant-numeric:tabular-nums}
+.tsel{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 12px;font-size:14px;font-weight:700}
+.tile-tags{display:block;padding:0 10px;font-size:11.5px;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* メンバー */
+.mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.mcard{border:3px solid var(--ink);border-radius:18px;background:var(--paper);box-shadow:4px 4px 0 var(--mint);padding:12px;cursor:pointer;
+  display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:center;text-align:left;color:var(--ink)}
+.mcard:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--mint)}
+.mav{width:44px;height:44px;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:18px;grid-row:span 2}
+.mname{font-weight:700;font-size:15px;overflow-wrap:anywhere;line-height:1.3}
+.mname .rd{margin-left:4px;background:var(--lemon)}
+.mstat{font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums;line-height:1.5}
+.mhead{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:center;margin-bottom:12px}
+.mhead .mav{width:60px;height:60px;font-size:24px}
+.mhead h2{margin:0}
+.mnums{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;font-weight:700;grid-column:1/-1}
+.mnums span{white-space:nowrap}
+.who li button{all:unset;cursor:pointer;text-decoration:underline}
+.rank .nm button{all:unset;cursor:pointer;font-weight:700}
+.rank .nm button:hover{text-decoration:underline}
+@media (max-width:420px){.mlist{grid-template-columns:1fr}}
 @media (max-width:420px){.grid{grid-template-columns:repeat(2,1fr);gap:10px}}
 .hbar{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
 .heart{border:3px solid var(--ink);border-radius:999px;background:var(--paper);padding:6px 18px;font-weight:700;cursor:pointer;
@@ -258,8 +303,10 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
     <button class="tab" data-go="read">よむ</button>
     <button class="tab" data-go="months">つきでさがす</button>
     <button class="tab" data-go="likes">すきな話</button>
+    <button class="tab" data-go="tags">タグ</button>
+    <button class="tab" data-go="members">メンバー</button>
     <button class="tab" data-go="shin">侵食度</button>
-    <button class="tab" data-go="add">ついか・せってい</button>
+    <button class="tab" data-go="add">せってい</button>
   </nav>
 
   <!-- よむ -->
@@ -321,6 +368,60 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
         <span class="lk-count" id="lkCount"></span>
       </div>
       <div class="grid" id="lkGrid"></div>
+    </div>
+  </main>
+
+  <!-- タグ -->
+  <main id="v-tags" hidden>
+    <div class="card">
+      <h2>タグでさがす</h2>
+      <p id="tgNote">みんなが話につけたタグで、話をさがせるよ。タグを2つ以上えらぶと、ぜんぶついている話だけになるよ。</p>
+      <form class="tsearch" id="tgForm">
+        <input type="text" id="tgQ" list="tagSuggest" placeholder="タグをさがす（例：うさぎ）" aria-label="タグをさがす" autocomplete="off">
+        <button class="btn plain" type="submit" style="padding:6px 14px">さがす</button>
+      </form>
+      <div class="tcloud" id="tgCloud"></div>
+      <div class="tsel" id="tgSel" hidden></div>
+      <div class="lk-tools">
+        <span class="row" style="gap:6px">
+          <button class="chip" data-tg-sort="new">新しい順</button>
+          <button class="chip" data-tg-sort="old">古い順</button>
+          <button class="chip" data-tg-sort="many">ハートが多い順</button>
+        </span>
+        <span class="lk-count" id="tgCount"></span>
+      </div>
+      <div class="grid" id="tgGrid"></div>
+    </div>
+  </main>
+
+  <!-- メンバー -->
+  <main id="v-members" hidden>
+    <div class="card" id="mbListCard">
+      <h2>メンバー</h2>
+      <p id="mbNote">名前をおすと、その人がハートをつけた話がならぶよ。</p>
+      <div class="lk-tools">
+        <span class="row" style="gap:6px">
+          <button class="chip" data-mb-sort="hearts">ハートが多い順</button>
+          <button class="chip" data-mb-sort="read">侵食度順</button>
+          <button class="chip" data-mb-sort="last">さいきん来た順</button>
+          <button class="chip" data-mb-sort="name">名前順</button>
+        </span>
+        <span class="lk-count" id="mbCount"></span>
+      </div>
+      <div class="mlist" id="mbList"></div>
+    </div>
+    <div class="card" id="mbOneCard" hidden>
+      <button class="btn plain" id="mbBack" type="button" style="padding:4px 12px;margin-bottom:12px">◀ メンバー一覧</button>
+      <div class="mhead" id="mbHead"></div>
+      <div class="lk-tools">
+        <span class="row" style="gap:6px">
+          <button class="chip" data-mb-lsort="new">新しい順</button>
+          <button class="chip" data-mb-lsort="old">古い順</button>
+          <button class="chip" data-mb-lsort="many">みんなのハートが多い順</button>
+        </span>
+        <span class="lk-count" id="mbOneCount"></span>
+      </div>
+      <div class="grid" id="mbGrid"></div>
     </div>
   </main>
 
@@ -437,6 +538,7 @@ ol{margin:0 0 10px;padding-left:1.4em;font-size:14px}
     <button class="btn lemon" value="ok">きめた</button>
   </form>
 </dialog>
+<datalist id="tagSuggest"></datalist>
 <dialog id="whoDlg">
   <h2 id="whoTitle"></h2>
   <ul class="who" id="whoList"></ul>
@@ -705,7 +807,7 @@ if(!/^[A-Za-z0-9-]{8,40}$/.test(U.uid))
   U.uid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'u'+Date.now().toString(36)+Math.random().toString(36).slice(2,12);
 const saveU=()=>{try{localStorage.setItem(KEY+'-user',JSON.stringify(U))}catch(e){}};
 saveU();
-let HEARTS={},MINE=new Set(),COMMENTS={},PROG=[];
+let HEARTS={},MINE=new Set(),COMMENTS={},PROG=[],TAGS={},MEMBERS=null,TAG_OK=false;
 let ADMIN_PW='';try{ADMIN_PW=sessionStorage.getItem(KEY+'-admin')||''}catch(e){}
 let CMT_OPEN=false;try{CMT_OPEN=localStorage.getItem(KEY+'-cmtopen')==='1'}catch(e){}
 if(!API_URL){try{MINE=new Set(JSON.parse(localStorage.getItem(KEY+'-hearts')||'[]'))}catch(e){}}
@@ -729,6 +831,10 @@ function applyServer(r){
       if(keep.length)COMMENTS[id]=[...(COMMENTS[id]||[]),...keep];}
   }
   if(r.progress)PROG=r.progress;
+  TAG_OK='tags' in r;
+  if(r.tags)TAGS=r.tags;
+  MEMBERS=Array.isArray(r.members)?r.members:null;
+  fillTagSuggest();
   paintAll();
   if(!$('v-shin').hidden)renderShin();
 }
@@ -740,6 +846,9 @@ function heartBar(id){
   d.innerHTML=`<div class="hbar"><button class="heart" type="button">${HEART_SVG}<span class="n"></span></button>`+
     `<button class="cbtn" type="button" aria-expanded="false"${API_URL?'':' hidden'}>${CMT_SVG}<span class="cn"></span></button>`+
     `<button class="linkbtn who-btn" type="button">だれがすき？</button></div>`+
+    `<div class="tagrow" hidden><span class="tags"></span><button class="linkbtn tadd" type="button" aria-expanded="false">＋タグ</button></div>`+
+    `<form class="tform" hidden><input type="text" class="tinput" id="tin-${id}" list="tagSuggest" maxlength="20" placeholder="タグ（20文字まで）" aria-label="この話につけるタグ" autocomplete="off">`+
+    `<button class="btn mint" type="submit">つける</button></form><p class="note tmsg" role="status"></p>`+
     `<div class="cmts" hidden><ul class="clist"></ul><p class="cempty">まだコメントはないよ。</p>`+
     `<form class="cform"><input type="text" class="cinput" id="cin-${id}" maxlength="100" placeholder="ひとことコメント（100文字まで）" aria-label="ひとことコメント" autocomplete="off">`+
     `<button class="btn lemon" type="submit">おくる</button></form><p class="note cmsg" role="status"></p></div>`;
@@ -753,6 +862,7 @@ function paintHeart(d){
   b.setAttribute('aria-label',`この話すき！（いま${n}人）長押しで押した人を見る`);
   b.querySelector('.n').textContent=n;
   d.querySelector('.who-btn').hidden=n===0;
+  paintTags(d,id);
   if(!API_URL)return;
   const cs=(COMMENTS[id]||[]).slice().sort((a,b)=>a.time-b.time);
   const cb=d.querySelector('.cbtn');
@@ -780,7 +890,85 @@ function paintHeart(d){
     li.append(nm,side,tx);ul.append(li);
   }
 }
-function paintAll(){document.querySelectorAll('.hwrap').forEach(paintHeart);if(!$('v-likes').hidden)renderLikes();}
+function paintAll(){
+  document.querySelectorAll('.hwrap').forEach(paintHeart);
+  if(!$('v-likes').hidden)renderLikes();
+  if(!$('v-tags').hidden)renderTags();
+  if(!$('v-members').hidden)renderMembers();
+}
+
+/* ---------- タグ（各話の下） ---------- */
+const tagKey=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/\s+/g,'');
+const cleanTag=v=>String(v||'').replace(/[\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').trim().replace(/^[#＃]+/,'').trim().slice(0,20);
+const TAG_ERR={'too fast':'つづけてつけるときは、2秒くらいまってね。','empty tag':'タグを入れてね。','too many tags':'この話には、もうたくさんタグがついているよ（30こまで）。',
+  'too many mine':'1つの話につけられるタグは、1人10こまでだよ。','not yours':'じぶんでつけたタグだけ外せるよ。','bad password':'管理パスワードがちがうみたい。かんりモードをやめて入れなおしてね。','bad action':'タグを使うには、GASのコードを新しくしてね。'};
+function paintTags(d,id){
+  const row=d.querySelector('.tagrow');
+  row.hidden=!(API_URL&&TAG_OK);
+  if(row.hidden){d.querySelector('.tform').hidden=true;return;}
+  const box=row.querySelector('.tags'),armed=box.querySelector('.tagdel.armed'),armedKey=armed&&armed.dataset.tagdel;
+  box.innerHTML='';
+  const list=(TAGS[id]||[]).slice().sort((a,b)=>(b.n-a.n)||a.tag.localeCompare(b.tag,'ja'));
+  for(const t of list){
+    const w=document.createElement('span');w.className='tagw'+(t.mine?' mine':'');
+    const c=document.createElement('button');c.type='button';c.className='tagchip';c.dataset.tagq=t.tag;
+    c.title=(t.names||[]).join('、')+' がつけたタグ';
+    c.append('#'+t.tag);const sm=document.createElement('small');sm.textContent=t.n;c.append(sm);
+    w.append(c);
+    if(!t.pending&&(t.mine||ADMIN_PW)){
+      const x=document.createElement('button');x.type='button';x.className='tagdel';x.dataset.tagdel=t.tag;
+      x.setAttribute('aria-label',`タグ「${t.tag}」をはずす`);x.textContent='×';
+      if(tagKey(t.tag)===tagKey(armedKey||'')){x.classList.add('armed');x.textContent='はずす？';}
+      w.append(x);
+    }
+    box.append(w);
+  }
+}
+function tagMsg(id,text){document.querySelectorAll(`.hwrap[data-hid="${id}"] .tmsg`).forEach(m=>m.textContent=text);}
+function addTag(id,raw){
+  const tag=cleanTag(raw),key=tagKey(tag);
+  if(!key){tagMsg(id,TAG_ERR['empty tag']);return;}
+  if(!U.name){askName(()=>addTag(id,raw));return;}
+  tagMsg(id,'');
+  const list=TAGS[id]=(TAGS[id]||[]).slice();
+  const have=list.find(t=>tagKey(t.tag)===key);
+  if(have&&have.mine)return;
+  if(have){Object.assign(have,{n:have.n+1,mine:true,names:[...(have.names||[]),U.name]});}
+  else list.push({tag,key,n:1,mine:true,names:[U.name],pending:true});
+  paintAll();
+  api({action:'tag',id,tag,uid:U.uid,name:U.name}).then(r=>{
+    if(r&&r.ok){applyServer(r);return;}
+    tagMsg(id,TAG_ERR[r&&r.error]||'タグをつけられなかったよ。');loadHearts();
+  }).catch(()=>{tagMsg(id,'通信できなかったよ。');loadHearts();});
+}
+let tagArmT=0;
+function removeTag(id,tag,btn){
+  const t=(TAGS[id]||[]).find(x=>tagKey(x.tag)===tagKey(tag));
+  const mine=!!(t&&t.mine);
+  if(!mine&&!btn.classList.contains('armed')){   // 人のタグを管理者として外すときだけ、もう一度おしてもらう
+    btn.classList.add('armed');btn.textContent='はずす？';
+    clearTimeout(tagArmT);tagArmT=setTimeout(()=>{btn.classList.remove('armed');btn.textContent='×';},4000);return;
+  }
+  clearTimeout(tagArmT);btn.disabled=true;
+  const body={action:'untag',id,tag,uid:U.uid};
+  if(!mine&&ADMIN_PW)body.admin=ADMIN_PW;
+  api(body).then(r=>{
+    if(r&&r.ok){applyServer(r);return;}
+    tagMsg(id,TAG_ERR[r&&r.error]||'外せなかったよ。');paintAll();
+  }).catch(()=>{tagMsg(id,'通信できなかったよ。');paintAll();});
+}
+function fillTagSuggest(){
+  const dl=$('tagSuggest'),seen=new Map();
+  for(const id in TAGS)for(const t of TAGS[id]){const k=tagKey(t.tag);seen.set(k,(seen.get(k)||[t.tag,0]));seen.get(k)[1]+=1;}
+  dl.innerHTML='';
+  [...seen.values()].sort((a,b)=>b[1]-a[1]).slice(0,200).forEach(([tag])=>{const o=document.createElement('option');o.value=tag;dl.append(o);});
+}
+document.addEventListener('submit',e=>{
+  const f=e.target.closest('.tform');if(!f)return;
+  e.preventDefault();
+  const inp=f.querySelector('.tinput'),v=inp.value;inp.value='';
+  addTag(f.closest('.hwrap').dataset.hid,v);
+});
 
 /* ---------- ひとことコメント ---------- */
 const cleanText=v=>v.replace(/[\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').trim().slice(0,100);
@@ -864,7 +1052,13 @@ function showWho(id){
   const names=namesOf(id),ul=$('whoList');
   $('whoTitle').textContent=`${fmt(id)} の話がすきな人`;
   ul.innerHTML='';
-  names.forEach(n=>{const li=document.createElement('li');li.textContent=n;ul.append(li);});
+  names.forEach(n=>{
+    const li=document.createElement('li'),m=memberByName(n);
+    if(m){const b=document.createElement('button');b.type='button';b.dataset.member=m.pid;b.textContent=n;
+      b.addEventListener('click',()=>$('whoDlg').close());li.append(b);}
+    else li.textContent=n;
+    ul.append(li);
+  });
   $('whoNote').textContent=names.length?`${names.length}人`:'まだだれも押してないよ。';
   if(!$('whoDlg').open)$('whoDlg').showModal();
 }
@@ -880,6 +1074,7 @@ function setName(v){
   const changed=U.name&&U.name!==v;
   U.name=v;saveU();$('myName').value=v;
   if(API_URL&&changed)api({action:'rename',uid:U.uid,name:v}).then(applyServer).catch(()=>{});
+  else sayHello(true);
   paintAll();
 }
 $('myNameBtn').onclick=()=>{
@@ -910,6 +1105,17 @@ document.addEventListener('click',e=>{
     paintAll();if(CMT_OPEN){loadHearts();const inp=cb.closest('.hwrap').querySelector('.cinput');if(inp&&matchMedia('(pointer:fine)').matches)inp.focus();}return;}
   const del=e.target.closest('.cdel');
   if(del){deleteComment(del);return;}
+  const ta=e.target.closest('.tadd');
+  if(ta){const w=ta.closest('.hwrap'),f=w.querySelector('.tform');
+    if(!U.name){askName();return;}
+    f.hidden=!f.hidden;ta.setAttribute('aria-expanded',!f.hidden);ta.textContent=f.hidden?'＋タグ':'とじる';
+    if(!f.hidden)f.querySelector('.tinput').focus();return;}
+  const td=e.target.closest('.tagdel');
+  if(td){removeTag(td.closest('[data-hid]').dataset.hid,td.dataset.tagdel,td);return;}
+  const tq=e.target.closest('.tagchip');
+  if(tq){TG.sel=[tq.dataset.tagq];TG.q='';saveTG();location.hash==='#tags'?renderTags():(location.hash='tags');return;}
+  const mb=e.target.closest('[data-member]');
+  if(mb){openMember(mb.dataset.member);return;}
   const b=e.target.closest('.heart');if(!b)return;
   if(longFired){longFired=false;return;}
   toggleHeart(b.closest('[data-hid]').dataset.hid,b);
@@ -918,6 +1124,15 @@ $('shareNote').textContent=API_URL
   ?'ハート・コメント・侵食度はみんなと共有されているよ。名前は自己申告なので、ニックネームがおすすめ。'
   :'いまは共有がオフで、ハートはこの端末だけに保存されているよ（コメントと、みんなの侵食度は共有をオンにすると使えるよ）。';
 $('myName').value=U.name;
+/* メンバー一覧に名前をのせる（1時間に1回まで） */
+function sayHello(force){
+  if(!API_URL||!U.name)return;
+  let last=0;try{last=+localStorage.getItem(KEY+'-hello')||0}catch(e){}
+  if(!force&&Date.now()-last<3600e3)return;
+  try{localStorage.setItem(KEY+'-hello',String(Date.now()))}catch(e){}
+  api({action:'hello',uid:U.uid,name:U.name}).then(r=>{if(r&&r.ok)applyServer(r);}).catch(()=>{});
+}
+sayHello(false);
 loadHearts();
 setInterval(()=>{if(!document.hidden)loadHearts();},60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadHearts();});
@@ -948,7 +1163,13 @@ function renderLikes(){
     return;
   }
   const frag=document.createDocumentFragment();
-  list.forEach(id=>{
+  list.forEach(id=>frag.append(makeTile(id)));
+  grid.append(frag);
+}
+/* サムネイル1つぶん（すきな話・タグ・メンバーで共通） */
+function makeTile(id,opt={}){
+  const shared=!!API_URL;
+  {
     const t=document.createElement('div');t.className='tile';
     const open=document.createElement('button');open.className='tile-open';open.type='button';open.dataset.open=id;
     const pics=IMG.get(id);
@@ -968,11 +1189,187 @@ function renderLikes(){
     const meta=document.createElement('div');meta.className='meta';meta.dataset.hid=id;
     meta.innerHTML=`<span class="cnt">${HEART_SVG}${namesOf(id).length}</span><button class="linkbtn who-btn" type="button">だれ？</button>`;
     t.append(open,meta);
+    if(opt.tags){
+      const tg=(TAGS[id]||[]).slice().sort((a,b)=>b.n-a.n).map(x=>'#'+x.tag).join(' ');
+      if(tg){const s=document.createElement('span');s.className='tile-tags';s.textContent=tg;open.append(s);}
+    }
     if(shared&&MINE.has(id)){const m=document.createElement('span');m.className='mine';m.textContent='じぶんも';t.append(m);}
-    frag.append(t);
-  });
-  grid.append(frag);
+    return t;
+  }
 }
+function openEpisode(id){
+  const i=S.ids.indexOf(id);if(i<0)return;
+  S.pos=i;S.mode='one';save();location.hash='read';
+}
+const cmpId=(a,b)=>{const x=BigInt(a),y=BigInt(b);return x<y?-1:x>y?1:0};
+function sortIds2(list,how){
+  if(how==='old')return list.sort(cmpId);
+  if(how==='many')return list.sort((a,b)=>(namesOf(b).length-namesOf(a).length)||cmpId(b,a));
+  return list.sort((a,b)=>cmpId(b,a));
+}
+
+/* ---------- タグでさがす ---------- */
+const TG={sel:[],q:'',sort:'new'};
+try{Object.assign(TG,JSON.parse(localStorage.getItem(KEY+'-tags')||'{}'))}catch(e){}
+const saveTG=()=>{try{localStorage.setItem(KEY+'-tags',JSON.stringify(TG))}catch(e){}};
+function tagIndex(){
+  const known=new Set(S.ids),idx=new Map();   // key → {tag, posts:Set}
+  for(const id in TAGS){
+    if(!known.has(id))continue;
+    for(const t of TAGS[id]){
+      const k=tagKey(t.tag);
+      const e=idx.get(k)||{tag:t.tag,posts:new Set()};
+      e.posts.add(id);idx.set(k,e);
+    }
+  }
+  return idx;
+}
+function renderTags(){
+  const ok=API_URL&&TAG_OK;
+  $('tgNote').textContent=!API_URL?'タグは、みんなと共有する設定（config.js）をオンにすると使えるよ。'
+    :!TAG_OK?'タグを使うには、GASのコードを新しいものに入れかえてね。'
+    :'みんなが話につけたタグで、話をさがせるよ。タグを2つ以上えらぶと、ぜんぶついている話だけになるよ。';
+  $('tgForm').hidden=!ok;
+  const idx=tagIndex(),q=tagKey(TG.q);
+  TG.sel=TG.sel.filter(t=>idx.has(tagKey(t)));
+  const selKeys=new Set(TG.sel.map(tagKey));
+  if($('tgQ').value!==TG.q)$('tgQ').value=TG.q;
+  // タグの一覧（よく使われている順）
+  const cloud=$('tgCloud');cloud.innerHTML='';
+  const all=[...idx.entries()].filter(([k])=>!q||k.includes(q)).sort((a,b)=>(b[1].posts.size-a[1].posts.size)||a[1].tag.localeCompare(b[1].tag,'ja'));
+  if(ok&&!idx.size)cloud.innerHTML='<p class="note" style="margin:0">まだタグがないよ。読みながら、話の下の「＋タグ」からつけてみてね。</p>';
+  else if(ok&&!all.length)cloud.innerHTML='<p class="note" style="margin:0">そのことばをふくむタグはないよ。</p>';
+  for(const [k,e] of all){
+    const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.tgPick=e.tag;
+    b.setAttribute('aria-pressed',selKeys.has(k));
+    b.append('#'+e.tag);const sm=document.createElement('small');sm.textContent=e.posts.size;b.append(sm);
+    cloud.append(b);
+  }
+  // えらんだタグ
+  const sel=$('tgSel');sel.hidden=!TG.sel.length;sel.innerHTML='';
+  if(TG.sel.length){
+    sel.append('えらんだタグ：');
+    TG.sel.forEach(t=>{const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.tgPick=t;
+      b.setAttribute('aria-pressed','true');b.setAttribute('aria-label',`タグ「${t}」をえらぶのをやめる`);b.textContent='#'+t+' ×';sel.append(b);});
+    const c=document.createElement('button');c.type='button';c.className='linkbtn';c.id='tgClear';c.textContent='ぜんぶやめる';sel.append(c);
+  }
+  document.querySelectorAll('[data-tg-sort]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tgSort===TG.sort));
+  // 話の一覧
+  let list;
+  if(TG.sel.length){
+    const sets=TG.sel.map(t=>idx.get(tagKey(t)).posts);
+    list=[...sets[0]].filter(id=>sets.every(s=>s.has(id)));
+  }else list=[...new Set([...idx.values()].flatMap(e=>[...e.posts]))];
+  sortIds2(list,TG.sort);
+  $('tgCount').textContent=ok?(TG.sel.length?`${list.length}話`:`タグつきの話 ${list.length}話`):'';
+  const grid=$('tgGrid');grid.innerHTML='';
+  if(ok&&TG.sel.length&&!list.length)grid.innerHTML='<div class="lk-empty" style="grid-column:1/-1">えらんだタグがぜんぶついている話はないよ。</div>';
+  const frag=document.createDocumentFragment();list.forEach(id=>frag.append(makeTile(id,{tags:true})));grid.append(frag);
+}
+$('tgForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const v=cleanTag($('tgQ').value),k=tagKey(v),idx=tagIndex();
+  if(k&&idx.has(k)){const t=idx.get(k).tag;if(!TG.sel.some(x=>tagKey(x)===k))TG.sel.push(t);TG.q='';}
+  else TG.q=v;
+  saveTG();renderTags();
+});
+$('tgQ').addEventListener('input',()=>{TG.q=$('tgQ').value;saveTG();
+  const pos=$('tgQ').selectionStart;renderTags();$('tgQ').focus();try{$('tgQ').setSelectionRange(pos,pos)}catch(e){}});
+$('v-tags').addEventListener('click',e=>{
+  const pick=e.target.closest('[data-tg-pick]'),so=e.target.closest('[data-tg-sort]'),op=e.target.closest('[data-open]');
+  if(pick){const k=tagKey(pick.dataset.tgPick);
+    TG.sel=TG.sel.some(x=>tagKey(x)===k)?TG.sel.filter(x=>tagKey(x)!==k):[...TG.sel,pick.dataset.tgPick];}
+  else if(e.target.id==='tgClear'){TG.sel=[];}
+  else if(so){TG.sort=so.dataset.tgSort;}
+  else if(op){openEpisode(op.dataset.open);return;}
+  else return;
+  saveTG();renderTags();
+});
+
+/* ---------- メンバー ---------- */
+const MB={sel:null,sort:'hearts',lsort:'new'};
+try{Object.assign(MB,JSON.parse(localStorage.getItem(KEY+'-members')||'{}'))}catch(e){}
+const saveMB=()=>{try{localStorage.setItem(KEY+'-members',JSON.stringify(MB))}catch(e){}};
+function memberList(){
+  if(MEMBERS)return MEMBERS;
+  // GASが古いときは、名前から組み立てる
+  const m=new Map();
+  const get=n=>{if(!m.has(n))m.set(n,{pid:'n:'+n,name:n,hearts:[],comments:0,tags:0,read:0,total:0,last:0,me:n===U.name});return m.get(n);};
+  for(const id in HEARTS)for(const n of HEARTS[id]||[])get(n).hearts.push(id);
+  for(const id in COMMENTS)for(const c of COMMENTS[id]||[])if(!c.pending){const p=get(c.name);p.comments++;p.last=Math.max(p.last,c.time||0);}
+  for(const p of PROG){const x=get(p.name);x.read=p.read;x.total=p.total;x.last=Math.max(x.last,p.time||0);}
+  return [...m.values()];
+}
+const memberByName=n=>memberList().find(m=>m.name===n);
+const PASTEL=['var(--pink)','var(--sky)','var(--lemon)','var(--mint)'];
+function avatar(m,cls='mav'){
+  const a=document.createElement('span');a.className=cls;a.setAttribute('aria-hidden','true');
+  let h=0;for(const ch of m.pid)h=(h*31+ch.charCodeAt(0))>>>0;
+  a.style.background=PASTEL[h%PASTEL.length];a.textContent=[...m.name][0]||'?';return a;
+}
+function ago(t){
+  if(!t)return'';
+  const d=Math.floor((Date.now()-t)/864e5);
+  return d<=0?'きょう':d===1?'きのう':d<30?`${d}日まえ`:d<365?`${Math.floor(d/30)}か月まえ`:`${Math.floor(d/365)}年まえ`;
+}
+function mStats(m){
+  const known=new Set(S.ids),hearts=m.hearts.filter(id=>known.has(id)).length;
+  const pct=m.total?m.read/m.total*100:0;
+  return{hearts,pct};
+}
+function openMember(pid){MB.sel=pid;saveMB();if(location.hash!=='#members')location.hash='members';else renderMembers();window.scrollTo(0,0);}
+function renderMembers(){
+  const list=memberList();
+  const one=MB.sel&&list.find(m=>m.pid===MB.sel);
+  $('mbListCard').hidden=!!one;$('mbOneCard').hidden=!one;
+  if(one)return renderMember(one);
+  MB.sel=null;
+  $('mbNote').textContent=!API_URL?'メンバー一覧は、みんなと共有する設定（config.js）をオンにすると見られるよ。'
+    :'名前をおすと、その人がハートをつけた話がならぶよ。';
+  document.querySelectorAll('[data-mb-sort]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mbSort===MB.sort));
+  const rows=list.map(m=>({m,...mStats(m)}));
+  const by={hearts:(a,b)=>b.hearts-a.hearts,read:(a,b)=>b.pct-a.pct,last:(a,b)=>(b.m.last||0)-(a.m.last||0),name:(a,b)=>a.m.name.localeCompare(b.m.name,'ja')}[MB.sort]||((a,b)=>b.hearts-a.hearts);
+  rows.sort((a,b)=>by(a,b)||a.m.name.localeCompare(b.m.name,'ja'));
+  $('mbCount').textContent=API_URL?`${rows.length}人`:'';
+  const box=$('mbList');box.innerHTML='';
+  if(API_URL&&!rows.length)box.innerHTML='<div class="lk-empty" style="grid-column:1/-1">まだだれもいないよ。</div>';
+  for(const {m,hearts,pct} of rows){
+    const b=document.createElement('button');b.type='button';b.className='mcard';b.dataset.member=m.pid;
+    b.setAttribute('aria-label',`${m.name}さん（ハート${hearts}話）の、すきな話を見る`);
+    const nm=document.createElement('span');nm.className='mname';nm.textContent=m.name;
+    if(m.me){const me=document.createElement('span');me.className='rd';me.textContent='じぶん';nm.append(me);}
+    const st=document.createElement('span');st.className='mstat';
+    st.textContent=`♡ ${hearts}話・侵食度 ${pctText(pct)}%`+(m.last?`・${ago(m.last)}`:'');
+    b.append(avatar(m),nm,st);box.append(b);
+  }
+}
+function renderMember(m){
+  const {hearts,pct}=mStats(m);
+  const head=$('mbHead');head.innerHTML='';
+  const ttl=document.createElement('div');
+  const h=document.createElement('h2');h.textContent=`${m.name} さんのすきな話`;ttl.append(h);
+  const tier=document.createElement('span');tier.className='mstat';tier.textContent=tierOf(pct);ttl.append(tier);
+  const nums=document.createElement('div');nums.className='mnums';
+  [[`♡ ${hearts}話`],[`侵食度 ${pctText(pct)}%`],[`コメント ${m.comments||0}`],[`タグ ${m.tags||0}`],m.last?[`さいごに来たのは ${ago(m.last)}`]:null]
+    .filter(Boolean).forEach(([t])=>{const s=document.createElement('span');s.textContent=t;nums.append(s);});
+  head.append(avatar(m),ttl,nums);
+  document.querySelectorAll('[data-mb-lsort]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mbLsort===MB.lsort));
+  const known=new Set(S.ids);
+  const list=sortIds2([...new Set(m.hearts)].filter(id=>known.has(id)),MB.lsort);
+  $('mbOneCount').textContent=`${list.length}話`;
+  const grid=$('mbGrid');grid.innerHTML='';
+  if(!list.length)grid.innerHTML=`<div class="lk-empty" style="grid-column:1/-1">${m.me?'まだハートをつけた話がないよ。気に入った話にハートを押してみてね。':'まだハートをつけた話がないみたい。'}</div>`;
+  const frag=document.createDocumentFragment();list.forEach(id=>frag.append(makeTile(id,{tags:true})));grid.append(frag);
+}
+$('mbBack').onclick=()=>{MB.sel=null;saveMB();renderMembers();window.scrollTo(0,0);};
+$('v-members').addEventListener('click',e=>{
+  const so=e.target.closest('[data-mb-sort]'),ls=e.target.closest('[data-mb-lsort]'),op=e.target.closest('[data-open]');
+  if(so){MB.sort=so.dataset.mbSort;}
+  else if(ls){MB.lsort=ls.dataset.mbLsort;}
+  else if(op){openEpisode(op.dataset.open);return;}
+  else return;
+  saveMB();renderMembers();
+});
 $('v-likes').addEventListener('click',e=>{
   const w=e.target.closest('[data-lk-who]'),o=e.target.closest('[data-lk-sort]'),t=e.target.closest('[data-open]');
   if(w){LK.who=w.dataset.lkWho;}
@@ -1061,7 +1458,10 @@ function renderShin(){
     const pct=p.total?p.read/p.total*100:0;
     const li=document.createElement('li');if(p.me)li.className='me';
     const no=document.createElement('span');no.className='no';no.textContent=i+1;
-    const nm=document.createElement('span');nm.className='nm';nm.textContent=p.name;
+    const nm=document.createElement('span');nm.className='nm';
+    const mm=memberByName(p.name);
+    if(mm){const b=document.createElement('button');b.type='button';b.dataset.member=mm.pid;b.textContent=p.name;nm.append(b);}
+    else nm.textContent=p.name;
     const tier=document.createElement('small');tier.textContent=tierOf(pct);nm.append(tier);
     const pcEl=document.createElement('span');pcEl.className='pc';pcEl.textContent=pctText(pct)+'%';
     const bar=document.createElement('span');bar.className='bar';bar.innerHTML=`<i style="width:${pct.toFixed(2)}%"></i>`;
@@ -1171,13 +1571,15 @@ function renderSub(){
 }
 function route(){
   let v=location.hash.slice(1);
-  if(!['read','months','likes','shin','add'].includes(v))v=S.ids.length?'read':'add';
-  ['read','months','likes','shin','add'].forEach(k=>$('v-'+k).hidden=k!==v);
+  if(!['read','months','likes','tags','members','shin','add'].includes(v))v=S.ids.length?'read':'add';
+  ['read','months','likes','tags','members','shin','add'].forEach(k=>$('v-'+k).hidden=k!==v);
   document.querySelectorAll('.tab').forEach(t=>t.dataset.go===v?t.setAttribute('aria-current','page'):t.removeAttribute('aria-current'));
   $('pager').hidden=true;
   if(v==='read')renderRead();
   if(v==='months')renderMonths();
   if(v==='likes'){renderLikes();loadHearts();}
+  if(v==='tags'){renderTags();loadHearts();}
+  if(v==='members'){renderMembers();loadHearts();}
   if(v==='shin'){renderShin();loadHearts();pushProgress();}
   if(v!=='read')clearTimeout(armT);
   if(v==='add'){$('handle').value=S.handle;}
